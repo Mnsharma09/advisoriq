@@ -1,0 +1,90 @@
+[
+  {
+    "metric_name": "avg_monthly_contacts_per_client",
+    "peer_average": 1.4,
+    "top_quartile": 1.89,
+    "bottom_quartile": 0.91,
+    "source": "Industry benchmark \u2014 Capgemini / Cerulli 2024",
+    "last_updated": "2024-12-01"
+  },
+  {
+    "metric_name": "avg_response_rate",
+    "peer_average": 0.72,
+    "top_quartile": 0.972,
+    "bottom_quartile": 0.468,
+    "source": "Industry benchmark \u2014 Capgemini / Cerulli 2024",
+    "last_updated": "2024-12-01"
+  },
+  {
+    "metric_name": "avg_commitment_fulfillment_rate",
+    "peer_average": 0.81,
+    "top_quartile": 1.094,
+    "bottom_quartile": 0.527,
+    "source": "Industry benchmark \u2014 Capgemini / Cerulli 2024",
+    "last_updated": "2024-12-01"
+  },
+  {
+    "metric_name": "avg_meeting_duration_mins",
+    "peer_average": 42,
+    "top_quartile": 56.7,
+    "bottom_quartile": 27.3,
+    "source": "Industry benchmark \u2014 Capgemini / Cerulli 2024",
+    "last_updated": "2024-12-01"
+  },
+  {
+    "metric_name": "top_quartile_contact_freq",
+    "peer_average": 2.1,
+    "top_quartile": 2.835,
+    "bottom_quartile": 1.365,
+    "source": "Industry benchmark \u2014 Capgemini / Cerulli 2024",
+    "last_updated": "2024-12-01"
+  },
+  {
+    "metric_name": "bottom_quartile_contact_freq",
+    "peer_average": 0.7,
+    "top_quartile": 0.945,
+    "bottom_quartile": 0.455,
+    "source": "Industry benchmark \u2014 Capgemini / Cerulli 2024",
+    "last_updated": "2024-12-01"
+  },
+  {
+    "metric_name": "avg_days_between_reviews",
+    "peer_average": 92,
+    "top_quartile": 124.2,
+    "bottom_quartile": 59.8,
+    "source": "Industry benchmark \u2014 Capgemini / Cerulli 2024",
+    "last_updated": "2024-12-01"
+  },
+  {
+    "metric_name": "avg_products_per_tier1_client",
+    "peer_average": 6.2,
+    "top_quartile": 8.37,
+    "bottom_quartile": 4.03,
+    "source": "Industry benchmark \u2014 Capgemini / Cerulli 2024",
+    "last_updated": "2024-12-01"
+  },
+  {
+    "metric_name": "avg_products_per_tier2_client",
+    "peer_average": 4.1,
+    "top_quartile": 5.535,
+    "bottom_quartile": 2.665,
+    "source": "Industry benchmark \u2014 Capgemini / Cerulli 2024",
+    "last_updated": "2024-12-01"
+  },
+  {
+    "metric_name": "avg_products_per_tier3_client",
+    "peer_average": 2.8,
+    "top_quartile": 3.78,
+    "bottom_quartile": 1.82,
+    "source": "Industry benchmark \u2014 Capgemini / Cerulli 2024",
+    "last_updated": "2024-12-01"
+  },
+  {
+    "metric_name": "avg_products_per_tier4_client",
+    "peer_average": 1.9,
+    "top_quartile": 2.565,
+    "bottom_quartile": 1.235,
+    "source": "Industry benchmark \u2014 Capgemini / Cerulli 2024",
+    "last_updated": "2024-12-01"
+  }
+]

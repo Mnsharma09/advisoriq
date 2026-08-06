@@ -1,0 +1,466 @@
+[
+  {
+    "referral_id": "R0001",
+    "referring_client_id": "C0076",
+    "referred_client_id": "C0109",
+    "referral_date": "2022-10-22",
+    "converted": true,
+    "conversion_date": "2024-10-02"
+  },
+  {
+    "referral_id": "R0002",
+    "referring_client_id": "C0085",
+    "referred_client_id": "C0038",
+    "referral_date": "2010-04-25",
+    "converted": true,
+    "conversion_date": "2024-06-12"
+  },
+  {
+    "referral_id": "R0003",
+    "referring_client_id": "C0070",
+    "referred_client_id": "C0045",
+    "referral_date": "2020-08-13",
+    "converted": true,
+    "conversion_date": "2022-09-26"
+  },
+  {
+    "referral_id": "R0004",
+    "referring_client_id": "C0088",
+    "referred_client_id": "C0052",
+    "referral_date": "2022-12-26",
+    "converted": true,
+    "conversion_date": "2025-08-05"
+  },
+  {
+    "referral_id": "R0005",
+    "referring_client_id": "C0132",
+    "referred_client_id": "C0014",
+    "referral_date": "2022-01-02",
+    "converted": true,
+    "conversion_date": "2024-03-23"
+  },
+  {
+    "referral_id": "R0006",
+    "referring_client_id": "C0132",
+    "referred_client_id": "C0048",
+    "referral_date": "2018-08-12",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0007",
+    "referring_client_id": "C0022",
+    "referred_client_id": "C0145",
+    "referral_date": "2014-05-30",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0008",
+    "referring_client_id": "C0139",
+    "referred_client_id": "C0146",
+    "referral_date": "2024-06-05",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0009",
+    "referring_client_id": "C0139",
+    "referred_client_id": "C0052",
+    "referral_date": "2023-05-15",
+    "converted": true,
+    "conversion_date": "2024-01-13"
+  },
+  {
+    "referral_id": "R0010",
+    "referring_client_id": "C0071",
+    "referred_client_id": "C0145",
+    "referral_date": "2020-06-18",
+    "converted": true,
+    "conversion_date": "2022-09-12"
+  },
+  {
+    "referral_id": "R0011",
+    "referring_client_id": "C0109",
+    "referred_client_id": "C0114",
+    "referral_date": "2024-07-10",
+    "converted": true,
+    "conversion_date": "2024-11-26"
+  },
+  {
+    "referral_id": "R0012",
+    "referring_client_id": "C0061",
+    "referred_client_id": "C0111",
+    "referral_date": "2024-03-11",
+    "converted": true,
+    "conversion_date": "2024-12-16"
+  },
+  {
+    "referral_id": "R0013",
+    "referring_client_id": "C0057",
+    "referred_client_id": "C0004",
+    "referral_date": "2022-06-26",
+    "converted": true,
+    "conversion_date": "2025-04-10"
+  },
+  {
+    "referral_id": "R0014",
+    "referring_client_id": "C0057",
+    "referred_client_id": "C0055",
+    "referral_date": "2014-12-06",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0015",
+    "referring_client_id": "C0057",
+    "referred_client_id": "C0117",
+    "referral_date": "2014-12-16",
+    "converted": true,
+    "conversion_date": "2025-07-22"
+  },
+  {
+    "referral_id": "R0016",
+    "referring_client_id": "C0004",
+    "referred_client_id": "C0096",
+    "referral_date": "2024-09-10",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0017",
+    "referring_client_id": "C0004",
+    "referred_client_id": "C0016",
+    "referral_date": "2024-01-16",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0018",
+    "referring_client_id": "C0028",
+    "referred_client_id": "C0133",
+    "referral_date": "2021-08-14",
+    "converted": true,
+    "conversion_date": "2024-10-05"
+  },
+  {
+    "referral_id": "R0019",
+    "referring_client_id": "C0028",
+    "referred_client_id": "C0036",
+    "referral_date": "2024-03-18",
+    "converted": true,
+    "conversion_date": "2024-07-21"
+  },
+  {
+    "referral_id": "R0020",
+    "referring_client_id": "C0028",
+    "referred_client_id": "C0114",
+    "referral_date": "2013-10-15",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0021",
+    "referring_client_id": "C0039",
+    "referred_client_id": "C0149",
+    "referral_date": "2015-05-21",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0022",
+    "referring_client_id": "C0142",
+    "referred_client_id": "C0077",
+    "referral_date": "2022-04-16",
+    "converted": true,
+    "conversion_date": "2025-10-06"
+  },
+  {
+    "referral_id": "R0023",
+    "referring_client_id": "C0142",
+    "referred_client_id": "C0022",
+    "referral_date": "2007-09-18",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0024",
+    "referring_client_id": "C0142",
+    "referred_client_id": "C0110",
+    "referral_date": "2025-09-02",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0025",
+    "referring_client_id": "C0040",
+    "referred_client_id": "C0116",
+    "referral_date": "2015-10-09",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0026",
+    "referring_client_id": "C0056",
+    "referred_client_id": "C0010",
+    "referral_date": "2024-09-29",
+    "converted": true,
+    "conversion_date": "2025-02-25"
+  },
+  {
+    "referral_id": "R0027",
+    "referring_client_id": "C0037",
+    "referred_client_id": "C0043",
+    "referral_date": "2024-01-01",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0028",
+    "referring_client_id": "C0072",
+    "referred_client_id": "C0143",
+    "referral_date": "2023-09-22",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0029",
+    "referring_client_id": "C0072",
+    "referred_client_id": "C0149",
+    "referral_date": "2025-04-06",
+    "converted": true,
+    "conversion_date": "2025-04-07"
+  },
+  {
+    "referral_id": "R0030",
+    "referring_client_id": "C0072",
+    "referred_client_id": "C0144",
+    "referral_date": "2024-12-29",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0031",
+    "referring_client_id": "C0107",
+    "referred_client_id": "C0010",
+    "referral_date": "2018-10-27",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0032",
+    "referring_client_id": "C0107",
+    "referred_client_id": "C0044",
+    "referral_date": "2018-06-19",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0033",
+    "referring_client_id": "C0124",
+    "referred_client_id": "C0045",
+    "referral_date": "2022-10-25",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0034",
+    "referring_client_id": "C0124",
+    "referred_client_id": "C0064",
+    "referral_date": "2021-12-07",
+    "converted": true,
+    "conversion_date": "2025-05-31"
+  },
+  {
+    "referral_id": "R0035",
+    "referring_client_id": "C0124",
+    "referred_client_id": "C0147",
+    "referral_date": "2022-01-10",
+    "converted": true,
+    "conversion_date": "2022-07-22"
+  },
+  {
+    "referral_id": "R0036",
+    "referring_client_id": "C0140",
+    "referred_client_id": "C0055",
+    "referral_date": "2023-05-27",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0037",
+    "referring_client_id": "C0066",
+    "referred_client_id": "C0068",
+    "referral_date": "2019-12-05",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0038",
+    "referring_client_id": "C0066",
+    "referred_client_id": "C0048",
+    "referral_date": "2023-05-08",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0039",
+    "referring_client_id": "C0066",
+    "referred_client_id": "C0068",
+    "referral_date": "2019-10-19",
+    "converted": true,
+    "conversion_date": "2026-05-28"
+  },
+  {
+    "referral_id": "R0040",
+    "referring_client_id": "C0092",
+    "referred_client_id": "C0056",
+    "referral_date": "2020-06-19",
+    "converted": true,
+    "conversion_date": "2021-10-31"
+  },
+  {
+    "referral_id": "R0041",
+    "referring_client_id": "C0092",
+    "referred_client_id": "C0140",
+    "referral_date": "2015-03-08",
+    "converted": true,
+    "conversion_date": "2019-05-26"
+  },
+  {
+    "referral_id": "R0042",
+    "referring_client_id": "C0092",
+    "referred_client_id": "C0008",
+    "referral_date": "2011-04-14",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0043",
+    "referring_client_id": "C0125",
+    "referred_client_id": "C0139",
+    "referral_date": "2025-02-19",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0044",
+    "referring_client_id": "C0125",
+    "referred_client_id": "C0056",
+    "referral_date": "2018-02-23",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0045",
+    "referring_client_id": "C0045",
+    "referred_client_id": "C0079",
+    "referral_date": "2025-07-22",
+    "converted": true,
+    "conversion_date": "2026-04-29"
+  },
+  {
+    "referral_id": "R0046",
+    "referring_client_id": "C0045",
+    "referred_client_id": "C0034",
+    "referral_date": "2024-09-12",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0047",
+    "referring_client_id": "C0045",
+    "referred_client_id": "C0092",
+    "referral_date": "2024-06-26",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0048",
+    "referring_client_id": "C0067",
+    "referred_client_id": "C0102",
+    "referral_date": "2018-07-28",
+    "converted": true,
+    "conversion_date": "2019-08-28"
+  },
+  {
+    "referral_id": "R0049",
+    "referring_client_id": "C0067",
+    "referred_client_id": "C0127",
+    "referral_date": "2018-07-05",
+    "converted": true,
+    "conversion_date": "2026-02-17"
+  },
+  {
+    "referral_id": "R0050",
+    "referring_client_id": "C0067",
+    "referred_client_id": "C0077",
+    "referral_date": "2015-12-29",
+    "converted": true,
+    "conversion_date": "2018-11-20"
+  },
+  {
+    "referral_id": "R0051",
+    "referring_client_id": "C0137",
+    "referred_client_id": "C0040",
+    "referral_date": "2019-07-19",
+    "converted": true,
+    "conversion_date": "2025-07-27"
+  },
+  {
+    "referral_id": "R0052",
+    "referring_client_id": "C0137",
+    "referred_client_id": "C0103",
+    "referral_date": "2020-06-23",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0053",
+    "referring_client_id": "C0137",
+    "referred_client_id": "C0043",
+    "referral_date": "2017-09-21",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0054",
+    "referring_client_id": "C0003",
+    "referred_client_id": "C0105",
+    "referral_date": "2014-05-25",
+    "converted": true,
+    "conversion_date": "2016-06-29"
+  },
+  {
+    "referral_id": "R0055",
+    "referring_client_id": "C0003",
+    "referred_client_id": "C0125",
+    "referral_date": "2012-09-19",
+    "converted": true,
+    "conversion_date": "2020-10-31"
+  },
+  {
+    "referral_id": "R0056",
+    "referring_client_id": "C0011",
+    "referred_client_id": "C0140",
+    "referral_date": "2023-03-05",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0057",
+    "referring_client_id": "C0011",
+    "referred_client_id": "C0014",
+    "referral_date": "2024-05-24",
+    "converted": false,
+    "conversion_date": null
+  },
+  {
+    "referral_id": "R0058",
+    "referring_client_id": "C0011",
+    "referred_client_id": "C0112",
+    "referral_date": "2021-07-05",
+    "converted": false,
+    "conversion_date": null
+  }
+]

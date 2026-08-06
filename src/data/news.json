@@ -1,0 +1,152 @@
+[
+  {
+    "id": "news-001",
+    "headline": "Federal Reserve Holds Rates Steady, Signals Two Cuts in Second Half of 2026",
+    "source": "Federal Reserve",
+    "date": "2026-04-25",
+    "summary": "The Fed held the federal funds rate at 4.25–4.50% in its April meeting, citing continued progress on inflation while acknowledging labor market resilience. Chair Powell indicated two potential rate cuts remain on the table for H2 2026 if inflation continues to moderate toward the 2% target.",
+    "category": "Fed",
+    "affectedClientIds": ["client-003", "client-004", "client-006", "client-010", "client-012"],
+    "fullContent": "The Federal Open Market Committee voted unanimously to maintain the target range for the federal funds rate at 4.25 to 4.50 percent. The Committee noted that while inflation has eased substantially from its peak, it remains somewhat above the 2% longer-run goal. Economic activity has continued to expand at a solid pace. Job gains remain robust. The Fed's median projection shows two 25bp cuts in H2 2026, though Powell emphasized these are data-dependent."
+  },
+  {
+    "id": "news-002",
+    "headline": "Tech Sector Whipsaws: 18% YTD Rally Masks Sharp Intra-Quarter Volatility — Fixed Income Drift Risk for Growth Portfolios",
+    "source": "Bloomberg",
+    "date": "2026-04-24",
+    "summary": "Technology stocks are up 18.2% YTD through April, but the path has been volatile — two drawdowns of 8–10% during the quarter caused growth-oriented portfolios to shift defensively into fixed income. Advisors should review clients whose bond allocations may have crept above target as a result of automatic rebalancing or risk-off moves during the dips.",
+    "category": "Markets",
+    "affectedClientIds": ["client-001", "client-005", "client-009", "client-007"],
+    "fullContent": "The technology sector's strong performance has been driven by a combination of robust earnings growth, continued AI-driven capital expenditure by hyperscalers, and a resilient enterprise software spending environment. Analysts note that semiconductor stocks have been particularly strong, with the SOX index outpacing even large-cap tech names."
+  },
+  {
+    "id": "news-003",
+    "headline": "IRS Announces 2026 IRA Contribution Limits: Roth IRA Phase-Out Thresholds Increased",
+    "source": "IRS",
+    "date": "2026-04-22",
+    "summary": "The IRS confirmed 2026 IRA contribution limits remain at $7,000 ($8,000 for those 50+). Roth IRA phase-out now begins at $150,000 for single filers and $236,000 for married filing jointly. Backdoor Roth IRA strategies remain relevant for high earners above these thresholds.",
+    "category": "Tax",
+    "affectedClientIds": ["client-005", "client-007", "client-009", "client-001"],
+    "fullContent": "For the 2026 tax year, traditional and Roth IRA contribution limits remain unchanged at $7,000 per person, with a $1,000 catch-up contribution for individuals aged 50 and older. The income phase-out range for Roth IRA contributions has been adjusted upward for inflation. Financial advisors should review client eligibility for direct Roth contributions and implement backdoor strategies where applicable."
+  },
+  {
+    "id": "news-004",
+    "headline": "RMD Rule Changes: IRS Issues Final Guidance on SECURE 2.0 Inherited IRA Provisions",
+    "source": "IRS / ThinkAdvisor",
+    "date": "2026-04-21",
+    "summary": "The IRS issued final regulations clarifying RMD rules under SECURE 2.0 for inherited IRAs. Non-spouse beneficiaries must take RMDs annually during the 10-year drawdown window — a significant change from prior guidance. Advisors should review inherited IRA strategies for affected clients.",
+    "category": "Regulation",
+    "affectedClientIds": ["client-003", "client-004", "client-012"],
+    "fullContent": "The IRS finalized regulations under SECURE 2.0 that resolve years of uncertainty around inherited IRA distributions. Under the final rules, non-eligible designated beneficiaries who inherit IRAs from decedents who had already begun taking RMDs must continue taking annual distributions during the 10-year payout period. Failure to take annual RMDs will result in a 25% excise tax on missed distributions."
+  },
+  {
+    "id": "news-005",
+    "headline": "Private Equity Carry Income Tax Treatment Under Congressional Review",
+    "source": "Wall Street Journal",
+    "date": "2026-04-20",
+    "summary": "Congressional leaders are revisiting proposals to tax carried interest as ordinary income rather than capital gains. If passed, the change could significantly increase tax liability for private equity professionals receiving carry distributions. The proposal faces headwinds but remains active in committee.",
+    "category": "Tax",
+    "affectedClientIds": ["client-008"],
+    "fullContent": "A bipartisan group of senators has revived legislation that would eliminate the preferential capital gains treatment for carried interest received by private equity, hedge fund, and venture capital managers. Under current law, carried interest is typically taxed at the long-term capital gains rate of 20% plus the 3.8% net investment income tax. The proposed change would tax carried interest as ordinary income, potentially more than doubling the effective tax rate on this income for high earners."
+  },
+  {
+    "id": "news-006",
+    "headline": "Healthcare Sector Volatility: CMS Announces Medicare Advantage Rate Adjustments for 2027",
+    "source": "CMS / Reuters",
+    "date": "2026-04-19",
+    "summary": "CMS finalized Medicare Advantage rates for 2027 with a 2.2% increase — below insurer expectations of 3.5%. Several major MA plans have announced premium increases and benefit reductions in response. The healthcare sector sold off 3.2% on the news.",
+    "category": "Sector",
+    "affectedClientIds": ["client-007", "client-004", "client-006"],
+    "fullContent": "The Centers for Medicare & Medicaid Services finalized 2027 Medicare Advantage benchmark rates, representing a 2.2% average increase. Insurance industry analysts noted this fell short of the 3.5% many insurers had budgeted for, putting pressure on plan economics. Several major health insurers have announced they will reduce plan benefits or increase premiums in response. This development is relevant for clients with healthcare sector exposure and those planning for Medicare transition."
+  },
+  {
+    "id": "news-007",
+    "headline": "Municipal Bond Market: Tax-Exempt Yields Attractive as State Budget Surpluses Increase",
+    "source": "Barron's",
+    "date": "2026-04-18",
+    "summary": "State and local government fiscal positions have strengthened significantly, with many states running record budget surpluses. Municipal bond spreads have tightened to multi-year lows, but tax-equivalent yields remain attractive for high-income investors at 4.8–5.2% for AA-rated 10-year munis.",
+    "category": "Markets",
+    "affectedClientIds": ["client-005", "client-008", "client-001", "client-003"],
+    "fullContent": "The municipal bond market has entered a period of relative stability following years of volatility. State and local governments are generally in strong fiscal health, supported by federal pandemic relief, improved tax revenues, and disciplined budget management. For high-income investors in the 37% bracket, tax-equivalent yields on AA-rated 10-year municipal bonds of approximately 4.8% to 5.2% represent a compelling risk-adjusted opportunity relative to taxable alternatives."
+  },
+  {
+    "id": "news-008",
+    "headline": "Social Security COLA Projection: 2027 Adjustment Estimated at 3.1%",
+    "source": "Social Security Administration",
+    "date": "2026-04-17",
+    "summary": "Early projections from the SSA suggest the 2027 cost-of-living adjustment will be approximately 3.1%, based on CPI-W data through Q1 2026. This is slightly above the historical average and represents a modest benefit increase for current recipients.",
+    "category": "Regulation",
+    "affectedClientIds": ["client-004", "client-006", "client-003"],
+    "fullContent": "The Social Security Administration's early projection for the 2027 COLA stands at approximately 3.1%, based on inflation data through the first quarter of 2026. The official COLA announcement will come in October 2026 based on third-quarter CPI-W data. Advisors should factor the projected increase into retirement income projections and Social Security maximization strategies for clients nearing or in retirement."
+  },
+  {
+    "id": "news-009",
+    "headline": "AI and Tech IPO Pipeline Heats Up: 12 Major Ventures Expected to List in H2 2026",
+    "source": "Financial Times",
+    "date": "2026-04-16",
+    "summary": "Investment banks are reporting a robust pipeline of technology and AI company IPOs for the second half of 2026. Favorable market conditions, stable interest rates, and strong investor appetite for AI names are creating ideal conditions. Several late-stage startups have begun confidential SEC filings.",
+    "category": "Markets",
+    "affectedClientIds": ["client-009", "client-001"],
+    "fullContent": "The technology IPO market is showing signs of a significant recovery following two years of subdued activity. Bankers at Goldman Sachs, Morgan Stanley, and JPMorgan report active mandates across AI infrastructure, enterprise SaaS, and healthcare technology sectors. For founders and early employees of pre-IPO companies, the improving market conditions make now an important time to review equity compensation planning, ISO exercise strategies, and tax optimization ahead of potential liquidity events."
+  },
+  {
+    "id": "news-010",
+    "headline": "Real Estate Investment: Commercial Property Values Stabilize After 18-Month Correction",
+    "source": "CoStar / CBRE",
+    "date": "2026-04-15",
+    "summary": "Commercial real estate values appear to be stabilizing after an 18-month correction driven by rising interest rates and office market disruption. CBRE reports that industrial and multifamily sectors have recovered most sharply, while office values remain under pressure. Cap rates are now averaging 5.8–6.2% nationally.",
+    "category": "Markets",
+    "affectedClientIds": ["client-002", "client-005", "client-008"],
+    "fullContent": "Commercial real estate markets appear to be entering a period of stabilization, with property values in the industrial and multifamily sectors recovering to within 5% of their 2022 peaks. Office properties continue to face structural headwinds from remote work trends, with national vacancy rates at a record 18.2%. For investors looking to add real estate exposure, current cap rates of 5.8% to 6.2% nationally offer attractive income relative to bond alternatives."
+  },
+  {
+    "id": "news-011",
+    "headline": "Q1 2026 Earnings: S&P 500 Beats Estimates with 9.2% Average EPS Growth",
+    "source": "FactSet",
+    "date": "2026-04-14",
+    "summary": "With 85% of S&P 500 companies having reported Q1 2026 earnings, the blended EPS growth rate stands at 9.2% — well ahead of the 6.8% consensus estimate at the start of earnings season. Technology, healthcare, and financials are the primary outperformers. Forward guidance remains cautious on trade policy uncertainty.",
+    "category": "Markets",
+    "affectedClientIds": ["client-001", "client-007", "client-009", "client-011", "client-006"],
+    "fullContent": "S&P 500 companies are reporting strong first quarter results, with earnings growth of 9.2% exceeding pre-season estimates by more than 2 percentage points. Revenue growth has been more modest at 4.8%, suggesting continued margin expansion. However, several companies have issued cautious forward guidance citing uncertainty around trade tariffs and the impact of potential regulatory changes on their business models."
+  },
+  {
+    "id": "news-012",
+    "headline": "Tax-Loss Harvesting Opportunity: Several Sector Funds Down 8–12% from Recent Peaks",
+    "source": "Morningstar",
+    "date": "2026-04-12",
+    "summary": "Recent sector rotation has created notable tax-loss harvesting opportunities in healthcare, consumer discretionary, and international equity funds. Advisors should review client taxable accounts for positions showing unrealized losses before the window narrows as markets recover.",
+    "category": "Tax",
+    "affectedClientIds": ["client-003", "client-006", "client-010", "client-012", "client-004"],
+    "fullContent": "The recent market rotation out of defensive sectors has created tax-loss harvesting opportunities for investors with taxable accounts. Healthcare sector ETFs are down 8–12% from their February 2026 peaks. Advisors should identify positions with unrealized losses, execute the harvest, and reinvest in substantially different securities to maintain market exposure while realizing the tax benefit. Given the recent market recovery, the window for these harvesting opportunities may be limited."
+  },
+  {
+    "id": "news-013",
+    "headline": "529 Plan Update: New Rollover Rules to Roth IRA Take Effect — What Clients Need to Know",
+    "source": "College Savings Foundation",
+    "date": "2026-04-10",
+    "summary": "Effective January 2026, SECURE 2.0's provision allowing 529 plan balances to be rolled over to Roth IRAs is now fully operational. Beneficiaries can roll up to $35,000 lifetime (subject to annual Roth contribution limits) with no income test, providing a valuable exit option for overfunded 529 accounts.",
+    "category": "Tax",
+    "affectedClientIds": ["client-007", "client-002", "client-001"],
+    "fullContent": "The SECURE 2.0 Act's 529-to-Roth IRA rollover provision is now fully in effect for 2026. Account holders can roll 529 funds to the beneficiary's Roth IRA, subject to a $35,000 lifetime cap, a 15-year account seasoning requirement, and the annual Roth contribution limit. This provision provides significant planning flexibility for families who have overfunded 529 accounts or whose children received scholarships. Advisors should review college savings accounts for clients with beneficiaries approaching or past college age."
+  },
+  {
+    "id": "news-014",
+    "headline": "Inflation Update: PCE Index Holds at 2.4% in March — Fed's Preferred Gauge Near Target",
+    "source": "Bureau of Economic Analysis",
+    "date": "2026-04-09",
+    "summary": "The Personal Consumption Expenditures price index rose 2.4% year-over-year in March 2026, unchanged from February and just above the Fed's 2% target. Core PCE (excluding food and energy) came in at 2.6%. The data is consistent with the Fed's patient approach to rate normalization.",
+    "category": "Fed",
+    "affectedClientIds": ["client-003", "client-004", "client-006", "client-012"],
+    "fullContent": "The Bureau of Economic Analysis reported March PCE price index data showing continued disinflation progress. The headline PCE rose 2.4% year-over-year, while core PCE (excluding food and energy) rose 2.6%. Both readings are in line with consensus expectations. For bond investors, the data supports the case for fixed income remaining an important portfolio component as real yields remain positive."
+  },
+  {
+    "id": "news-015",
+    "headline": "Cybersecurity Stocks Surge on Federal Infrastructure Investment Bill",
+    "source": "Reuters",
+    "date": "2026-04-08",
+    "summary": "A bipartisan federal cybersecurity infrastructure bill passed committee with $18B in proposed spending, sending cybersecurity sector ETFs up 6–8% on the day. Companies focused on critical infrastructure protection, identity management, and cloud security led gains.",
+    "category": "Sector",
+    "affectedClientIds": ["client-001", "client-005", "client-009"],
+    "fullContent": "The Senate Commerce Committee advanced a bipartisan cybersecurity infrastructure bill that would allocate $18 billion over five years to strengthen federal and critical infrastructure cybersecurity. The bill, which has strong support from both parties, is expected to generate significant revenue for companies in the cybersecurity sector. The CIBR cybersecurity ETF surged 7.2% on the day, with identity management, endpoint security, and network monitoring companies leading gains."
+  }
+]

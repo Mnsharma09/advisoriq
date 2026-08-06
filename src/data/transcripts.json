@@ -1,0 +1,72 @@
+[
+  {
+    "id": "trans-001",
+    "clientId": "client-001",
+    "date": "2026-04-28",
+    "durationEstimate": "18 min",
+    "turns": [
+      { "speaker": "FA",     "text": "Hi Sarah, great to connect today. How has everything been going since we last spoke?", "timestamp": "0:00" },
+      { "speaker": "Client", "text": "Pretty well overall, though honestly a bit stressed about the market lately. I've been watching tech valuations and it's making me nervous about my concentration there.", "timestamp": "0:12" },
+      { "speaker": "FA",     "text": "That's understandable — tech has been volatile this quarter. Your current allocation has about 38% in US Equity, which does have meaningful tech exposure. Is the concern more short-term noise, or are you rethinking your overall risk tolerance?", "timestamp": "0:31" },
+      { "speaker": "Client", "text": "More the latter, I think. I've been promoted to VP and my bonus structure changed — more equity, less cash. So my income is already very tied to TechCorp's performance. It feels like double exposure.", "timestamp": "0:58" },
+      { "speaker": "FA",     "text": "That's a really important observation, and frankly a smart one. Concentrated employment risk plus concentrated equity risk in the same sector is worth addressing. We should look at harvesting some of that equity position and rotating into fixed income or international to reduce the correlation.", "timestamp": "1:22" },
+      { "speaker": "Client", "text": "Yes, that makes sense. Also — and this is a bit separate — David and I have been talking seriously about a second home. Somewhere in Lake Tahoe. We're thinking maybe $1.2 to $1.5 million range.", "timestamp": "1:55" },
+      { "speaker": "FA",     "text": "Exciting! That would be a significant purchase. Are you thinking cash, mortgage, or a blend? And what's the timeline — are you actively looking, or more of a 3-to-5 year plan?", "timestamp": "2:18" },
+      { "speaker": "Client", "text": "Probably 2 to 3 years out. We'd want to put down at least 40% to keep the monthly payment manageable, so roughly $500 to $600K from liquid assets.", "timestamp": "2:38" },
+      { "speaker": "FA",     "text": "Got it. That means we'd want to earmark some of your current savings toward a more conservative sub-portfolio — low volatility, liquid — so it's ready when you need it without being exposed to an equity drawdown right before you pull the trigger.", "timestamp": "2:57" },
+      { "speaker": "Client", "text": "Exactly. I also wanted to ask about the long-term care insurance situation. My mom just entered a memory care facility and the costs are astronomical. It's really opened my eyes.", "timestamp": "3:28" },
+      { "speaker": "FA",     "text": "I'm sorry to hear about your mom — that's difficult. And it's a very common wake-up call. Your current coverage actually has a gap there: long-term care is marked as 'Review Needed.' Given your age and the cost trajectory of care, locking in coverage in the next 12 months would be significantly cheaper than waiting.", "timestamp": "3:45" },
+      { "speaker": "Client", "text": "Can we make that a priority? I'd like to understand the options — hybrid life plus LTC versus standalone. My colleague at work did a hybrid policy and seemed happy with it.", "timestamp": "4:18" },
+      { "speaker": "FA",     "text": "Absolutely. I'll get you a comparison of three carriers before our next meeting — standalone LTC, hybrid, and a short-pay hybrid. We should also revisit your beneficiary designations since they haven't been updated since 2022 and your situation has changed.", "timestamp": "4:38" },
+      { "speaker": "Client", "text": "Oh right, I meant to do that after the wedding. Let's definitely update those. Is there anything else I should be thinking about before next time?", "timestamp": "5:10" },
+      { "speaker": "FA",     "text": "The main items are: rebalancing to address your tech concentration, setting up the vacation home sub-portfolio, LTC coverage comparison, and beneficiary updates. I'll send a follow-up summary this afternoon. Does that cover everything on your end?", "timestamp": "5:30" },
+      { "speaker": "Client", "text": "Yes, that's perfect. I feel much better having a clear list. Thanks as always.", "timestamp": "5:58" }
+    ]
+  },
+  {
+    "id": "trans-002",
+    "clientId": "client-002",
+    "date": "2026-04-25",
+    "durationEstimate": "22 min",
+    "turns": [
+      { "speaker": "FA",     "text": "Marcus, good to see you. How's the business holding up with the current rate environment?", "timestamp": "0:00" },
+      { "speaker": "Client", "text": "It's been choppy, honestly. Margins are tighter and I've had to renegotiate two supplier contracts. But volume is still strong, so net-net we're okay.", "timestamp": "0:15" },
+      { "speaker": "FA",     "text": "That resilience matters. I wanted to revisit the business sale timeline we discussed last quarter. Has your thinking evolved at all?", "timestamp": "0:38" },
+      { "speaker": "Client", "text": "Yeah. My brother-in-law and I have been talking — he's interested in buying me out within two years. We're starting to get a formal valuation done.", "timestamp": "0:55" },
+      { "speaker": "FA",     "text": "That's a significant development. A family transaction has unique complexity — you'll want an independent third-party valuation, not just a number you two agree on, so there's no gift-tax exposure or IRS scrutiny later.", "timestamp": "1:18" },
+      { "speaker": "Client", "text": "I hadn't thought about the gift-tax angle. Good point. What else should I be prepared for?", "timestamp": "1:42" },
+      { "speaker": "FA",     "text": "Structuring matters a lot. An installment sale could spread out the capital gains over several years. We'd also want to look at whether any of the proceeds could flow through a charitable vehicle if philanthropy is on your radar.", "timestamp": "1:58" },
+      { "speaker": "Client", "text": "My wife and I have talked about setting something up for our kids' college eventually, but we haven't done anything formal. Two kids — Elena is 9, Mateo is 6.", "timestamp": "2:28" },
+      { "speaker": "FA",     "text": "Perfect timing to model 529 contributions then, especially before a liquidity event. Post-sale you'd have the capital, but front-loading now has a five-year gift-tax election option that could be very efficient.", "timestamp": "2:50" },
+      { "speaker": "Client", "text": "Let's definitely model that out. Also — and this is something I've been wrestling with — I feel like my retirement planning has been on the back burner. With the business being the main asset, I don't have much outside of it.", "timestamp": "3:15" },
+      { "speaker": "FA",     "text": "That's the classic entrepreneur blind spot, and you're wise to flag it now rather than at 60. We should build a parallel retirement track — SEP-IRA or Solo 401(k) contributions annually — so you're not entirely dependent on the sale proceeds.", "timestamp": "3:40" },
+      { "speaker": "Client", "text": "Solo 401(k) sounds right given my structure. What's the contribution limit this year?", "timestamp": "4:05" },
+      { "speaker": "FA",     "text": "For 2026 it's $70,000 including employee and employer contributions if you're under 50, with a $7,500 catch-up above that. Given your income, you could likely max it out. I'll run the exact numbers against your Schedule C.", "timestamp": "4:18" },
+      { "speaker": "Client", "text": "Great. Let's get that set up before year-end. I feel like we've got a solid plan taking shape.", "timestamp": "4:45" },
+      { "speaker": "FA",     "text": "Agreed. To summarize: we'll coordinate with your attorney on the valuation process, model an installment sale structure, set up 529 accounts for Elena and Mateo, and max out a Solo 401(k) this year. I'll send a detailed action plan by end of week.", "timestamp": "5:02" }
+    ]
+  },
+  {
+    "id": "trans-003",
+    "clientId": "client-003",
+    "date": "2026-04-22",
+    "durationEstimate": "15 min",
+    "turns": [
+      { "speaker": "FA",     "text": "Priya, Raj — thank you both for joining. How are you settling into retirement after six months?", "timestamp": "0:00" },
+      { "speaker": "Client", "text": "It's wonderful, honestly. We've been traveling more than we expected. Just got back from Portugal last week.", "timestamp": "0:12" },
+      { "speaker": "FA",     "text": "That's great to hear. How is the travel budget tracking against your monthly withdrawal plan?", "timestamp": "0:28" },
+      { "speaker": "Client", "text": "We've been spending a bit more than planned — probably $8,000 a month instead of the $7,500 we modeled. Raj and I have been going back and forth about whether we need to adjust.", "timestamp": "0:42" },
+      { "speaker": "FA",     "text": "Five hundred over plan for six months is $3,000 total — well within noise. The bigger question is whether this is a permanent lifestyle shift or one-time. If Portugal is every year, we should model for $8,000.", "timestamp": "1:02" },
+      { "speaker": "Client", "text": "Probably permanent, yes. We have a running list of about eight more trips we want to do in the next five years.", "timestamp": "1:25" },
+      { "speaker": "FA",     "text": "Let me run a quick updated projection. At $8,000 monthly versus $7,500, your portfolio needs to be about $150,000 larger at retirement to sustain the same 30-year plan. Given your current balance, you're still comfortably above that threshold.", "timestamp": "1:44" },
+      { "speaker": "Client", "text": "That's reassuring. Raj wanted to ask about RMDs — we're both approaching 73 and want to make sure we're not caught off guard.", "timestamp": "2:10" },
+      { "speaker": "FA",     "text": "Great timing to plan ahead. At 73 you'll both start Required Minimum Distributions from your Traditional IRAs. I'll run the RMD schedule based on your current balances and the IRS life expectancy tables so you know exactly what to expect each year.", "timestamp": "2:28" },
+      { "speaker": "Client", "text": "And should we be doing any Roth conversions now, before the RMDs kick in?", "timestamp": "2:55" },
+      { "speaker": "FA",     "text": "Absolutely worth modeling. If you're in a lower bracket this year before RMDs push you higher, converting a portion of the traditional IRA now could save meaningfully on lifetime taxes. I'll run a Roth conversion ladder analysis before our next meeting.", "timestamp": "3:10" },
+      { "speaker": "Client", "text": "Perfect. One more thing — our daughter Anika mentioned she might need a down payment loan from us for a condo. We want to help but don't want it to derail our plan.", "timestamp": "3:40" },
+      { "speaker": "FA",     "text": "That's a common situation. An intra-family loan at the AFR rate keeps it clean from a tax standpoint. Alternatively, a gift up to the annual exclusion amount each year is completely tax-free. I'll put together a quick memo comparing both options so you and Anika can decide.", "timestamp": "3:58" },
+      { "speaker": "Client", "text": "That would be very helpful. Thank you. We always feel so prepared after these conversations.", "timestamp": "4:30" },
+      { "speaker": "FA",     "text": "That's the goal. Key action items: update withdrawal model to $8,000/month, prepare RMD schedule for both of you, run the Roth conversion analysis, and draft a family loan memo for Anika's condo. I'll have everything to you by Friday.", "timestamp": "4:45" }
+    ]
+  }
+]

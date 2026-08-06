@@ -1,0 +1,462 @@
+event_id,client_id,event_type,event_date,urgency_level,advisor_aware,action_taken,days_since_event
+E0001,C0001,Health event,2019-08-09,high,True,True,2491
+E0002,C0001,Child leaving home,2018-11-23,low,False,False,2750
+E0003,C0002,Child leaving home,2022-04-23,low,True,True,1503
+E0004,C0002,New child / dependent,2022-05-12,medium,False,False,1484
+E0005,C0003,Property purchase,2008-12-22,medium,True,True,6373
+E0006,C0003,Retirement,2020-10-15,high,False,False,2058
+E0007,C0003,Divorce,2019-08-13,high,False,False,2487
+E0008,C0004,Property purchase,2023-05-17,medium,True,True,1114
+E0009,C0005,Business sale,2025-11-10,high,True,False,206
+E0010,C0005,Retirement,2022-11-13,high,False,False,1299
+E0011,C0005,Divorce,2022-09-18,high,False,False,1355
+E0012,C0006,Business start,2011-07-25,medium,True,True,5428
+E0013,C0006,Bereavement,2007-12-11,high,True,True,6750
+E0014,C0006,Property purchase,2023-07-13,medium,True,True,1057
+E0015,C0006,Divorce,2025-02-15,high,True,False,474
+E0016,C0007,Business start,2024-05-10,medium,True,True,755
+E0017,C0007,New child / dependent,2023-09-07,medium,True,True,1001
+E0018,C0007,Retirement,2023-06-20,high,True,True,1080
+E0019,C0007,Bereavement,2023-04-19,high,True,False,1142
+E0020,C0007,Property purchase,2026-01-29,medium,True,True,126
+E0021,C0008,Child leaving home,2024-11-25,low,True,True,556
+E0022,C0008,Inheritance received,2026-03-20,high,True,False,76
+E0023,C0008,Health event,2026-04-25,high,True,True,40
+E0024,C0009,Job change,2026-03-12,medium,True,False,84
+E0025,C0009,Divorce,2026-01-22,high,True,True,133
+E0026,C0009,Marriage,2026-04-16,medium,True,True,49
+E0027,C0009,Property purchase,2026-05-21,medium,True,True,14
+E0028,C0010,Job change,2023-05-03,medium,True,True,1128
+E0029,C0010,New child / dependent,2023-04-26,medium,False,False,1135
+E0030,C0010,New child / dependent,2025-07-18,medium,True,True,321
+E0031,C0010,Business sale,2023-04-25,high,True,True,1136
+E0032,C0011,Health event,2025-04-08,high,False,False,422
+E0033,C0011,Health event,2025-03-05,high,True,True,456
+E0034,C0011,Job change,2023-01-01,medium,True,True,1250
+E0035,C0012,Job change,2023-11-10,medium,True,True,937
+E0036,C0012,Bereavement,2024-01-03,high,True,True,883
+E0037,C0012,Property purchase,2023-05-08,medium,False,False,1123
+E0038,C0013,Property purchase,2025-12-31,medium,True,True,155
+E0039,C0013,Health event,2025-12-12,high,True,True,174
+E0040,C0013,Health event,2026-02-20,high,True,True,104
+E0041,C0013,Health event,2026-04-03,high,True,False,62
+E0042,C0014,Job change,2017-02-01,medium,True,True,3410
+E0043,C0014,Business sale,2024-02-19,high,True,True,836
+E0044,C0014,New child / dependent,2014-01-16,medium,True,True,4522
+E0045,C0014,New child / dependent,2014-08-15,medium,True,True,4311
+E0046,C0014,Bereavement,2016-10-31,high,True,False,3503
+E0047,C0015,Job change,2010-07-21,medium,True,True,5797
+E0048,C0016,Divorce,2024-02-03,high,False,False,852
+E0049,C0016,Child leaving home,2024-06-16,low,True,True,718
+E0050,C0016,Health event,2023-06-01,high,False,False,1099
+E0051,C0017,New child / dependent,2026-05-05,medium,False,False,30
+E0052,C0017,Property purchase,2026-02-13,medium,True,True,111
+E0053,C0017,Child leaving home,2024-03-16,low,False,False,810
+E0054,C0017,Property purchase,2024-02-02,medium,True,True,853
+E0055,C0018,Marriage,2015-10-27,medium,False,False,3873
+E0056,C0018,New child / dependent,2019-01-14,medium,True,True,2698
+E0057,C0018,Divorce,2005-10-07,high,True,True,7545
+E0058,C0018,Business sale,2009-05-27,high,True,False,6217
+E0059,C0019,Marriage,2024-05-07,medium,True,True,758
+E0060,C0019,Bereavement,2021-09-22,high,False,False,1716
+E0061,C0019,New child / dependent,2019-06-25,medium,False,False,2536
+E0062,C0019,Health event,2024-04-14,high,True,True,781
+E0063,C0019,Health event,2019-03-01,high,False,False,2652
+E0064,C0020,Property purchase,2025-07-27,medium,True,False,312
+E0065,C0020,New child / dependent,2025-11-08,medium,True,True,208
+E0066,C0021,Marriage,2024-07-04,medium,True,True,700
+E0067,C0021,Marriage,2022-08-17,medium,False,False,1387
+E0068,C0022,Divorce,2013-05-28,high,False,False,4755
+E0069,C0022,Marriage,2019-07-21,medium,True,True,2510
+E0070,C0022,Retirement,2022-05-22,high,True,False,1474
+E0071,C0023,Health event,2026-04-25,high,True,True,40
+E0072,C0023,Business start,2024-08-29,medium,False,False,644
+E0073,C0023,New child / dependent,2025-11-08,medium,True,True,208
+E0074,C0023,Marriage,2026-01-11,medium,True,True,144
+E0075,C0024,Business start,2017-09-24,medium,True,False,3175
+E0076,C0024,Divorce,2021-02-23,high,True,False,1927
+E0077,C0024,Child leaving home,2016-06-30,low,True,False,3626
+E0078,C0024,Bereavement,2022-03-09,high,True,True,1548
+E0079,C0025,Property purchase,2011-03-20,medium,False,False,5555
+E0080,C0025,New child / dependent,2024-03-29,medium,True,True,797
+E0081,C0026,Health event,2022-03-19,high,True,True,1538
+E0082,C0026,New child / dependent,2026-04-04,medium,False,False,61
+E0083,C0026,Property purchase,2025-12-29,medium,False,False,157
+E0084,C0026,Retirement,2025-06-05,high,True,True,364
+E0085,C0027,New child / dependent,2024-11-06,medium,True,False,575
+E0086,C0027,Property purchase,2025-06-23,medium,False,False,346
+E0087,C0027,Job change,2023-01-04,medium,True,True,1247
+E0088,C0027,Retirement,2023-04-10,high,True,True,1151
+E0089,C0028,Divorce,2014-07-03,high,True,True,4354
+E0090,C0028,Child leaving home,2017-11-03,low,True,True,3135
+E0091,C0029,Property purchase,2022-09-01,medium,True,True,1372
+E0092,C0029,New child / dependent,2022-02-01,medium,False,False,1584
+E0093,C0029,Business sale,2022-07-06,high,True,True,1429
+E0094,C0029,Property purchase,2025-01-26,medium,True,True,494
+E0095,C0029,Job change,2022-08-23,medium,False,False,1381
+E0096,C0031,Health event,2012-11-24,high,True,True,4940
+E0097,C0032,Job change,2022-07-30,medium,True,False,1405
+E0098,C0032,Health event,2024-09-24,high,True,True,618
+E0099,C0033,Divorce,2023-04-03,high,True,True,1158
+E0100,C0033,Property purchase,2024-04-22,medium,True,True,773
+E0101,C0033,Retirement,2024-08-11,high,True,True,662
+E0102,C0033,Job change,2022-12-02,medium,True,True,1280
+E0103,C0034,Job change,2010-01-19,medium,True,True,5980
+E0104,C0034,Marriage,2012-08-30,medium,False,False,5026
+E0105,C0034,Marriage,2019-03-25,medium,True,True,2628
+E0106,C0034,Job change,2016-02-15,medium,True,True,3762
+E0107,C0035,Health event,2026-02-21,high,True,True,103
+E0108,C0035,Property purchase,2025-09-15,medium,True,True,262
+E0109,C0035,Bereavement,2025-09-10,high,True,False,267
+E0110,C0035,Marriage,2024-07-19,medium,True,True,685
+E0111,C0037,Health event,2025-06-16,high,True,True,353
+E0112,C0037,New child / dependent,2023-01-31,medium,True,True,1220
+E0113,C0038,Business start,2025-11-13,medium,True,False,203
+E0114,C0038,Property purchase,2025-10-04,medium,True,True,243
+E0115,C0038,Marriage,2026-05-24,medium,True,True,11
+E0116,C0039,Property purchase,2020-03-03,medium,True,False,2284
+E0117,C0039,Business start,2008-09-17,medium,True,True,6469
+E0118,C0039,Business start,2008-03-19,medium,True,True,6651
+E0119,C0040,Marriage,2024-07-28,medium,False,False,676
+E0120,C0040,Job change,2005-02-13,medium,True,True,7781
+E0121,C0040,Health event,2016-12-05,high,True,True,3468
+E0122,C0040,Retirement,2004-07-02,high,True,True,8007
+E0123,C0040,Bereavement,2005-04-30,high,True,True,7705
+E0124,C0041,Inheritance received,2024-01-20,high,True,False,866
+E0125,C0041,Marriage,2024-05-15,medium,True,True,750
+E0126,C0042,Job change,2025-04-15,medium,True,True,415
+E0127,C0042,Health event,2026-03-11,high,True,True,85
+E0128,C0042,Child leaving home,2025-09-29,low,True,True,248
+E0129,C0042,Job change,2026-02-09,medium,False,False,115
+E0130,C0043,Bereavement,2015-04-01,high,False,False,4082
+E0131,C0043,Retirement,2024-03-25,high,True,True,801
+E0132,C0043,Bereavement,2026-01-25,high,True,False,130
+E0133,C0044,Business start,2025-08-29,medium,True,True,279
+E0134,C0044,Divorce,2023-11-01,high,True,False,946
+E0135,C0044,Marriage,2025-08-31,medium,False,False,277
+E0136,C0044,New child / dependent,2023-05-19,medium,True,False,1112
+E0137,C0044,New child / dependent,2022-05-22,medium,False,False,1474
+E0138,C0045,Business sale,2025-10-22,high,True,True,225
+E0139,C0045,Business sale,2023-09-22,high,True,False,986
+E0140,C0046,Child leaving home,2018-04-10,low,True,False,2977
+E0141,C0046,Child leaving home,2013-01-06,low,True,True,4897
+E0142,C0046,Retirement,2021-09-26,high,False,False,1712
+E0143,C0047,Property purchase,2011-05-09,medium,False,False,5505
+E0144,C0047,Retirement,2018-03-10,high,False,False,3008
+E0145,C0047,Job change,2010-04-23,medium,True,True,5886
+E0146,C0048,Child leaving home,2026-05-04,low,True,False,31
+E0147,C0048,Health event,2024-03-08,high,True,True,818
+E0148,C0048,Job change,2020-06-05,medium,False,False,2190
+E0149,C0048,Marriage,2023-03-12,medium,True,False,1180
+E0150,C0048,Business start,2023-12-25,medium,True,True,892
+E0151,C0049,New child / dependent,2023-11-14,medium,False,False,933
+E0152,C0049,New child / dependent,2016-10-04,medium,True,True,3530
+E0153,C0049,Child leaving home,2022-06-06,low,True,True,1459
+E0154,C0049,Inheritance received,2017-12-19,high,False,False,3089
+E0155,C0050,Business start,2023-09-11,medium,True,True,997
+E0156,C0050,Business sale,2026-02-24,high,True,True,100
+E0157,C0050,Job change,2025-02-03,medium,True,False,486
+E0158,C0050,Job change,2025-03-22,medium,True,True,439
+E0159,C0051,Retirement,2026-04-22,high,False,False,43
+E0160,C0051,Divorce,2007-11-30,high,True,True,6761
+E0161,C0051,Inheritance received,2021-09-02,high,True,True,1736
+E0162,C0051,Job change,2020-12-12,medium,True,True,2000
+E0163,C0051,Divorce,2008-04-11,high,False,False,6628
+E0164,C0052,Bereavement,2025-03-04,high,False,False,457
+E0165,C0052,Retirement,2012-08-31,high,False,False,5025
+E0166,C0052,Property purchase,2013-03-04,medium,True,False,4840
+E0167,C0052,Marriage,2018-05-19,medium,False,False,2938
+E0168,C0053,Retirement,2015-11-13,high,True,False,3856
+E0169,C0053,New child / dependent,2026-02-13,medium,False,False,111
+E0170,C0053,Divorce,2015-11-11,high,True,True,3858
+E0171,C0053,New child / dependent,2018-06-26,medium,False,False,2900
+E0172,C0054,Child leaving home,2025-09-27,low,True,False,250
+E0173,C0055,New child / dependent,2026-04-08,medium,False,False,57
+E0174,C0055,Property purchase,2026-05-12,medium,True,True,23
+E0175,C0055,Child leaving home,2026-03-16,low,True,True,80
+E0176,C0055,Business start,2026-03-26,medium,True,True,70
+E0177,C0056,Marriage,2024-10-23,medium,True,False,589
+E0178,C0056,Business start,2023-11-26,medium,True,True,921
+E0179,C0057,Property purchase,2014-06-20,medium,True,True,4367
+E0180,C0057,Business start,2026-02-04,medium,True,True,120
+E0181,C0057,New child / dependent,2011-12-04,medium,False,False,5296
+E0182,C0057,Job change,2014-11-05,medium,True,True,4229
+E0183,C0058,New child / dependent,2024-10-03,medium,True,True,609
+E0184,C0058,Business start,2025-02-24,medium,True,False,465
+E0185,C0058,Bereavement,2023-03-07,high,True,True,1185
+E0186,C0059,New child / dependent,2009-10-14,medium,True,True,6077
+E0187,C0059,Business start,2005-12-01,medium,True,True,7490
+E0188,C0060,New child / dependent,2010-04-24,medium,False,False,5885
+E0189,C0060,Inheritance received,2015-12-08,high,True,True,3831
+E0190,C0060,Inheritance received,2023-07-14,high,True,True,1056
+E0191,C0061,New child / dependent,2025-03-07,medium,True,False,454
+E0192,C0061,Property purchase,2023-10-03,medium,True,True,975
+E0193,C0061,Bereavement,2026-02-15,high,True,False,109
+E0194,C0062,Job change,2024-08-23,medium,True,False,650
+E0195,C0062,Child leaving home,2024-11-26,low,False,False,555
+E0196,C0062,Business sale,2024-11-02,high,True,True,579
+E0197,C0063,Bereavement,2025-02-17,high,True,True,472
+E0198,C0063,Business start,2024-10-18,medium,False,False,594
+E0199,C0064,Property purchase,2011-01-28,medium,True,False,5606
+E0200,C0064,Retirement,2016-01-24,high,False,False,3784
+E0201,C0064,Inheritance received,2024-07-05,high,False,False,699
+E0202,C0065,Business start,2017-04-12,medium,True,True,3340
+E0203,C0065,Job change,2023-03-25,medium,True,False,1167
+E0204,C0066,Job change,2021-12-18,medium,True,True,1629
+E0205,C0066,Inheritance received,2023-07-08,high,False,False,1062
+E0206,C0066,Inheritance received,2024-08-04,high,True,True,669
+E0207,C0066,Marriage,2020-04-19,medium,True,False,2237
+E0208,C0067,Inheritance received,2024-12-10,high,False,False,541
+E0209,C0067,Property purchase,2021-06-04,medium,True,True,1826
+E0210,C0067,Retirement,2016-09-14,high,True,True,3550
+E0211,C0068,Marriage,2026-04-18,medium,True,True,47
+E0212,C0068,Property purchase,2023-11-21,medium,True,True,926
+E0213,C0069,Marriage,2009-04-13,medium,True,False,6261
+E0214,C0069,Marriage,2022-10-23,medium,False,False,1320
+E0215,C0071,Job change,2023-09-13,medium,False,False,995
+E0216,C0072,Job change,2024-06-08,medium,False,False,726
+E0217,C0072,Child leaving home,2025-07-11,low,False,False,328
+E0218,C0072,Property purchase,2023-01-10,medium,True,True,1241
+E0219,C0073,Property purchase,2019-10-07,medium,True,True,2432
+E0220,C0073,Business sale,2020-04-23,high,False,False,2233
+E0221,C0073,Child leaving home,2026-01-02,low,True,True,153
+E0222,C0074,Inheritance received,2022-04-05,high,True,True,1521
+E0223,C0074,Health event,2020-06-23,high,True,False,2172
+E0224,C0074,Property purchase,2025-02-10,medium,True,True,479
+E0225,C0075,Health event,2025-06-30,high,False,False,339
+E0226,C0076,Health event,2020-08-25,high,True,True,2109
+E0227,C0076,Marriage,2022-11-04,medium,True,True,1308
+E0228,C0076,Bereavement,2026-01-20,high,True,False,135
+E0229,C0076,Child leaving home,2020-05-20,low,True,True,2206
+E0230,C0077,Health event,2021-11-17,high,True,True,1660
+E0231,C0077,New child / dependent,2023-07-08,medium,True,True,1062
+E0232,C0078,Inheritance received,2024-03-09,high,True,False,817
+E0233,C0078,Inheritance received,2025-08-18,high,True,True,290
+E0234,C0078,Property purchase,2026-02-05,medium,False,False,119
+E0235,C0078,Business sale,2024-04-24,high,False,False,771
+E0236,C0078,Divorce,2024-02-05,high,True,True,850
+E0237,C0079,Property purchase,2010-05-25,medium,True,True,5854
+E0238,C0080,Bereavement,2018-12-28,high,True,True,2715
+E0239,C0080,Job change,2022-07-13,medium,True,True,1422
+E0240,C0081,Business start,2025-07-05,medium,True,True,334
+E0241,C0081,Job change,2025-11-02,medium,True,False,214
+E0242,C0081,Child leaving home,2025-10-17,low,True,True,230
+E0243,C0081,Inheritance received,2025-12-11,high,True,False,175
+E0244,C0082,Inheritance received,2026-04-12,high,True,False,53
+E0245,C0082,New child / dependent,2026-04-08,medium,True,True,57
+E0246,C0082,Property purchase,2025-12-03,medium,True,True,183
+E0247,C0082,New child / dependent,2026-04-18,medium,True,False,47
+E0248,C0082,New child / dependent,2025-10-14,medium,False,False,233
+E0249,C0083,Property purchase,2022-12-29,medium,True,True,1253
+E0250,C0083,Business start,2025-02-02,medium,False,False,487
+E0251,C0083,Bereavement,2025-12-21,high,True,False,165
+E0252,C0083,Job change,2024-05-29,medium,True,True,736
+E0253,C0084,Health event,2020-06-13,high,True,True,2182
+E0254,C0084,Retirement,2015-11-25,high,True,True,3844
+E0255,C0084,Job change,2016-03-20,medium,True,True,3728
+E0256,C0086,Retirement,2025-02-15,high,True,False,474
+E0257,C0086,Business sale,2025-05-18,high,True,False,382
+E0258,C0086,New child / dependent,2025-07-27,medium,False,False,312
+E0259,C0086,Inheritance received,2025-10-12,high,True,True,235
+E0260,C0086,Child leaving home,2025-11-28,low,True,False,188
+E0261,C0087,Retirement,2026-05-16,high,True,True,19
+E0262,C0088,Retirement,2022-07-09,high,True,True,1426
+E0263,C0088,Job change,2023-03-14,medium,False,False,1178
+E0264,C0088,Divorce,2025-01-01,high,True,True,519
+E0265,C0088,Property purchase,2025-03-06,medium,False,False,455
+E0266,C0089,Health event,2023-10-09,high,True,False,969
+E0267,C0090,Business start,2025-12-05,medium,True,True,181
+E0268,C0090,Health event,2023-11-03,high,True,True,944
+E0269,C0091,New child / dependent,2022-04-01,medium,True,False,1525
+E0270,C0091,Job change,2022-05-31,medium,False,False,1465
+E0271,C0091,Retirement,2025-05-06,high,True,False,394
+E0272,C0091,Child leaving home,2025-11-02,low,True,True,214
+E0273,C0092,Property purchase,2012-07-01,medium,True,True,5086
+E0274,C0092,Retirement,2015-06-06,high,True,False,4016
+E0275,C0092,Property purchase,2022-05-10,medium,False,False,1486
+E0276,C0092,Property purchase,2019-11-16,medium,True,True,2392
+E0277,C0093,New child / dependent,2025-06-29,medium,False,False,340
+E0278,C0093,Retirement,2023-09-05,high,True,True,1003
+E0279,C0094,New child / dependent,2022-11-21,medium,False,False,1291
+E0280,C0094,Marriage,2021-12-07,medium,True,True,1640
+E0281,C0094,Business start,2023-06-13,medium,True,True,1087
+E0282,C0094,Property purchase,2023-08-20,medium,True,True,1019
+E0283,C0095,Job change,2018-12-14,medium,True,True,2729
+E0284,C0095,New child / dependent,2016-11-29,medium,True,True,3474
+E0285,C0096,Child leaving home,2024-11-07,low,False,False,574
+E0286,C0096,Business sale,2025-04-23,high,True,False,407
+E0287,C0096,Retirement,2024-10-27,high,False,False,585
+E0288,C0096,New child / dependent,2025-01-14,medium,False,False,506
+E0289,C0097,Child leaving home,2026-01-01,low,False,False,154
+E0290,C0097,Child leaving home,2021-07-09,low,True,True,1791
+E0291,C0097,Inheritance received,2020-01-10,high,False,False,2337
+E0292,C0097,Marriage,2025-05-11,medium,False,False,389
+E0293,C0098,Property purchase,2014-08-21,medium,True,True,4305
+E0294,C0098,Health event,2019-10-03,high,False,False,2436
+E0295,C0098,Health event,2016-10-16,high,False,False,3518
+E0296,C0099,Health event,2024-03-16,high,True,False,810
+E0297,C0099,Bereavement,2022-02-27,high,True,True,1558
+E0298,C0100,Property purchase,2023-01-17,medium,False,False,1234
+E0299,C0100,Child leaving home,2021-03-31,low,True,True,1891
+E0300,C0101,Job change,2017-06-22,medium,True,True,3269
+E0301,C0101,Business start,2014-11-17,medium,True,True,4217
+E0302,C0102,Business start,2025-06-16,medium,True,True,353
+E0303,C0102,New child / dependent,2026-03-09,medium,True,True,87
+E0304,C0102,Marriage,2026-01-29,medium,False,False,126
+E0305,C0103,Retirement,2010-02-23,high,True,True,5945
+E0306,C0103,Inheritance received,2025-12-03,high,False,False,183
+E0307,C0103,Health event,2011-02-15,high,True,True,5588
+E0308,C0103,Business sale,2017-07-15,high,False,False,3246
+E0309,C0103,Marriage,2011-12-06,medium,True,True,5294
+E0310,C0104,Business start,2023-02-20,medium,True,True,1200
+E0311,C0104,Job change,2016-05-16,medium,True,True,3671
+E0312,C0105,Divorce,2023-06-22,high,True,True,1078
+E0313,C0105,Marriage,2025-10-09,medium,False,False,238
+E0314,C0105,Child leaving home,2025-11-02,low,True,False,214
+E0315,C0105,Business sale,2020-11-23,high,True,False,2019
+E0316,C0106,Property purchase,2026-03-29,medium,True,True,67
+E0317,C0106,Business start,2019-03-03,medium,True,True,2650
+E0318,C0106,Marriage,2017-08-21,medium,True,True,3209
+E0319,C0107,Bereavement,2020-10-15,high,True,True,2058
+E0320,C0107,Inheritance received,2024-10-13,high,True,True,599
+E0321,C0108,Property purchase,2023-01-17,medium,True,True,1234
+E0322,C0108,Business start,2026-02-03,medium,True,False,121
+E0323,C0109,Child leaving home,2019-10-17,low,True,False,2422
+E0324,C0109,Job change,2020-05-23,medium,True,True,2203
+E0325,C0109,Job change,2020-02-09,medium,True,True,2307
+E0326,C0109,Bereavement,2019-05-21,high,False,False,2571
+E0327,C0110,New child / dependent,2025-08-11,medium,True,True,297
+E0328,C0110,Retirement,2023-10-06,high,True,True,972
+E0329,C0110,Bereavement,2025-03-17,high,False,False,444
+E0330,C0111,Bereavement,2025-03-28,high,True,True,433
+E0331,C0111,Health event,2024-08-03,high,True,True,670
+E0332,C0111,Business sale,2023-12-20,high,True,True,897
+E0333,C0111,New child / dependent,2023-04-14,medium,True,True,1147
+E0334,C0112,Inheritance received,2025-09-19,high,True,True,258
+E0335,C0112,Job change,2005-04-09,medium,True,True,7726
+E0336,C0112,Divorce,2008-01-14,high,True,True,6716
+E0337,C0112,Bereavement,2015-12-11,high,True,True,3828
+E0338,C0113,Bereavement,2017-04-27,high,True,True,3325
+E0339,C0113,Inheritance received,2010-06-10,high,True,True,5838
+E0340,C0113,New child / dependent,2009-01-20,medium,True,True,6344
+E0341,C0113,Property purchase,2010-12-29,medium,True,True,5636
+E0342,C0114,Business sale,2026-04-20,high,False,False,45
+E0343,C0114,Business sale,2015-08-07,high,True,True,3954
+E0344,C0114,Property purchase,2022-10-09,medium,True,True,1334
+E0345,C0114,Retirement,2021-02-03,high,True,True,1947
+E0346,C0115,Marriage,2011-09-12,medium,True,False,5379
+E0347,C0116,Property purchase,2026-05-19,medium,True,True,16
+E0348,C0116,Property purchase,2024-11-22,medium,False,False,559
+E0349,C0117,New child / dependent,2025-11-13,medium,True,True,203
+E0350,C0117,Business sale,2026-03-16,high,True,False,80
+E0351,C0117,Property purchase,2025-04-05,medium,True,True,425
+E0352,C0117,Property purchase,2025-07-07,medium,False,False,332
+E0353,C0117,Job change,2026-04-02,medium,True,True,63
+E0354,C0118,Retirement,2014-09-16,high,False,False,4279
+E0355,C0118,Marriage,2010-07-03,medium,True,True,5815
+E0356,C0118,Property purchase,2018-02-26,medium,True,True,3020
+E0357,C0118,Property purchase,2019-12-26,medium,True,False,2352
+E0358,C0119,Business start,2025-12-06,medium,True,True,180
+E0359,C0120,Property purchase,2026-02-23,medium,True,False,101
+E0360,C0121,Child leaving home,2010-03-06,low,True,True,5934
+E0361,C0121,Job change,2018-01-02,medium,True,True,3075
+E0362,C0121,Bereavement,2009-07-29,high,True,False,6154
+E0363,C0121,Property purchase,2011-06-23,medium,True,True,5460
+E0364,C0122,Inheritance received,2024-04-06,high,True,True,789
+E0365,C0122,Inheritance received,2020-11-16,high,True,True,2026
+E0366,C0123,Marriage,2026-03-17,medium,True,True,79
+E0367,C0123,Marriage,2026-03-19,medium,True,True,77
+E0368,C0123,New child / dependent,2025-03-05,medium,True,True,456
+E0369,C0123,New child / dependent,2026-02-18,medium,True,True,106
+E0370,C0124,New child / dependent,2021-12-10,medium,True,True,1637
+E0371,C0124,Property purchase,2022-05-17,medium,False,False,1479
+E0372,C0124,Job change,2024-03-26,medium,False,False,800
+E0373,C0124,Business sale,2026-04-20,high,True,False,45
+E0374,C0125,Job change,2016-07-18,medium,True,True,3608
+E0375,C0125,Business sale,2019-07-11,high,False,False,2520
+E0376,C0125,Bereavement,2023-03-18,high,True,True,1174
+E0377,C0126,Divorce,2026-03-09,high,True,True,87
+E0378,C0126,Health event,2026-05-12,high,True,True,23
+E0379,C0126,New child / dependent,2025-09-10,medium,True,True,267
+E0380,C0126,Property purchase,2026-01-07,medium,False,False,148
+E0381,C0127,Property purchase,2025-09-02,medium,True,True,275
+E0382,C0127,Divorce,2025-11-07,high,True,True,209
+E0383,C0127,Child leaving home,2024-09-25,low,True,True,617
+E0384,C0127,Business start,2026-05-14,medium,True,False,21
+E0385,C0128,Child leaving home,2023-12-24,low,False,False,893
+E0386,C0128,Retirement,2025-07-12,high,False,False,327
+E0387,C0128,Job change,2024-04-05,medium,True,True,790
+E0388,C0128,Marriage,2025-01-02,medium,False,False,518
+E0389,C0129,Property purchase,2018-11-17,medium,False,False,2756
+E0390,C0129,Business sale,2011-07-18,high,False,False,5435
+E0391,C0129,Property purchase,2021-08-04,medium,True,True,1765
+E0392,C0129,Marriage,2018-11-11,medium,True,False,2762
+E0393,C0129,Retirement,2009-01-02,high,True,True,6362
+E0394,C0130,Retirement,2025-07-30,high,False,False,309
+E0395,C0130,New child / dependent,2024-12-18,medium,False,False,533
+E0396,C0131,Retirement,2024-09-26,high,False,False,616
+E0397,C0131,Inheritance received,2025-06-01,high,True,False,368
+E0398,C0131,Bereavement,2025-12-11,high,True,True,175
+E0399,C0131,Business sale,2026-02-23,high,True,True,101
+E0400,C0131,Child leaving home,2024-12-26,low,True,False,525
+E0401,C0133,Job change,2013-03-11,medium,False,False,4833
+E0402,C0133,Bereavement,2016-12-04,high,False,False,3469
+E0403,C0133,Property purchase,2006-07-29,medium,True,True,7250
+E0404,C0134,Business start,2026-01-31,medium,False,False,124
+E0405,C0134,Job change,2026-04-26,medium,True,True,39
+E0406,C0134,Business sale,2026-04-30,high,False,False,35
+E0407,C0134,Retirement,2024-09-19,high,False,False,623
+E0408,C0135,Child leaving home,2020-06-21,low,True,True,2174
+E0409,C0135,Marriage,2025-12-02,medium,True,True,184
+E0410,C0135,Health event,2025-07-27,high,False,False,312
+E0411,C0135,Retirement,2020-12-02,high,True,True,2010
+E0412,C0136,Bereavement,2015-05-29,high,True,True,4024
+E0413,C0136,Job change,2015-11-08,medium,True,True,3861
+E0414,C0136,Child leaving home,2021-05-21,low,False,False,1840
+E0415,C0136,Marriage,2008-05-10,medium,True,True,6599
+E0416,C0136,Job change,2014-08-13,medium,True,False,4313
+E0417,C0137,Marriage,2022-04-28,medium,True,True,1498
+E0418,C0137,Job change,2025-05-21,medium,True,True,379
+E0419,C0137,Bereavement,2018-02-07,high,False,False,3039
+E0420,C0138,Bereavement,2024-01-09,high,True,True,877
+E0421,C0138,Bereavement,2026-03-20,high,True,True,76
+E0422,C0138,New child / dependent,2024-12-06,medium,False,False,545
+E0423,C0139,Property purchase,2022-06-08,medium,False,False,1457
+E0424,C0139,Marriage,2023-08-18,medium,True,True,1021
+E0425,C0139,Health event,2023-02-06,high,False,False,1214
+E0426,C0139,Property purchase,2026-04-07,medium,True,False,58
+E0427,C0140,Property purchase,2010-12-12,medium,True,False,5653
+E0428,C0140,Bereavement,2002-09-05,high,True,True,8673
+E0429,C0140,New child / dependent,2013-06-03,medium,True,True,4749
+E0430,C0140,New child / dependent,2018-10-19,medium,False,False,2785
+E0431,C0141,Health event,2026-03-08,high,True,False,88
+E0432,C0141,Business sale,2025-11-24,high,False,False,192
+E0433,C0141,Health event,2026-04-25,high,True,False,40
+E0434,C0141,Health event,2025-12-25,high,True,True,161
+E0435,C0142,Property purchase,2025-10-04,medium,False,False,243
+E0436,C0142,Health event,2020-02-01,high,True,False,2315
+E0437,C0143,Property purchase,2026-02-24,medium,True,False,100
+E0438,C0143,Divorce,2023-05-06,high,True,True,1125
+E0439,C0143,Business start,2025-09-15,medium,True,False,262
+E0440,C0144,Child leaving home,2023-10-10,low,True,False,968
+E0441,C0144,Health event,2025-09-24,high,False,False,253
+E0442,C0144,Health event,2025-03-20,high,True,True,441
+E0443,C0144,Property purchase,2025-07-17,medium,True,False,322
+E0444,C0145,Job change,2004-08-15,medium,True,True,7963
+E0445,C0145,Marriage,2017-02-16,medium,True,True,3395
+E0446,C0145,Business sale,2009-08-08,high,True,False,6144
+E0447,C0146,Job change,2022-10-03,medium,True,True,1340
+E0448,C0146,Marriage,2017-04-28,medium,True,True,3324
+E0449,C0147,New child / dependent,2021-01-02,medium,True,False,1979
+E0450,C0147,Child leaving home,2010-09-01,low,True,False,5755
+E0451,C0147,Retirement,2009-03-17,high,True,False,6288
+E0452,C0147,New child / dependent,2024-02-06,medium,False,False,849
+E0453,C0147,Business start,2021-08-04,medium,True,True,1765
+E0454,C0148,New child / dependent,2023-06-01,medium,True,True,1099
+E0455,C0148,Retirement,2023-01-18,high,True,True,1233
+E0456,C0148,Retirement,2024-07-10,high,False,False,694
+E0457,C0149,Bereavement,2025-10-16,high,True,True,231
+E0458,C0149,Retirement,2024-02-07,high,True,False,848
+E0459,C0150,Business start,2024-06-11,medium,True,True,723
+E0460,C0150,Child leaving home,2021-05-30,low,True,True,1831
+E0461,C0150,Job change,2025-08-16,medium,False,False,292

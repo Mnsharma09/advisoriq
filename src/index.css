@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+@layer base {
+  :root {
+    --background: 220 20% 97%;
+    --foreground: 220 20% 8%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 8%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 8%;
+    --primary: 215 65% 38%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 14% 93%;
+    --secondary-foreground: 220 20% 20%;
+    --muted: 220 14% 93%;
+    --muted-foreground: 220 10% 48%;
+    --accent: 220 14% 90%;
+    --accent-foreground: 220 20% 8%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 13% 88%;
+    --input: 220 13% 88%;
+    --ring: 215 65% 38%;
+    --chart-1: 215 65% 38%;
+    --chart-2: 160 55% 38%;
+    --chart-3: 30 80% 48%;
+    --chart-4: 0 65% 52%;
+    --chart-5: 35 75% 50%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+    --card: 222 47% 14%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 47% 14%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 215 65% 55%;
+    --primary-foreground: 222 47% 11%;
+    --secondary: 217 33% 20%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 33% 20%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 217 33% 20%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 63% 50%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217 33% 25%;
+    --input: 217 33% 25%;
+    --ring: 215 65% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    min-width: 1280px;
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 2px;
+  }
+}
+
+/* ── Print stylesheet for Client Summary ─────────────────────────────────── */
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body {
+    font-size: 12px;
+    line-height: 1.5;
+    color: #111827;
+    background: white !important;
+  }
+
+  /* Hide interactive chrome */
+  .print\:hidden {
+    display: none !important;
+  }
+
+  /* Force page breaks between major sections */
+  section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Ensure links don't show URLs */
+  a[href]::after {
+    content: none !important;
+  }
+
+  /* Recharts: ensure SVG prints */
+  svg {
+    overflow: visible !important;
+  }
+
+  @page {
+    margin: 16mm 14mm;
+    size: A4 portrait;
+  }
+}

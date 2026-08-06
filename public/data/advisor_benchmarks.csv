@@ -1,0 +1,12 @@
+metric_name,peer_average,top_quartile,bottom_quartile,source,last_updated
+avg_monthly_contacts_per_client,1.4,1.89,0.91,Industry benchmark — Capgemini / Cerulli 2024,2024-12-01
+avg_response_rate,0.72,0.972,0.468,Industry benchmark — Capgemini / Cerulli 2024,2024-12-01
+avg_commitment_fulfillment_rate,0.81,1.094,0.527,Industry benchmark — Capgemini / Cerulli 2024,2024-12-01
+avg_meeting_duration_mins,42,56.7,27.3,Industry benchmark — Capgemini / Cerulli 2024,2024-12-01
+top_quartile_contact_freq,2.1,2.835,1.365,Industry benchmark — Capgemini / Cerulli 2024,2024-12-01
+bottom_quartile_contact_freq,0.7,0.945,0.455,Industry benchmark — Capgemini / Cerulli 2024,2024-12-01
+avg_days_between_reviews,92,124.2,59.8,Industry benchmark — Capgemini / Cerulli 2024,2024-12-01
+avg_products_per_tier1_client,6.2,8.37,4.03,Industry benchmark — Capgemini / Cerulli 2024,2024-12-01
+avg_products_per_tier2_client,4.1,5.535,2.665,Industry benchmark — Capgemini / Cerulli 2024,2024-12-01
+avg_products_per_tier3_client,2.8,3.78,1.82,Industry benchmark — Capgemini / Cerulli 2024,2024-12-01
+avg_products_per_tier4_client,1.9,2.565,1.235,Industry benchmark — Capgemini / Cerulli 2024,2024-12-01

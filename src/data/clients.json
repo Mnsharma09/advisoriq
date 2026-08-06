@@ -1,0 +1,1184 @@
+[
+  {
+    "id": "client-001",
+    "name": "Sarah Chen",
+    "age": 42,
+    "employment": "VP of Product, TechFlow Inc. (Fintech Startup)",
+    "riskProfile": "Aggressive",
+    "aum": 418000,
+    "lastContact": "2026-04-06",
+    "birthday": "1983-11-20",
+    "clientSince": "2022-03-01",
+    "lastRebalanced": "2026-02-10",
+    "oneYearReturn": 14.1,
+    "benchmarkReturn": 9.8,
+    "personalitySummary": "Fast-moving, execution-focused, and comfortable with risk. Sarah joined TechFlow from Stripe 18 months ago and left behind a $183K 401(k) she still hasn't rolled over. She's building aggressively toward financial independence at 52 and is bullish on her company's equity. Expects her advisor to flag issues proactively without overwhelming her with detail.",
+    "communicationPreferences": "Slack first, email for documents. Available on weekday evenings. Monthly brief updates, quarterly deep dives. No phone calls during market hours.",
+    "keyConcerns": "Unrolled $183K 401(k) from Stripe sitting idle — losing tax-deferred growth compounding. Fixed income has crept up to 22% vs 15% target due to Q1 volatility. Startup equity represents ~60% of estimated total net worth. Building toward financial independence at 52.",
+    "familyMembers": [
+      { "relationship": "Partner", "name": "Mark Huang", "age": 44, "note": "UX designer at a Series B startup" }
+    ],
+    "lifeEvents": [
+      { "date": "2024-10-01", "description": "Joined TechFlow Inc. as VP of Product — left $183,000 in Stripe 401(k) plan, rollover still pending" }
+    ],
+    "upcomingMeetings": [
+      { "id": "mtg-001", "date": "2026-05-01", "time": "4:00 PM", "purpose": "401(k) Rollover Completion & Portfolio Rebalancing Review" }
+    ],
+    "allocation": [
+      { "assetClass": "US Equity", "target": 65, "current": 65 },
+      { "assetClass": "International Equity", "target": 15, "current": 13 },
+      { "assetClass": "Fixed Income", "target": 15, "current": 22 },
+      { "assetClass": "Cash", "target": 5, "current": 0 }
+    ],
+    "performanceData": [
+      { "month": "May 2025", "portfolio": 100, "benchmark": 100 },
+      { "month": "Jun 2025", "portfolio": 102.5, "benchmark": 101.2 },
+      { "month": "Jul 2025", "portfolio": 105.8, "benchmark": 103.5 },
+      { "month": "Aug 2025", "portfolio": 103.4, "benchmark": 102.1 },
+      { "month": "Sep 2025", "portfolio": 107.2, "benchmark": 104.4 },
+      { "month": "Oct 2025", "portfolio": 109.1, "benchmark": 106.0 },
+      { "month": "Nov 2025", "portfolio": 112.6, "benchmark": 108.2 },
+      { "month": "Dec 2025", "portfolio": 110.8, "benchmark": 107.5 },
+      { "month": "Jan 2026", "portfolio": 113.7, "benchmark": 109.1 },
+      { "month": "Feb 2026", "portfolio": 112.4, "benchmark": 108.9 },
+      { "month": "Mar 2026", "portfolio": 115.3, "benchmark": 110.2 },
+      { "month": "Apr 2026", "portfolio": 114.1, "benchmark": 110.8 }
+    ],
+    "goals": [
+      {
+        "id": "goal-001-1",
+        "type": "Retirement",
+        "name": "Financial Independence at 52",
+        "targetAmount": 3000000,
+        "targetDate": "2037-11-01",
+        "currentAmount": 418000,
+        "monthlyContribution": 5000,
+        "onTrack": false
+      },
+      {
+        "id": "goal-001-2",
+        "type": "Emergency Fund",
+        "name": "Roll Over Stripe 401(k) to IRA",
+        "targetAmount": 183000,
+        "targetDate": "2026-06-01",
+        "currentAmount": 0,
+        "monthlyContribution": 0,
+        "onTrack": false
+      },
+      {
+        "id": "goal-001-3",
+        "type": "Emergency Fund",
+        "name": "6-Month Emergency Fund",
+        "targetAmount": 50000,
+        "targetDate": "2026-12-01",
+        "currentAmount": 40000,
+        "monthlyContribution": 2000,
+        "onTrack": true
+      },
+      {
+        "id": "goal-001-4",
+        "type": "Home Purchase",
+        "name": "Condo Down Payment",
+        "targetAmount": 150000,
+        "targetDate": "2028-06-01",
+        "currentAmount": 28000,
+        "monthlyContribution": 2500,
+        "onTrack": false
+      }
+    ],
+    "history": [
+      {
+        "id": "hist-001-1",
+        "date": "2026-04-06",
+        "type": "call",
+        "summary": "Q1 portfolio review. Discussed significant fixed income drift — now 22% vs 15% target following Q1 tech volatility. Flagged $183K Stripe 401(k) rollover still outstanding 18 months after job change. Sarah confirmed she wants to consolidate into a self-directed IRA before May meeting.",
+        "actionItems": [
+          { "id": "ai-001-1", "description": "Initiate $183,000 401(k) rollover from Stripe — submit transfer paperwork to Fidelity IRA", "assignedTo": "FA", "dueDate": "2026-03-15", "completed": false }
+        ]
+      },
+      {
+        "id": "hist-001-2",
+        "date": "2025-12-10",
+        "type": "meeting",
+        "summary": "Year-end review. Reviewed strong 2025 performance at +14.1% vs benchmark +9.8%. Discussed tax-loss harvesting opportunities in international equity sleeve. Set aggressive contribution targets for 2026.",
+        "actionItems": [
+          { "id": "ai-001-2", "description": "Execute tax-loss harvest on international equity positions before year-end", "assignedTo": "FA", "dueDate": "2025-12-28", "completed": true },
+          { "id": "ai-001-3", "description": "Set up automatic $5,000/month transfer to investment account starting January", "assignedTo": "Client", "dueDate": "2026-01-05", "completed": true }
+        ]
+      }
+    ],
+    "aiSuggestions": []
+  },
+  {
+    "id": "client-002",
+    "name": "Marcus Rivera",
+    "age": 45,
+    "employment": "Owner, Rivera Construction LLC",
+    "riskProfile": "Aggressive",
+    "aum": 920000,
+    "lastContact": "2026-03-25",
+    "birthday": "1979-11-28",
+    "clientSince": "2020-01-15",
+    "lastRebalanced": "2025-05-15",
+    "oneYearReturn": 14.8,
+    "benchmarkReturn": 10.8,
+    "personalitySummary": "Entrepreneurial, high-energy, and opportunity-focused. Marcus is growth-oriented and willing to take calculated risks. He trusts his gut and values relationships. Appreciates directness and hates being over-managed.",
+    "communicationPreferences": "Prefers brief phone calls over email. Wants updates when something material happens. Quarterly in-person over lunch. Dislikes long reports.",
+    "keyConcerns": "Business succession planning. Lack of diversification outside his business. Wants to grow portfolio aggressively to retire by 55.",
+    "familyMembers": [
+      { "relationship": "Spouse", "name": "Carmen Rivera", "age": 43, "note": "School principal" },
+      { "relationship": "Son", "name": "Diego Rivera", "age": 16 },
+      { "relationship": "Daughter", "name": "Sofia Rivera", "age": 13 }
+    ],
+    "lifeEvents": [
+      { "date": "2025-03-01", "description": "Business reached $5M annual revenue milestone" }
+    ],
+    "upcomingMeetings": [
+      { "id": "mtg-002", "date": "2026-05-08", "time": "12:00 PM", "purpose": "Business Succession & Q2 Review (Lunch)" }
+    ],
+    "allocation": [
+      { "assetClass": "US Equity", "target": 65, "current": 71 },
+      { "assetClass": "International Equity", "target": 15, "current": 12 },
+      { "assetClass": "Fixed Income", "target": 10, "current": 8 },
+      { "assetClass": "Alternatives", "target": 8, "current": 7 },
+      { "assetClass": "Cash", "target": 2, "current": 2 }
+    ],
+    "performanceData": [
+      { "month": "May 2025", "portfolio": 100, "benchmark": 100 },
+      { "month": "Jun 2025", "portfolio": 103.1, "benchmark": 101.2 },
+      { "month": "Jul 2025", "portfolio": 107.4, "benchmark": 103.5 },
+      { "month": "Aug 2025", "portfolio": 105.2, "benchmark": 102.1 },
+      { "month": "Sep 2025", "portfolio": 109.8, "benchmark": 104.4 },
+      { "month": "Oct 2025", "portfolio": 112.3, "benchmark": 106.0 },
+      { "month": "Nov 2025", "portfolio": 115.7, "benchmark": 108.2 },
+      { "month": "Dec 2025", "portfolio": 113.9, "benchmark": 107.5 },
+      { "month": "Jan 2026", "portfolio": 117.2, "benchmark": 109.1 },
+      { "month": "Feb 2026", "portfolio": 116.5, "benchmark": 108.9 },
+      { "month": "Mar 2026", "portfolio": 120.1, "benchmark": 110.2 },
+      { "month": "Apr 2026", "portfolio": 121.8, "benchmark": 110.8 }
+    ],
+    "goals": [
+      {
+        "id": "goal-002-1",
+        "type": "Retirement",
+        "name": "Retire at 55",
+        "targetAmount": 3000000,
+        "targetDate": "2034-11-01",
+        "currentAmount": 920000,
+        "monthlyContribution": 8000,
+        "onTrack": true
+      },
+      {
+        "id": "goal-002-2",
+        "type": "College Fund",
+        "name": "Diego & Sofia College Fund",
+        "targetAmount": 200000,
+        "targetDate": "2027-08-01",
+        "currentAmount": 92000,
+        "monthlyContribution": 2500,
+        "onTrack": false
+      },
+      {
+        "id": "goal-002-3",
+        "type": "Business Sale",
+        "name": "Business Exit Planning",
+        "targetAmount": 2000000,
+        "targetDate": "2034-01-01",
+        "currentAmount": 0,
+        "monthlyContribution": 0,
+        "onTrack": false
+      }
+    ],
+    "history": [
+      {
+        "id": "hist-002-1",
+        "date": "2025-08-20",
+        "type": "call",
+        "summary": "Discussed strong portfolio performance YTD. Marcus mentioned considering buying a commercial property. Flagged need to update college fund contributions.",
+        "actionItems": [
+          { "id": "ai-002-1", "description": "Analyze commercial property purchase impact on overall financial plan", "assignedTo": "FA", "dueDate": "2025-09-05", "completed": true },
+          { "id": "ai-002-2", "description": "Increase college fund contribution to $3,000/month", "assignedTo": "Client", "dueDate": "2025-09-01", "completed": false }
+        ]
+      },
+      {
+        "id": "hist-002-2",
+        "date": "2025-05-14",
+        "type": "meeting",
+        "summary": "Annual review lunch. Rebalanced portfolio. Discussed aggressive growth allocation vs. risk management. Started conversation on business succession planning.",
+        "actionItems": [
+          { "id": "ai-002-3", "description": "Introduce Marcus to business valuation attorney", "assignedTo": "FA", "dueDate": "2025-06-01", "completed": false }
+        ]
+      }
+    ],
+    "aiSuggestions": []
+  },
+  {
+    "id": "client-003",
+    "name": "The Patel Family",
+    "age": 58,
+    "employment": "Retired CEO / Consulting (Raj Patel)",
+    "riskProfile": "Conservative",
+    "aum": 3200000,
+    "lastContact": "2026-03-05",
+    "birthday": "1966-05-22",
+    "clientSince": "2015-03-01",
+    "lastRebalanced": "2025-06-20",
+    "oneYearReturn": 7.4,
+    "benchmarkReturn": 10.8,
+    "personalitySummary": "Meticulous and preservation-focused. Raj and Sunita are primarily concerned with capital preservation and legacy planning. They are deeply family-oriented and want to ensure their children's financial security. They value long-term relationships over short-term performance.",
+    "communicationPreferences": "Both spouses attend all meetings. Written summaries after every interaction. Quarterly formal review. Prefer to consult with their attorney (Mark Levin) before major decisions.",
+    "keyConcerns": "Underperformance vs benchmark over past 12 months. Estate planning and trust structure for three children. Long-term care insurance review due. RMD planning for Raj's 401(k) starting next year.",
+    "familyMembers": [
+      { "relationship": "Spouse", "name": "Sunita Patel", "age": 56, "note": "Co-owner of portfolio; involved in all decisions" },
+      { "relationship": "Son", "name": "Arjun Patel", "age": 32, "note": "Attorney in New York" },
+      { "relationship": "Daughter", "name": "Priyanka Patel", "age": 29, "note": "Doctor, starting her own practice" },
+      { "relationship": "Son", "name": "Vikram Patel", "age": 26, "note": "MBA student at Wharton" }
+    ],
+    "lifeEvents": [
+      { "date": "2025-01-15", "description": "Raj officially retired from CEO role; consulting contract began" },
+      { "date": "2025-06-10", "description": "Updated estate plan with attorney; trusts funded" }
+    ],
+    "upcomingMeetings": [
+      { "id": "mtg-003", "date": "2026-05-15", "time": "2:00 PM", "purpose": "RMD Planning & Estate Review with Mark Levin (Attorney)" }
+    ],
+    "allocation": [
+      { "assetClass": "US Equity", "target": 30, "current": 28 },
+      { "assetClass": "International Equity", "target": 10, "current": 9 },
+      { "assetClass": "Fixed Income", "target": 45, "current": 47 },
+      { "assetClass": "Alternatives", "target": 10, "current": 11 },
+      { "assetClass": "Cash", "target": 5, "current": 5 }
+    ],
+    "performanceData": [
+      { "month": "May 2025", "portfolio": 100, "benchmark": 100 },
+      { "month": "Jun 2025", "portfolio": 100.8, "benchmark": 101.2 },
+      { "month": "Jul 2025", "portfolio": 102.1, "benchmark": 103.5 },
+      { "month": "Aug 2025", "portfolio": 101.5, "benchmark": 102.1 },
+      { "month": "Sep 2025", "portfolio": 103.2, "benchmark": 104.4 },
+      { "month": "Oct 2025", "portfolio": 104.4, "benchmark": 106.0 },
+      { "month": "Nov 2025", "portfolio": 105.9, "benchmark": 108.2 },
+      { "month": "Dec 2025", "portfolio": 105.3, "benchmark": 107.5 },
+      { "month": "Jan 2026", "portfolio": 106.8, "benchmark": 109.1 },
+      { "month": "Feb 2026", "portfolio": 106.2, "benchmark": 108.9 },
+      { "month": "Mar 2026", "portfolio": 107.1, "benchmark": 110.2 },
+      { "month": "Apr 2026", "portfolio": 107.6, "benchmark": 110.8 }
+    ],
+    "goals": [
+      {
+        "id": "goal-003-1",
+        "type": "Retirement",
+        "name": "Comfortable Retirement",
+        "targetAmount": 5000000,
+        "targetDate": "2030-01-01",
+        "currentAmount": 3200000,
+        "monthlyContribution": 5000,
+        "onTrack": true
+      },
+      {
+        "id": "goal-003-2",
+        "type": "Emergency Fund",
+        "name": "Family Legacy Fund",
+        "targetAmount": 500000,
+        "targetDate": "2030-01-01",
+        "currentAmount": 380000,
+        "monthlyContribution": 2000,
+        "onTrack": true
+      }
+    ],
+    "history": [
+      {
+        "id": "hist-003-1",
+        "date": "2025-07-10",
+        "type": "meeting",
+        "summary": "Reviewed H1 performance. Discussed underperformance vs benchmark and conservative allocation rationale. Started LTC insurance analysis.",
+        "actionItems": [
+          { "id": "ai-003-1", "description": "Obtain LTC insurance quotes from 3 carriers", "assignedTo": "FA", "dueDate": "2025-08-01", "completed": true },
+          { "id": "ai-003-2", "description": "Prepare RMD projection analysis for 2026", "assignedTo": "FA", "dueDate": "2025-09-01", "completed": false }
+        ]
+      },
+      {
+        "id": "hist-003-2",
+        "date": "2025-04-05",
+        "type": "meeting",
+        "summary": "Q1 review with estate attorney. Discussed trust funding strategy and charitable giving goals.",
+        "actionItems": [
+          { "id": "ai-003-3", "description": "Fund irrevocable trust with $200,000 per plan", "assignedTo": "Client", "dueDate": "2025-05-01", "completed": true }
+        ]
+      },
+      {
+        "id": "hist-003-3",
+        "date": "2025-01-20",
+        "type": "meeting",
+        "summary": "Annual review and retirement income planning. Raj shared retirement news. Updated financial plan for consulting income phase.",
+        "actionItems": [
+          { "id": "ai-003-4", "description": "Update financial plan for retirement transition", "assignedTo": "FA", "dueDate": "2025-02-15", "completed": true }
+        ]
+      }
+    ],
+    "aiSuggestions": []
+  },
+  {
+    "id": "client-004",
+    "name": "James & Dorothy Whitfield",
+    "age": 71,
+    "employment": "Retired (Former Judge & School Administrator)",
+    "riskProfile": "Conservative",
+    "aum": 2100000,
+    "lastContact": "2026-03-15",
+    "birthday": "1953-08-04",
+    "clientSince": "2010-09-01",
+    "lastRebalanced": "2024-11-01",
+    "oneYearReturn": 6.1,
+    "benchmarkReturn": 10.8,
+    "personalitySummary": "Patient and methodical. The Whitfields are long-term clients who trust the process. James is the primary decision-maker but defers to Dorothy on charitable giving priorities. They are highly philanthropic and community-oriented.",
+    "communicationPreferences": "Formal written letters or emails. In-person meetings preferred over phone. Never contact after 5pm. Involve their son Phillip in major decisions.",
+    "keyConcerns": "Mandatory RMDs are now triggering significant tax liability. Charitable giving strategy needs updating. Long-term care plan in place but portfolio drawdown plan not formalized. Have not been contacted in over 100 days.",
+    "familyMembers": [
+      { "relationship": "Spouse", "name": "Dorothy Whitfield", "age": 68 },
+      { "relationship": "Son", "name": "Phillip Whitfield", "age": 45, "note": "CPA in Atlanta — involved in financial decisions" }
+    ],
+    "lifeEvents": [
+      { "date": "2024-08-01", "description": "James turned 71; RMDs now mandatory from IRA" },
+      { "date": "2025-02-14", "description": "55th wedding anniversary" }
+    ],
+    "upcomingMeetings": [],
+    "allocation": [
+      { "assetClass": "US Equity", "target": 25, "current": 24 },
+      { "assetClass": "International Equity", "target": 5, "current": 5 },
+      { "assetClass": "Fixed Income", "target": 55, "current": 57 },
+      { "assetClass": "Alternatives", "target": 5, "current": 4 },
+      { "assetClass": "Cash", "target": 10, "current": 10 }
+    ],
+    "performanceData": [
+      { "month": "May 2025", "portfolio": 100, "benchmark": 100 },
+      { "month": "Jun 2025", "portfolio": 100.5, "benchmark": 101.2 },
+      { "month": "Jul 2025", "portfolio": 101.4, "benchmark": 103.5 },
+      { "month": "Aug 2025", "portfolio": 100.9, "benchmark": 102.1 },
+      { "month": "Sep 2025", "portfolio": 102.1, "benchmark": 104.4 },
+      { "month": "Oct 2025", "portfolio": 103.0, "benchmark": 106.0 },
+      { "month": "Nov 2025", "portfolio": 104.2, "benchmark": 108.2 },
+      { "month": "Dec 2025", "portfolio": 103.8, "benchmark": 107.5 },
+      { "month": "Jan 2026", "portfolio": 104.9, "benchmark": 109.1 },
+      { "month": "Feb 2026", "portfolio": 104.5, "benchmark": 108.9 },
+      { "month": "Mar 2026", "portfolio": 105.3, "benchmark": 110.2 },
+      { "month": "Apr 2026", "portfolio": 105.9, "benchmark": 110.8 }
+    ],
+    "goals": [
+      {
+        "id": "goal-004-1",
+        "type": "Retirement",
+        "name": "Retirement Income",
+        "targetAmount": 120000,
+        "targetDate": "2026-12-31",
+        "currentAmount": 2100000,
+        "monthlyContribution": -8500,
+        "onTrack": true
+      },
+      {
+        "id": "goal-004-2",
+        "type": "Emergency Fund",
+        "name": "Charitable Giving Reserve",
+        "targetAmount": 150000,
+        "targetDate": "2028-01-01",
+        "currentAmount": 95000,
+        "monthlyContribution": 1500,
+        "onTrack": false
+      }
+    ],
+    "history": [
+      {
+        "id": "hist-004-1",
+        "date": "2025-01-12",
+        "type": "meeting",
+        "summary": "Annual review. Discussed RMD strategy, QCD opportunities for 2025. Reviewed portfolio performance.",
+        "actionItems": [
+          { "id": "ai-004-1", "description": "Execute $50,000 QCD to First Presbyterian Church", "assignedTo": "FA", "dueDate": "2025-02-01", "completed": true },
+          { "id": "ai-004-2", "description": "Prepare formal portfolio drawdown plan document", "assignedTo": "FA", "dueDate": "2025-03-01", "completed": false },
+          { "id": "ai-004-3", "description": "Schedule mid-year check-in for June 2025", "assignedTo": "FA", "dueDate": "2025-05-01", "completed": false }
+        ]
+      },
+      {
+        "id": "hist-004-2",
+        "date": "2024-10-08",
+        "type": "meeting",
+        "summary": "Q3 review. Discussed RMD planning for 2025. Reviewed LTC insurance adequacy.",
+        "actionItems": [
+          { "id": "ai-004-4", "description": "Verify LTC insurance premium payment and coverage review", "assignedTo": "FA", "dueDate": "2024-11-01", "completed": true }
+        ]
+      }
+    ],
+    "aiSuggestions": []
+  },
+  {
+    "id": "client-005",
+    "name": "Linda Okafor",
+    "age": 38,
+    "employment": "Partner, Morrison & Okafor LLP (Law Firm)",
+    "riskProfile": "Aggressive",
+    "aum": 680000,
+    "lastContact": "2026-04-09",
+    "birthday": "1988-02-19",
+    "clientSince": "2021-07-01",
+    "lastRebalanced": "2025-10-15",
+    "oneYearReturn": 16.2,
+    "benchmarkReturn": 10.8,
+    "personalitySummary": "Sharp, decisive, and ambitious. Linda is a high earner with aggressive savings habits. She thinks in terms of optionality and hedge her bets strategically. She wants to understand every recommendation and pushes back when she disagrees.",
+    "communicationPreferences": "Prefers text message for quick updates; email for formal matters. Only available 7–9am or after 7pm. Quarterly reviews are sufficient unless markets move significantly.",
+    "keyConcerns": "Maximizing tax efficiency on high W2 + partnership income. Building real estate exposure in addition to financial portfolio. Student loan payoff vs. investing trade-off for younger sibling she sponsors.",
+    "familyMembers": [
+      { "relationship": "Partner", "name": "James Okafor", "age": 40, "note": "Software engineer; has separate accounts" },
+      { "relationship": "Brother", "name": "Chukwu Okafor", "age": 27, "note": "Sponsored by Linda; student loans being paid off" }
+    ],
+    "lifeEvents": [
+      { "date": "2025-09-01", "description": "Became equity partner at law firm; income increased to $480,000/year" }
+    ],
+    "upcomingMeetings": [
+      { "id": "mtg-005", "date": "2026-05-02", "time": "8:00 AM", "purpose": "Partnership Income Tax Strategy & Real Estate Discussion" }
+    ],
+    "allocation": [
+      { "assetClass": "US Equity", "target": 70, "current": 73 },
+      { "assetClass": "International Equity", "target": 15, "current": 14 },
+      { "assetClass": "Fixed Income", "target": 5, "current": 4 },
+      { "assetClass": "Alternatives", "target": 8, "current": 7 },
+      { "assetClass": "Cash", "target": 2, "current": 2 }
+    ],
+    "performanceData": [
+      { "month": "May 2025", "portfolio": 100, "benchmark": 100 },
+      { "month": "Jun 2025", "portfolio": 103.8, "benchmark": 101.2 },
+      { "month": "Jul 2025", "portfolio": 108.1, "benchmark": 103.5 },
+      { "month": "Aug 2025", "portfolio": 105.9, "benchmark": 102.1 },
+      { "month": "Sep 2025", "portfolio": 110.4, "benchmark": 104.4 },
+      { "month": "Nov 2025", "portfolio": 118.7, "benchmark": 108.2 },
+      { "month": "Oct 2025", "portfolio": 114.2, "benchmark": 106.0 },
+      { "month": "Dec 2025", "portfolio": 116.8, "benchmark": 107.5 },
+      { "month": "Jan 2026", "portfolio": 120.5, "benchmark": 109.1 },
+      { "month": "Feb 2026", "portfolio": 119.2, "benchmark": 108.9 },
+      { "month": "Mar 2026", "portfolio": 123.7, "benchmark": 110.2 },
+      { "month": "Apr 2026", "portfolio": 125.8, "benchmark": 110.8 }
+    ],
+    "goals": [
+      {
+        "id": "goal-005-1",
+        "type": "Retirement",
+        "name": "Retire at 55 with $5M",
+        "targetAmount": 5000000,
+        "targetDate": "2043-02-01",
+        "currentAmount": 680000,
+        "monthlyContribution": 15000,
+        "onTrack": true
+      },
+      {
+        "id": "goal-005-2",
+        "type": "Home Purchase",
+        "name": "Investment Property Down Payment",
+        "targetAmount": 200000,
+        "targetDate": "2027-01-01",
+        "currentAmount": 95000,
+        "monthlyContribution": 4000,
+        "onTrack": true
+      }
+    ],
+    "history": [
+      {
+        "id": "hist-005-1",
+        "date": "2025-11-05",
+        "type": "meeting",
+        "summary": "Reviewed portfolio performance post partnership promotion. Discussed backdoor Roth IRA strategy and mega backdoor 401(k).",
+        "actionItems": [
+          { "id": "ai-005-1", "description": "Execute 2025 backdoor Roth IRA contribution", "assignedTo": "FA", "dueDate": "2025-12-15", "completed": false },
+          { "id": "ai-005-2", "description": "Research solo 401(k) for potential consulting income", "assignedTo": "FA", "dueDate": "2025-12-01", "completed": false }
+        ]
+      },
+      {
+        "id": "hist-005-2",
+        "date": "2025-08-12",
+        "type": "call",
+        "summary": "Quick call to discuss portfolio drift and rebalancing plan. Linda approved rebalancing.",
+        "actionItems": [
+          { "id": "ai-005-3", "description": "Execute rebalance per agreed plan", "assignedTo": "FA", "dueDate": "2025-08-15", "completed": true }
+        ]
+      }
+    ],
+    "aiSuggestions": []
+  },
+  {
+    "id": "client-006",
+    "name": "Robert Nakamura",
+    "age": 64,
+    "employment": "Retired CFO, Pacific National Bank",
+    "riskProfile": "Moderate",
+    "aum": 1420000,
+    "lastContact": "2026-02-05",
+    "birthday": "1961-07-15",
+    "clientSince": "2016-04-01",
+    "lastRebalanced": "2025-09-15",
+    "oneYearReturn": 11.2,
+    "benchmarkReturn": 9.8,
+    "personalitySummary": "Methodical, thorough, and cautious about the retirement transition. Robert just retired after a 35-year banking career and is focused on ensuring his nest egg lasts. He recently sold a Phoenix rental property creating a $240K capital gains event that needs immediate planning. He wants clear answers on Social Security timing and Medicare bridge coverage, and insists his CPA be included in all tax discussions.",
+    "communicationPreferences": "Detailed written reports with supporting data. Bi-annual in-person meetings. Responds to email within 24 hours. Wants his CPA (James Ortega) copied on all tax-related correspondence.",
+    "keyConcerns": "Capital gains tax from Phoenix rental property sale ($240K gain) — tax deadline pressure. Fixed income allocation has drifted severely from 35% target down to 21% — rebalancing needed urgently. Social Security claiming decision: delay to 70 vs. take now at 64. Healthcare bridge coverage until Medicare at 65.",
+    "familyMembers": [
+      { "relationship": "Spouse", "name": "Yuki Nakamura", "age": 60, "note": "Part-time art instructor; separate small IRA" },
+      { "relationship": "Daughter", "name": "Hana Nakamura", "age": 34, "note": "Software engineer in Seattle" }
+    ],
+    "lifeEvents": [
+      { "date": "2025-12-01", "description": "Retired from Pacific National Bank after 35-year career as CFO" },
+      { "date": "2026-01-15", "description": "Sold Phoenix rental property — $240,000 capital gain, tax planning required before April deadline" }
+    ],
+    "upcomingMeetings": [
+      { "id": "mtg-006", "date": "2026-04-30", "time": "10:00 AM", "purpose": "Capital Gains Tax Planning & Portfolio Rebalancing — CPA James Ortega attending" }
+    ],
+    "allocation": [
+      { "assetClass": "US Equity", "target": 45, "current": 56 },
+      { "assetClass": "International Equity", "target": 15, "current": 18 },
+      { "assetClass": "Fixed Income", "target": 35, "current": 21 },
+      { "assetClass": "Cash", "target": 5, "current": 5 }
+    ],
+    "performanceData": [
+      { "month": "May 2025", "portfolio": 100, "benchmark": 100 },
+      { "month": "Jun 2025", "portfolio": 101.2, "benchmark": 100.8 },
+      { "month": "Jul 2025", "portfolio": 103.1, "benchmark": 102.4 },
+      { "month": "Aug 2025", "portfolio": 102.5, "benchmark": 101.7 },
+      { "month": "Sep 2025", "portfolio": 104.2, "benchmark": 103.2 },
+      { "month": "Oct 2025", "portfolio": 105.8, "benchmark": 104.5 },
+      { "month": "Nov 2025", "portfolio": 107.4, "benchmark": 106.1 },
+      { "month": "Dec 2025", "portfolio": 106.9, "benchmark": 105.8 },
+      { "month": "Jan 2026", "portfolio": 108.5, "benchmark": 107.2 },
+      { "month": "Feb 2026", "portfolio": 108.1, "benchmark": 106.9 },
+      { "month": "Mar 2026", "portfolio": 109.7, "benchmark": 108.4 },
+      { "month": "Apr 2026", "portfolio": 111.2, "benchmark": 109.8 }
+    ],
+    "goals": [
+      {
+        "id": "goal-006-1",
+        "type": "Retirement",
+        "name": "Retirement Income ($8,500/month)",
+        "targetAmount": 2550000,
+        "targetDate": "2027-04-01",
+        "currentAmount": 1420000,
+        "monthlyContribution": 8000,
+        "onTrack": true
+      },
+      {
+        "id": "goal-006-2",
+        "type": "Emergency Fund",
+        "name": "Legacy Fund for Hana",
+        "targetAmount": 500000,
+        "targetDate": "2035-01-01",
+        "currentAmount": 95000,
+        "monthlyContribution": 1000,
+        "onTrack": false
+      }
+    ],
+    "history": [
+      {
+        "id": "hist-006-1",
+        "date": "2026-02-04",
+        "type": "meeting",
+        "summary": "First post-retirement planning session. Reviewed portfolio drift — fixed income has fallen to 21% vs 35% target as equity rally pushed allocations out of balance. Discussed $240K capital gains event from Phoenix rental property sale. Robert wants CPA James Ortega included before any rebalancing that creates taxable events. Set two action items with March deadline ahead of tax filing.",
+        "actionItems": [
+          { "id": "ai-006-1", "description": "Coordinate with CPA James Ortega on $240K capital gains tax strategy — evaluate installment sale treatment and QOZ options before April 15 deadline", "assignedTo": "FA", "dueDate": "2026-03-10", "completed": false },
+          { "id": "ai-006-2", "description": "Prepare fixed income rebalancing plan — current 21% vs 35% target represents 14% drift; present tax-efficient rebalancing options at April 30 meeting", "assignedTo": "FA", "dueDate": "2026-03-10", "completed": false }
+        ]
+      },
+      {
+        "id": "hist-006-2",
+        "date": "2025-09-15",
+        "type": "meeting",
+        "summary": "Pre-retirement transition review. Completed pension vs. lump sum analysis — lump sum of $485K recommended given Robert's investment profile. Modeled Social Security claiming scenarios at 64, 67, and 70.",
+        "actionItems": [
+          { "id": "ai-006-3", "description": "File Social Security claiming delay election — target age 70 for maximum benefit", "assignedTo": "Client", "dueDate": "2025-12-01", "completed": true },
+          { "id": "ai-006-4", "description": "Research COBRA vs. marketplace bridge coverage for 12-month Medicare gap", "assignedTo": "FA", "dueDate": "2025-10-15", "completed": true }
+        ]
+      }
+    ],
+    "aiSuggestions": []
+  },
+  {
+    "id": "client-007",
+    "name": "Amanda and Greg Hoffman",
+    "age": 42,
+    "employment": "Amanda: CMO, BrightBrand Media / Greg: Orthopedic Surgeon",
+    "riskProfile": "Moderate",
+    "aum": 2800000,
+    "lastContact": "2026-02-20",
+    "birthday": "1984-12-03",
+    "clientSince": "2019-02-01",
+    "lastRebalanced": "2025-09-10",
+    "oneYearReturn": 10.5,
+    "benchmarkReturn": 10.8,
+    "personalitySummary": "Sophisticated, busy, and goal-oriented. The Hoffmans have complex finances — two high-earner incomes, practice ownership, and three children. They delegate effectively and want clear action items. Amanda handles the planning conversations; Greg wants concise summaries.",
+    "communicationPreferences": "Amanda manages the relationship. Text for urgent items, email for documents. Combined quarterly reviews. Greg prefers a 1-page executive summary.",
+    "keyConcerns": "Optimizing Greg's medical practice ownership structure for eventual sale. Backdoor Roth execution for both spouses. 529 plans underfunded for 3 children. HELOC decision for home renovation.",
+    "familyMembers": [
+      { "relationship": "Spouse", "name": "Greg Hoffman", "age": 44, "note": "Orthopedic surgeon; practice owner" },
+      { "relationship": "Daughter", "name": "Emma Hoffman", "age": 14 },
+      { "relationship": "Son", "name": "Noah Hoffman", "age": 11 },
+      { "relationship": "Daughter", "name": "Olivia Hoffman", "age": 8 }
+    ],
+    "lifeEvents": [
+      { "date": "2025-07-15", "description": "Greg's practice added two new surgeons — practice value increased significantly" }
+    ],
+    "upcomingMeetings": [
+      { "id": "mtg-007", "date": "2026-04-29", "time": "4:00 PM", "purpose": "529 Strategy & Practice Valuation Discussion" }
+    ],
+    "allocation": [
+      { "assetClass": "US Equity", "target": 50, "current": 51 },
+      { "assetClass": "International Equity", "target": 20, "current": 19 },
+      { "assetClass": "Fixed Income", "target": 20, "current": 20 },
+      { "assetClass": "Alternatives", "target": 8, "current": 8 },
+      { "assetClass": "Cash", "target": 2, "current": 2 }
+    ],
+    "performanceData": [
+      { "month": "May 2025", "portfolio": 100, "benchmark": 100 },
+      { "month": "Jun 2025", "portfolio": 101.9, "benchmark": 101.2 },
+      { "month": "Jul 2025", "portfolio": 104.1, "benchmark": 103.5 },
+      { "month": "Aug 2025", "portfolio": 102.8, "benchmark": 102.1 },
+      { "month": "Sep 2025", "portfolio": 105.0, "benchmark": 104.4 },
+      { "month": "Oct 2025", "portfolio": 106.4, "benchmark": 106.0 },
+      { "month": "Nov 2025", "portfolio": 108.5, "benchmark": 108.2 },
+      { "month": "Dec 2025", "portfolio": 107.8, "benchmark": 107.5 },
+      { "month": "Jan 2026", "portfolio": 109.3, "benchmark": 109.1 },
+      { "month": "Feb 2026", "portfolio": 108.9, "benchmark": 108.9 },
+      { "month": "Mar 2026", "portfolio": 110.2, "benchmark": 110.2 },
+      { "month": "Apr 2026", "portfolio": 110.6, "benchmark": 110.8 }
+    ],
+    "goals": [
+      {
+        "id": "goal-007-1",
+        "type": "Retirement",
+        "name": "Retire at 60 with $8M",
+        "targetAmount": 8000000,
+        "targetDate": "2044-12-01",
+        "currentAmount": 2800000,
+        "monthlyContribution": 25000,
+        "onTrack": true
+      },
+      {
+        "id": "goal-007-2",
+        "type": "College Fund",
+        "name": "529 Plans for 3 Children",
+        "targetAmount": 600000,
+        "targetDate": "2032-08-01",
+        "currentAmount": 180000,
+        "monthlyContribution": 3000,
+        "onTrack": false
+      },
+      {
+        "id": "goal-007-3",
+        "type": "Business Sale",
+        "name": "Medical Practice Exit",
+        "targetAmount": 3000000,
+        "targetDate": "2040-01-01",
+        "currentAmount": 0,
+        "monthlyContribution": 0,
+        "onTrack": false
+      }
+    ],
+    "history": [
+      {
+        "id": "hist-007-1",
+        "date": "2025-10-22",
+        "type": "meeting",
+        "summary": "Q3 review. Discussed practice expansion and impact on financials. 529 funding gap identified. Reviewed backdoor Roth status.",
+        "actionItems": [
+          { "id": "ai-007-1", "description": "Increase 529 contributions to $1,000/month per child", "assignedTo": "Client", "dueDate": "2025-11-01", "completed": false },
+          { "id": "ai-007-2", "description": "Execute 2025 backdoor Roth for both spouses", "assignedTo": "FA", "dueDate": "2025-12-01", "completed": false }
+        ]
+      },
+      {
+        "id": "hist-007-2",
+        "date": "2025-07-08",
+        "type": "call",
+        "summary": "Called to discuss Greg's practice expansion news. Flagged need to update financial plan with practice value changes.",
+        "actionItems": [
+          { "id": "ai-007-3", "description": "Engage practice valuation specialist", "assignedTo": "FA", "dueDate": "2025-08-01", "completed": false }
+        ]
+      }
+    ],
+    "aiSuggestions": []
+  },
+  {
+    "id": "client-008",
+    "name": "Thomas Beaumont",
+    "age": 55,
+    "employment": "Partner, Beaumont Capital Partners (PE Firm)",
+    "riskProfile": "Aggressive",
+    "aum": 3100000,
+    "lastContact": "2026-02-16",
+    "birthday": "1971-09-17",
+    "clientSince": "2017-11-01",
+    "lastRebalanced": "2025-01-15",
+    "oneYearReturn": 8.2,
+    "benchmarkReturn": 10.8,
+    "personalitySummary": "Confident and assertive. Thomas manages PE funds professionally and can be challenging when portfolio performance lags. He has a sophisticated understanding of finance and expects the same level from his advisor. He values exclusivity and premium service.",
+    "communicationPreferences": "Prefers direct calls with his personal cell. No assistants. Monthly portfolio emails. Biannual formal reviews. Has referred 3 clients — relationship is very important.",
+    "keyConcerns": "Portfolio underperforming benchmark by 2.6% over trailing 12 months. Carry income from PE fund expected this year — tax planning critical. Alternative investment concentration. Over 90 days since last contact.",
+    "familyMembers": [
+      { "relationship": "Ex-Spouse", "name": "Caroline Beaumont", "age": 52, "note": "Divorced 2022; QDRO completed" },
+      { "relationship": "Son", "name": "William Beaumont", "age": 25, "note": "Starting hedge fund — Thomas mentors him" }
+    ],
+    "lifeEvents": [
+      { "date": "2025-01-10", "description": "Expected $1.2M carry distribution from PE fund in Q2 2025" },
+      { "date": "2025-03-15", "description": "Has not been contacted since February — at risk of relationship deterioration" }
+    ],
+    "upcomingMeetings": [],
+    "allocation": [
+      { "assetClass": "US Equity", "target": 50, "current": 42 },
+      { "assetClass": "International Equity", "target": 15, "current": 12 },
+      { "assetClass": "Fixed Income", "target": 10, "current": 9 },
+      { "assetClass": "Alternatives", "target": 22, "current": 34 },
+      { "assetClass": "Cash", "target": 3, "current": 3 }
+    ],
+    "performanceData": [
+      { "month": "May 2025", "portfolio": 100, "benchmark": 100 },
+      { "month": "Jun 2025", "portfolio": 100.9, "benchmark": 101.2 },
+      { "month": "Jul 2025", "portfolio": 102.1, "benchmark": 103.5 },
+      { "month": "Aug 2025", "portfolio": 101.5, "benchmark": 102.1 },
+      { "month": "Sep 2025", "portfolio": 103.0, "benchmark": 104.4 },
+      { "month": "Oct 2025", "portfolio": 104.2, "benchmark": 106.0 },
+      { "month": "Nov 2025", "portfolio": 105.8, "benchmark": 108.2 },
+      { "month": "Dec 2025", "portfolio": 105.3, "benchmark": 107.5 },
+      { "month": "Jan 2026", "portfolio": 106.5, "benchmark": 109.1 },
+      { "month": "Feb 2026", "portfolio": 106.0, "benchmark": 108.9 },
+      { "month": "Mar 2026", "portfolio": 107.2, "benchmark": 110.2 },
+      { "month": "Apr 2026", "portfolio": 107.8, "benchmark": 110.8 }
+    ],
+    "goals": [
+      {
+        "id": "goal-008-1",
+        "type": "Retirement",
+        "name": "Semi-Retire at 60",
+        "targetAmount": 10000000,
+        "targetDate": "2031-09-01",
+        "currentAmount": 3100000,
+        "monthlyContribution": 20000,
+        "onTrack": false
+      }
+    ],
+    "history": [
+      {
+        "id": "hist-008-1",
+        "date": "2025-02-28",
+        "type": "meeting",
+        "summary": "Discussed carry distribution planning and tax mitigation strategies. Thomas expressed dissatisfaction with relative performance vs. benchmark.",
+        "actionItems": [
+          { "id": "ai-008-1", "description": "Prepare carry income tax scenario analysis", "assignedTo": "FA", "dueDate": "2025-03-15", "completed": false },
+          { "id": "ai-008-2", "description": "Review alternatives overweight and rebalancing plan", "assignedTo": "FA", "dueDate": "2025-03-30", "completed": false },
+          { "id": "ai-008-3", "description": "Schedule follow-up call for April", "assignedTo": "FA", "dueDate": "2025-03-20", "completed": false }
+        ]
+      },
+      {
+        "id": "hist-008-2",
+        "date": "2024-10-15",
+        "type": "meeting",
+        "summary": "Annual review. Thomas asked about adding international private equity exposure. Discussed portfolio construction.",
+        "actionItems": [
+          { "id": "ai-008-4", "description": "Research international PE fund options", "assignedTo": "FA", "dueDate": "2024-11-15", "completed": true }
+        ]
+      }
+    ],
+    "aiSuggestions": []
+  },
+  {
+    "id": "client-009",
+    "name": "Priya Krishnaswamy",
+    "age": 51,
+    "employment": "Professor of Computer Science, Stanford University (Sabbatical Year 2025–26)",
+    "riskProfile": "Moderate",
+    "aum": 892000,
+    "lastContact": "2026-04-10",
+    "birthday": "1974-09-22",
+    "clientSince": "2019-06-01",
+    "lastRebalanced": "2026-01-15",
+    "oneYearReturn": 8.3,
+    "benchmarkReturn": 9.8,
+    "personalitySummary": "Analytical, deliberate, and highly self-directed. Priya is a 51-year-old CS professor currently on sabbatical writing her second book. She has $892K in a well-diversified moderate portfolio and is 4 years from her target retirement date. This year's lower sabbatical income creates a potential Roth conversion window she wants her advisor to quantify. She values thorough written analysis and data-backed recommendations.",
+    "communicationPreferences": "Email preferred with detailed writeups. Responds within 2 days. Quarterly in-person reviews. Comfortable with financial planning software and reviewing detailed scenarios.",
+    "keyConcerns": "Sabbatical year lower income creates a time-sensitive Roth conversion opportunity — needs CPA coordination before year-end. Fixed income is underweight by 5% vs Moderate target — modest drift to address. Eldercare plan for aging mother in Chennai needs to be incorporated into financial plan. Retirement at 55 in 4 years requires disciplined saving.",
+    "familyMembers": [
+      { "relationship": "Spouse", "name": "Vikram Krishnaswamy", "age": 53, "note": "Software architect at Cisco; has separate 401(k)" },
+      { "relationship": "Mother", "name": "Lakshmi Krishnaswamy", "age": 78, "note": "Lives in Chennai — potential future financial support needed" }
+    ],
+    "lifeEvents": [
+      { "date": "2025-09-01", "description": "Began one-year sabbatical from Stanford — lower income year, significant Roth conversion opportunity window" }
+    ],
+    "upcomingMeetings": [
+      { "id": "mtg-009", "date": "2026-05-14", "time": "2:00 PM", "purpose": "Roth Conversion Planning & Retirement Readiness Review" }
+    ],
+    "allocation": [
+      { "assetClass": "US Equity", "target": 45, "current": 47 },
+      { "assetClass": "International Equity", "target": 20, "current": 23 },
+      { "assetClass": "Fixed Income", "target": 30, "current": 25 },
+      { "assetClass": "Alternatives", "target": 5, "current": 5 }
+    ],
+    "performanceData": [
+      { "month": "May 2025", "portfolio": 100, "benchmark": 100 },
+      { "month": "Jun 2025", "portfolio": 100.9, "benchmark": 101.2 },
+      { "month": "Jul 2025", "portfolio": 102.7, "benchmark": 103.5 },
+      { "month": "Aug 2025", "portfolio": 101.8, "benchmark": 102.1 },
+      { "month": "Sep 2025", "portfolio": 103.5, "benchmark": 104.4 },
+      { "month": "Oct 2025", "portfolio": 104.9, "benchmark": 106.0 },
+      { "month": "Nov 2025", "portfolio": 106.3, "benchmark": 108.2 },
+      { "month": "Dec 2025", "portfolio": 105.7, "benchmark": 107.5 },
+      { "month": "Jan 2026", "portfolio": 107.1, "benchmark": 109.1 },
+      { "month": "Feb 2026", "portfolio": 106.8, "benchmark": 108.9 },
+      { "month": "Mar 2026", "portfolio": 108.0, "benchmark": 110.2 },
+      { "month": "Apr 2026", "portfolio": 108.3, "benchmark": 110.8 }
+    ],
+    "goals": [
+      {
+        "id": "goal-009-1",
+        "type": "Retirement",
+        "name": "Retire at 55",
+        "targetAmount": 2400000,
+        "targetDate": "2030-09-01",
+        "currentAmount": 892000,
+        "monthlyContribution": 4000,
+        "onTrack": false
+      },
+      {
+        "id": "goal-009-2",
+        "type": "Emergency Fund",
+        "name": "Sabbatical Research Fund",
+        "targetAmount": 25000,
+        "targetDate": "2027-09-01",
+        "currentAmount": 22000,
+        "monthlyContribution": 500,
+        "onTrack": true
+      },
+      {
+        "id": "goal-009-3",
+        "type": "Emergency Fund",
+        "name": "Eldercare Reserve (Mother)",
+        "targetAmount": 75000,
+        "targetDate": "2029-01-01",
+        "currentAmount": 18000,
+        "monthlyContribution": 1500,
+        "onTrack": true
+      }
+    ],
+    "history": [
+      {
+        "id": "hist-009-1",
+        "date": "2026-04-10",
+        "type": "call",
+        "summary": "Quarterly check-in during sabbatical. Reviewed portfolio performance — 8.3% return slightly below benchmark due to moderate allocation in a strong equity year. Discussed Roth conversion opportunity: sabbatical reduces 2026 taxable income significantly, potentially dropping marginal rate. Priya wants a full model before year-end planning window closes.",
+        "actionItems": [
+          { "id": "ai-009-1", "description": "Model Roth conversion scenarios for 2026 — quantify tax savings given sabbatical income reduction; coordinate with CPA before Q3 estimated tax deadline", "assignedTo": "FA", "dueDate": "2026-05-15", "completed": false }
+        ]
+      },
+      {
+        "id": "hist-009-2",
+        "date": "2025-12-08",
+        "type": "meeting",
+        "summary": "Annual review. Discussed retirement readiness at 55 — portfolio on track given $4,000/month contributions. Reviewed eldercare reserve gap and agreed to increase contributions. Rebalanced portfolio to Moderate target after slight drift.",
+        "actionItems": [
+          { "id": "ai-009-2", "description": "Increase eldercare reserve monthly contribution from $1,000 to $1,500 starting January", "assignedTo": "Client", "dueDate": "2026-01-05", "completed": true },
+          { "id": "ai-009-3", "description": "Execute portfolio rebalance — bring fixed income back to 30% target", "assignedTo": "FA", "dueDate": "2026-01-15", "completed": true }
+        ]
+      }
+    ],
+    "aiSuggestions": [
+      {
+        "category": "Tax",
+        "priority": "High",
+        "title": "Roth Conversion Window — Act Before Year-End",
+        "description": "Priya's sabbatical reduces her 2026 taxable income significantly, creating a rare opportunity to convert traditional IRA assets to Roth at a lower marginal rate. Estimated conversion of $60,000–$90,000 could generate meaningful long-term tax savings. Flag for CPA review before the Q3 estimated tax deadline — this is a time-sensitive planning item."
+      },
+      {
+        "category": "Portfolio",
+        "priority": "Medium",
+        "title": "Fixed Income 5% Below Moderate Target",
+        "description": "Current fixed income allocation of 25% is 5% below the 30% Moderate profile target. With 4 years to planned retirement at 55, beginning a gradual drift correction now reduces sequence-of-returns risk and aligns the portfolio with the upcoming decumulation phase. Consider rebalancing into fixed income incrementally over the next two quarters."
+      },
+      {
+        "category": "Goals",
+        "priority": "Medium",
+        "title": "Eldercare Reserve Tracking Behind",
+        "description": "The eldercare reserve for Priya's mother is at $18,000 vs a $120,000 target by 2029 — significantly behind pace. With caregiving costs potentially emerging within 2–3 years, the current $1,500/month contribution should be reviewed against total household cash flow now that sabbatical income is lower."
+      },
+      {
+        "category": "Relationship",
+        "priority": "Low",
+        "title": "Coordinate Household Financial Plan with Vikram",
+        "description": "Priya's spouse Vikram has a separate 401(k) at Cisco that has not been reviewed as part of the household plan. A coordinated view of both portfolios would improve asset location decisions, reduce duplicate exposures, and optimize combined Roth conversion and tax planning. Consider a joint planning session before the May meeting."
+      }
+    ]
+  },
+  {
+    "id": "client-010",
+    "name": "Elena Vasquez",
+    "age": 47,
+    "employment": "Regional Director, US Department of State",
+    "riskProfile": "Conservative",
+    "aum": 890000,
+    "lastContact": "2026-03-20",
+    "birthday": "1978-06-25",
+    "clientSince": "2014-08-01",
+    "lastRebalanced": "2024-10-01",
+    "oneYearReturn": 5.8,
+    "benchmarkReturn": 10.8,
+    "personalitySummary": "Deliberate and risk-averse. Elena's government career means stability is paramount. She is managing a significant gap between government pension income and desired retirement lifestyle. She has limited time for financial matters due to demanding work travel schedule.",
+    "communicationPreferences": "Prefers email, responds within 1 week. Biannual in-person meetings. Frequently unreachable due to international travel. Has power of attorney set up for financial decisions.",
+    "keyConcerns": "Portfolio significantly underperforming. Has not been contacted in 148 days. Portfolio drift — equity underweight by 7%. Federal pension FERS supplement planning. TSP allocation optimization.",
+    "familyMembers": [
+      { "relationship": "Mother", "name": "Carmen Vasquez", "age": 74, "note": "Lives with Elena; health care POA in place" }
+    ],
+    "lifeEvents": [
+      { "date": "2024-09-01", "description": "Assigned to 18-month overseas posting in Brussels" },
+      { "date": "2024-12-01", "description": "Has been overseas for 3 months; difficult to reach" }
+    ],
+    "upcomingMeetings": [],
+    "allocation": [
+      { "assetClass": "US Equity", "target": 35, "current": 28 },
+      { "assetClass": "International Equity", "target": 10, "current": 9 },
+      { "assetClass": "Fixed Income", "target": 40, "current": 46 },
+      { "assetClass": "Alternatives", "target": 10, "current": 12 },
+      { "assetClass": "Cash", "target": 5, "current": 5 }
+    ],
+    "performanceData": [
+      { "month": "May 2025", "portfolio": 100, "benchmark": 100 },
+      { "month": "Jun 2025", "portfolio": 100.6, "benchmark": 101.2 },
+      { "month": "Jul 2025", "portfolio": 101.4, "benchmark": 103.5 },
+      { "month": "Aug 2025", "portfolio": 100.8, "benchmark": 102.1 },
+      { "month": "Sep 2025", "portfolio": 102.0, "benchmark": 104.4 },
+      { "month": "Oct 2025", "portfolio": 102.9, "benchmark": 106.0 },
+      { "month": "Nov 2025", "portfolio": 104.0, "benchmark": 108.2 },
+      { "month": "Dec 2025", "portfolio": 103.5, "benchmark": 107.5 },
+      { "month": "Jan 2026", "portfolio": 104.5, "benchmark": 109.1 },
+      { "month": "Feb 2026", "portfolio": 104.0, "benchmark": 108.9 },
+      { "month": "Mar 2026", "portfolio": 104.9, "benchmark": 110.2 },
+      { "month": "Apr 2026", "portfolio": 105.3, "benchmark": 110.8 }
+    ],
+    "goals": [
+      {
+        "id": "goal-010-1",
+        "type": "Retirement",
+        "name": "Retire at 57 with FERS",
+        "targetAmount": 1800000,
+        "targetDate": "2035-06-01",
+        "currentAmount": 890000,
+        "monthlyContribution": 3000,
+        "onTrack": false
+      },
+      {
+        "id": "goal-010-2",
+        "type": "Emergency Fund",
+        "name": "Mother's Care Reserve",
+        "targetAmount": 100000,
+        "targetDate": "2027-01-01",
+        "currentAmount": 45000,
+        "monthlyContribution": 1000,
+        "onTrack": false
+      }
+    ],
+    "history": [
+      {
+        "id": "hist-010-1",
+        "date": "2024-11-30",
+        "type": "meeting",
+        "summary": "Pre-posting review before Elena's Brussels assignment. Discussed portfolio management during absence and set up quarterly email updates.",
+        "actionItems": [
+          { "id": "ai-010-1", "description": "Rebalance equity underweight when market conditions are favorable", "assignedTo": "FA", "dueDate": "2025-02-01", "completed": false },
+          { "id": "ai-010-2", "description": "Send quarterly portfolio updates via email throughout Brussels posting", "assignedTo": "FA", "dueDate": "2025-03-01", "completed": false }
+        ]
+      },
+      {
+        "id": "hist-010-2",
+        "date": "2024-08-15",
+        "type": "meeting",
+        "summary": "Annual review. Discussed TSP allocation and FERS supplement eligibility at 57.",
+        "actionItems": [
+          { "id": "ai-010-3", "description": "Model TSP to IRA rollover options at retirement", "assignedTo": "FA", "dueDate": "2024-09-15", "completed": true }
+        ]
+      }
+    ],
+    "aiSuggestions": []
+  },
+  {
+    "id": "client-011",
+    "name": "David and Sue Park",
+    "age": 49,
+    "employment": "David: Dentist / Sue: Physical Therapist",
+    "riskProfile": "Moderate",
+    "aum": 1120000,
+    "lastContact": "2026-02-28",
+    "birthday": "1975-10-30",
+    "clientSince": "2022-04-01",
+    "lastRebalanced": "2025-12-15",
+    "oneYearReturn": 10.2,
+    "benchmarkReturn": 10.8,
+    "personalitySummary": "Practical, collaborative, and growth-focused. The Parks are newer clients who are organized and engaged. David manages the day-to-day finances but Sue is equally involved in planning. They appreciate regular check-ins and educational content.",
+    "communicationPreferences": "Joint emails. Bi-monthly updates. Quarterly in-person meetings. Both spouses should be included in all correspondence.",
+    "keyConcerns": "First home purchase timeline. David's dental practice profit-sharing plan contribution optimization. Sue starting her own PT practice next year. Emergency fund needs to be built up before any market investment increases.",
+    "familyMembers": [
+      { "relationship": "Spouse", "name": "Sue Park", "age": 47, "note": "Physical therapist; planning solo practice launch" },
+      { "relationship": "Son", "name": "Kevin Park", "age": 19, "note": "College sophomore" },
+      { "relationship": "Daughter", "name": "Amy Park", "age": 16 }
+    ],
+    "lifeEvents": [
+      { "date": "2025-11-01", "description": "Sue announced plans to launch independent PT practice in 2026" }
+    ],
+    "upcomingMeetings": [
+      { "id": "mtg-011", "date": "2026-05-12", "time": "11:00 AM", "purpose": "Sue's Practice Launch Financial Planning" }
+    ],
+    "allocation": [
+      { "assetClass": "US Equity", "target": 50, "current": 51 },
+      { "assetClass": "International Equity", "target": 15, "current": 15 },
+      { "assetClass": "Fixed Income", "target": 25, "current": 24 },
+      { "assetClass": "Alternatives", "target": 5, "current": 5 },
+      { "assetClass": "Cash", "target": 5, "current": 5 }
+    ],
+    "performanceData": [
+      { "month": "May 2025", "portfolio": 100, "benchmark": 100 },
+      { "month": "Jun 2025", "portfolio": 101.6, "benchmark": 101.2 },
+      { "month": "Jul 2025", "portfolio": 103.7, "benchmark": 103.5 },
+      { "month": "Aug 2025", "portfolio": 102.4, "benchmark": 102.1 },
+      { "month": "Sep 2025", "portfolio": 104.5, "benchmark": 104.4 },
+      { "month": "Oct 2025", "portfolio": 105.8, "benchmark": 106.0 },
+      { "month": "Nov 2025", "portfolio": 107.9, "benchmark": 108.2 },
+      { "month": "Dec 2025", "portfolio": 107.2, "benchmark": 107.5 },
+      { "month": "Jan 2026", "portfolio": 108.8, "benchmark": 109.1 },
+      { "month": "Feb 2026", "portfolio": 108.4, "benchmark": 108.9 },
+      { "month": "Mar 2026", "portfolio": 109.7, "benchmark": 110.2 },
+      { "month": "Apr 2026", "portfolio": 110.1, "benchmark": 110.8 }
+    ],
+    "goals": [
+      {
+        "id": "goal-011-1",
+        "type": "Retirement",
+        "name": "Retire at 62",
+        "targetAmount": 4000000,
+        "targetDate": "2037-10-01",
+        "currentAmount": 1120000,
+        "monthlyContribution": 12000,
+        "onTrack": true
+      },
+      {
+        "id": "goal-011-2",
+        "type": "Home Purchase",
+        "name": "Vacation Home Purchase",
+        "targetAmount": 250000,
+        "targetDate": "2030-01-01",
+        "currentAmount": 72000,
+        "monthlyContribution": 2500,
+        "onTrack": true
+      },
+      {
+        "id": "goal-011-3",
+        "type": "Emergency Fund",
+        "name": "Business Launch Reserve",
+        "targetAmount": 80000,
+        "targetDate": "2026-08-01",
+        "currentAmount": 38000,
+        "monthlyContribution": 3000,
+        "onTrack": false
+      }
+    ],
+    "history": [
+      {
+        "id": "hist-011-1",
+        "date": "2026-01-08",
+        "type": "meeting",
+        "summary": "Q4 review. Discussed Sue's practice launch plans and increased need for liquidity buffer. Reviewed 2025 tax planning outcomes.",
+        "actionItems": [
+          { "id": "ai-011-1", "description": "Prepare Sue's practice launch financial plan with 18-month runway analysis", "assignedTo": "FA", "dueDate": "2026-02-01", "completed": true },
+          { "id": "ai-011-2", "description": "Research SEP-IRA vs Solo 401k options for Sue's new practice", "assignedTo": "FA", "dueDate": "2026-02-15", "completed": true }
+        ]
+      },
+      {
+        "id": "hist-011-2",
+        "date": "2025-10-01",
+        "type": "meeting",
+        "summary": "Q3 review. Portfolio performing in line with benchmark. Increased dental practice profit-sharing contribution.",
+        "actionItems": [
+          { "id": "ai-011-3", "description": "Confirm dental profit-sharing plan max contribution for 2025", "assignedTo": "FA", "dueDate": "2025-10-15", "completed": true }
+        ]
+      }
+    ],
+    "aiSuggestions": []
+  },
+  {
+    "id": "client-012",
+    "name": "Michael Callahan",
+    "age": 61,
+    "employment": "CFO, Harrington Industries (Pre-Retirement)",
+    "riskProfile": "Moderate",
+    "aum": 2450000,
+    "lastContact": "2026-04-04",
+    "birthday": "1963-01-22",
+    "clientSince": "2013-05-01",
+    "lastRebalanced": "2024-07-01",
+    "oneYearReturn": 4.9,
+    "benchmarkReturn": 10.8,
+    "personalitySummary": "Methodical and numbers-oriented. As a CFO, Michael understands financial statements well and expects sophisticated analysis. He has a tendency to overthink and delay decisions. He is going through a difficult personal period following a divorce two years ago.",
+    "communicationPreferences": "Formal email and in-person meetings. Does not like phone calls. Requires 2 weeks notice for scheduling. Recently less engaged — divorce may be a factor.",
+    "keyConcerns": "Has not been contacted in 264 days — critical relationship risk. Portfolio significantly underperforming benchmark by 5.9%. Portfolio has drifted with equity underweight. Post-divorce financial restructuring is incomplete. Three overdue action items.",
+    "familyMembers": [
+      { "relationship": "Ex-Spouse", "name": "Patricia Callahan", "age": 59, "note": "Divorce finalized April 2024; QDRO pending" },
+      { "relationship": "Son", "name": "Connor Callahan", "age": 28 },
+      { "relationship": "Daughter", "name": "Megan Callahan", "age": 25 }
+    ],
+    "lifeEvents": [
+      { "date": "2024-04-10", "description": "Divorce from Patricia finalized; QDRO for pension split required" },
+      { "date": "2024-05-01", "description": "Reduced retirement contributions post-divorce due to legal fees" }
+    ],
+    "upcomingMeetings": [],
+    "allocation": [
+      { "assetClass": "US Equity", "target": 45, "current": 35 },
+      { "assetClass": "International Equity", "target": 15, "current": 13 },
+      { "assetClass": "Fixed Income", "target": 30, "current": 40 },
+      { "assetClass": "Alternatives", "target": 7, "current": 8 },
+      { "assetClass": "Cash", "target": 3, "current": 4 }
+    ],
+    "performanceData": [
+      { "month": "May 2025", "portfolio": 100, "benchmark": 100 },
+      { "month": "Jun 2025", "portfolio": 100.4, "benchmark": 101.2 },
+      { "month": "Jul 2025", "portfolio": 101.2, "benchmark": 103.5 },
+      { "month": "Aug 2025", "portfolio": 100.6, "benchmark": 102.1 },
+      { "month": "Sep 2025", "portfolio": 101.7, "benchmark": 104.4 },
+      { "month": "Oct 2025", "portfolio": 102.5, "benchmark": 106.0 },
+      { "month": "Nov 2025", "portfolio": 103.4, "benchmark": 108.2 },
+      { "month": "Dec 2025", "portfolio": 102.9, "benchmark": 107.5 },
+      { "month": "Jan 2026", "portfolio": 103.7, "benchmark": 109.1 },
+      { "month": "Feb 2026", "portfolio": 103.2, "benchmark": 108.9 },
+      { "month": "Mar 2026", "portfolio": 103.9, "benchmark": 110.2 },
+      { "month": "Apr 2026", "portfolio": 104.2, "benchmark": 110.8 }
+    ],
+    "goals": [
+      {
+        "id": "goal-012-1",
+        "type": "Retirement",
+        "name": "Retire at 65",
+        "targetAmount": 4500000,
+        "targetDate": "2028-01-01",
+        "currentAmount": 2450000,
+        "monthlyContribution": 8000,
+        "onTrack": false
+      }
+    ],
+    "history": [
+      {
+        "id": "hist-012-1",
+        "date": "2024-08-05",
+        "type": "meeting",
+        "summary": "Mid-year review. Discussed post-divorce financial restructuring. Michael was disengaged. QDRO still pending with Patricia's attorney.",
+        "actionItems": [
+          { "id": "ai-012-1", "description": "Follow up on QDRO execution with Patricia's attorney", "assignedTo": "FA", "dueDate": "2024-09-01", "completed": false },
+          { "id": "ai-012-2", "description": "Rebalance equity underweight back to 45% target", "assignedTo": "FA", "dueDate": "2024-09-15", "completed": false },
+          { "id": "ai-012-3", "description": "Schedule year-end comprehensive financial review", "assignedTo": "FA", "dueDate": "2024-10-01", "completed": false }
+        ]
+      },
+      {
+        "id": "hist-012-2",
+        "date": "2024-04-15",
+        "type": "meeting",
+        "summary": "Emergency meeting post-divorce finalization. Reviewed impact on retirement plan. Michael requested time before making major decisions.",
+        "actionItems": [
+          { "id": "ai-012-4", "description": "Prepare revised retirement plan with updated asset base post-divorce", "assignedTo": "FA", "dueDate": "2024-05-15", "completed": false }
+        ]
+      }
+    ],
+    "aiSuggestions": []
+  }
+]
