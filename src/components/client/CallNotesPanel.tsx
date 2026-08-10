@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-  ClipboardList, Loader2, Copy, Check, Send, ArrowRight,
+  ClipboardList, Loader2, Copy, Check, ArrowRight,
   ChevronRight, AlertCircle, CheckCircle2, Minus,
 } from 'lucide-react';
 import type { Client } from '@/types';
@@ -19,6 +19,7 @@ import {
   type BookOfWorkClientResult,
 } from '@/lib/claudeClient';
 import { useAppStore } from '@/store/appStore';
+import type { CallNotesSnapshot } from '@/store/appStore';
 
 // ── Quick-fill texts ──────────────────────────────────────────────────────────
 
@@ -124,6 +125,7 @@ export function CallNotesPanel({ client }: Props) {
   const addInteraction       = useAppStore((s) => s.addInteraction);
   const bookOfWorkResults    = useAppStore((s) => s.bookOfWorkResults);
   const setBookOfWorkResults = useAppStore((s) => s.setBookOfWorkResults);
+  const setCallNotesResults  = useAppStore((s) => s.setCallNotesResults);
 
   const [notes, setNotes]           = useState('');
   const [phase, setPhase]           = useState<'idle' | 'processing' | 'done'>('idle');
@@ -230,6 +232,16 @@ export function CallNotesPanel({ client }: Props) {
         if (action) { setDraftText(action); break; }
       }
     }
+
+    // ── Sync individual agent cards via store ────────────────────────────────
+    const snapshot: CallNotesSnapshot = {
+      clientId:     updatedClient.id,
+      attrition:    (gathered.attrition    as AttritionAssessment    | undefined) ?? null,
+      walletCapture: (gathered.walletCapture as WalletCaptureAssessment | undefined) ?? null,
+      crossSell:    (gathered.crossSell    as CrossSellAssessment    | undefined) ?? null,
+      referral:     (gathered.referral     as ReferralAssessment     | undefined) ?? null,
+    };
+    setCallNotesResults(snapshot);
 
     // ── Book of Work patch ────────────────────────────────────────────────────
     if (
@@ -420,9 +432,9 @@ export function CallNotesPanel({ client }: Props) {
       {phase === 'done' && draftText && (
         <div className="border-t border-indigo-100 px-4 py-3">
           <div className="flex items-center gap-2 mb-2 flex-wrap">
-            <span className="text-xs font-semibold text-gray-700">Draft Follow-Up</span>
-            <span className="text-[10px] bg-amber-50 text-amber-700 border border-amber-200 px-1.5 py-0.5 rounded font-medium">
-              Draft only — no message will be sent
+            <span className="text-xs font-semibold text-gray-700">Suggested Next Steps</span>
+            <span className="text-[10px] bg-gray-100 text-gray-600 border border-gray-200 px-1.5 py-0.5 rounded font-medium">
+              Internal — not client-facing
             </span>
           </div>
 
@@ -452,12 +464,12 @@ export function CallNotesPanel({ client }: Props) {
                   onClick={() => setDraftSent(true)}
                   className="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-md border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 transition-colors"
                 >
-                  <Send size={12} />
-                  Mark as Sent by Advisor
+                  <Check size={12} />
+                  Mark Complete
                 </button>
               </div>
               <p className="text-[10px] text-gray-400 mt-1.5">
-                This is a draft only. No message will be sent automatically — the advisor takes the final action.
+                Internal advisor action note. Review and edit before sharing anything with the client.
               </p>
             </>
           )}

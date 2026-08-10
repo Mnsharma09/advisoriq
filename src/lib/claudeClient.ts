@@ -275,8 +275,10 @@ Weigh THREE layers in order:
 
 IMPORTANT: "busy but stable" requires positive evidence of stability (long tenure, recent positive interactions when contacted, strong portfolio) — do not default to it just because there are no complaints.
 
+CRITICAL — CONFLICTING SIGNALS: If positive and negative signals coexist (e.g., strong portfolio but long contact gap and overdue action items; recent contact but low sentiment; goals on track but client-initiated complaints), you MUST explicitly resolve the conflict in the reasoning field. Do NOT simply list both sides and assert a conclusion. Instead, identify which signal is dominant for THIS specific client and explain why: "Despite [positive evidence], [negative evidence] outweighs it because [client-specific reason]." OR "The [negative signal] is outweighed by [positive evidence] because [reason tied to this client's tenure/stage/history]." The reasoning must make the trade-off explicit, not implicit.
+
 Return valid JSON ONLY — no markdown, no prose before or after:
-{"riskCategory":"<one of the four exact strings>","reasoning":"<2-4 sentences, cite specific numbers and interaction evidence>","suggestedAction":"<concrete, specific next step — not generic>"}`;
+{"riskCategory":"<one of the four exact strings>","reasoning":"<2-4 sentences, cite specific numbers and interaction evidence — resolve any conflicting signals explicitly>","suggestedAction":"<concrete, specific next step — not generic>"}`;
 
 /**
  * Deterministic confidence calculation — runs before the LLM call so confidence
@@ -290,6 +292,7 @@ Return valid JSON ONLY — no markdown, no prose before or after:
 export function calculateAttritionConfidence(
   client: Client,
   confirmedPatterns: ConfirmedPatternWithSpec[],
+  explicitOverdueCount?: number,
 ): 'high' | 'medium' | 'low' {
   const interactions18m = client.contactStats?.totalInteractions18m ?? client.history.length;
 
@@ -304,7 +307,10 @@ export function calculateAttritionConfidence(
     ? Math.max(...client.allocation.map(a => Math.abs(a.current - a.target)))
     : 0;
   const onTrack     = client.goals.filter(g => g.onTrack).length;
-  const overdueCount = client.contactStats?.openOverdueCommitments ?? 0;
+  // Prefer caller-supplied count (aligned with what the prompt computed); fall back to stats field
+  const overdueCount = explicitOverdueCount !== undefined
+    ? explicitOverdueCount
+    : (client.contactStats?.openOverdueCommitments ?? 0);
 
   const recency     = dsc <= 30 ? 25 : dsc <= 60 ? 17 : dsc <= 90 ? 8 : 0;
   const portHealth  = maxDrift <= 3 ? 25 : maxDrift <= 6 ? 17 : maxDrift <= 10 ? 8 : 0;
@@ -479,7 +485,14 @@ export async function generateAttritionAssessment(
   confirmedPatterns: ConfirmedPatternWithSpec[],
 ): Promise<AttritionAssessment> {
   const today = new Date();
-  const confidence = calculateAttritionConfidence(client, confirmedPatterns);
+  // Compute overdue count the same way buildAttritionPrompt does — explicit pass
+  // ensures calculateAttritionConfidence uses the exact same number the LLM sees.
+  const overdueCount = client.history.length > 0
+    ? client.history.flatMap(h =>
+        h.actionItems.filter(ai => !ai.completed && differenceInDays(today, parseISO(ai.dueDate)) > 0)
+      ).length
+    : (client.contactStats?.openOverdueCommitments ?? 0);
+  const confidence = calculateAttritionConfidence(client, confirmedPatterns, overdueCount);
   const userContent = buildAttritionPrompt(client, confirmedPatterns, today);
   const raw = await callClaude(ATTRITION_SYSTEM, userContent, 500);
 

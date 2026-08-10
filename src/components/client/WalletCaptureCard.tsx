@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Wallet, Play, RefreshCw, AlertCircle, ChevronRight, Info,
@@ -62,12 +62,24 @@ interface Props {
 export function WalletCaptureCard({ client }: Props) {
   const confirmedPatterns = useAppStore((s) => s.confirmedPatterns);
   const apiKey            = useAppStore((s) => s.claudeApiKey);
+  const callNotesResults  = useAppStore((s) => s.callNotesResults);
 
   const [status, setStatus]               = useState<'idle' | 'loading' | 'complete' | 'error'>('idle');
   const [result, setResult]               = useState<WalletCaptureAssessment | null>(null);
   const [matchedPatterns, setMatchedPatterns] = useState<ReturnType<typeof getMatchedPatterns>>([]);
   const [error, setError]                 = useState<string | null>(null);
   const [lastRun, setLastRun]             = useState<Date | null>(null);
+
+  // Sync with Call Notes panel results — keeps card display consistent with the banner
+  useEffect(() => {
+    if (!callNotesResults || callNotesResults.clientId !== client.id) return;
+    if (!callNotesResults.walletCapture) return;
+    setResult(callNotesResults.walletCapture);
+    setMatchedPatterns(getMatchedPatterns(client, confirmedPatterns));
+    setDraftText(callNotesResults.walletCapture.suggestedAction);
+    setStatus('complete');
+    setLastRun(new Date());
+  }, [callNotesResults, client.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Draft follow-up state
   const [draftText, setDraftText]   = useState('');

@@ -1,7 +1,22 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Client, NewsItem, AISuggestion, Interaction, ActionItem, SavedScenario, UpcomingMeeting } from '../types';
-import type { ConfirmedPatternWithSpec, BookOfWorkClientResult } from '../lib/claudeClient';
+import type {
+  ConfirmedPatternWithSpec,
+  BookOfWorkClientResult,
+  AttritionAssessment,
+  WalletCaptureAssessment,
+  CrossSellAssessment,
+  ReferralAssessment,
+} from '../lib/claudeClient';
+
+export interface CallNotesSnapshot {
+  clientId: string;
+  attrition:    AttritionAssessment    | null;
+  walletCapture: WalletCaptureAssessment | null;
+  crossSell:    CrossSellAssessment    | null;
+  referral:     ReferralAssessment     | null;
+}
 import newsData from '../data/news.json';
 import { loadSyntheticClients, enrichClientsWithHistory } from '../lib/syntheticDataLoader';
 
@@ -15,11 +30,14 @@ interface AppState {
   confirmedPatterns: ConfirmedPatternWithSpec[];
   // Session-only — not persisted. Populated when Book of Work analysis runs.
   bookOfWorkResults: BookOfWorkClientResult[] | null;
+  // Session-only — not persisted. Most recent Call Notes run result, used to sync card displays.
+  callNotesResults: CallNotesSnapshot | null;
 
   setFaName: (name: string) => void;
   setClaudeApiKey: (key: string) => void;
   setConfirmedPatterns: (patterns: ConfirmedPatternWithSpec[]) => void;
   setBookOfWorkResults: (results: BookOfWorkClientResult[] | null) => void;
+  setCallNotesResults: (results: CallNotesSnapshot | null) => void;
   loadSyntheticData: () => Promise<void>;
   updateClientSuggestions: (clientId: string, suggestions: AISuggestion[]) => void;
   addInteraction: (clientId: string, interaction: Interaction) => void;
@@ -43,10 +61,12 @@ export const useAppStore = create<AppState>()(
       isLoadingClients: false,
       confirmedPatterns: [],
       bookOfWorkResults: null,
+      callNotesResults: null,
 
       setFaName: (name) => set({ faName: name }),
       setConfirmedPatterns: (patterns) => set({ confirmedPatterns: patterns }),
       setBookOfWorkResults: (results) => set({ bookOfWorkResults: results }),
+      setCallNotesResults: (results) => set({ callNotesResults: results }),
 
       setClaudeApiKey: (key) => {
         localStorage.setItem('claudeApiKey', key);

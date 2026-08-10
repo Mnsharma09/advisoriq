@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingBag, Play, RefreshCw, AlertCircle, ChevronRight, Tag, Settings } from 'lucide-react';
 import type { Client } from '@/types';
@@ -81,8 +81,18 @@ export function CrossSellCard({ client }: Props) {
   const [error, setError]   = useState<string | null>(null);
   const [lastRun, setLastRun] = useState<Date | null>(null);
 
-  const apiKey       = useAppStore((s) => s.claudeApiKey);
-  const detectedGaps = detectCrossSellGaps(client);
+  const apiKey           = useAppStore((s) => s.claudeApiKey);
+  const callNotesResults = useAppStore((s) => s.callNotesResults);
+  const detectedGaps     = detectCrossSellGaps(client);
+
+  // Sync with Call Notes panel results
+  useEffect(() => {
+    if (!callNotesResults || callNotesResults.clientId !== client.id) return;
+    if (!callNotesResults.crossSell) return;
+    setResult(callNotesResults.crossSell);
+    setStatus('complete');
+    setLastRun(new Date());
+  }, [callNotesResults, client.id]); // eslint-disable-line react-hooks/exhaustive-deps
   const hasHoldings  = (client.productHoldings ?? []).length > 0;
 
   async function runAssessment() {

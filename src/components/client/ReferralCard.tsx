@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Users, Play, RefreshCw, AlertCircle, ChevronRight, Settings } from 'lucide-react';
 import type { Client } from '@/types';
@@ -70,13 +70,23 @@ interface Props {
 }
 
 export function ReferralCard({ client }: Props) {
-  const apiKey = useAppStore((s) => s.claudeApiKey);
+  const apiKey           = useAppStore((s) => s.claudeApiKey);
+  const callNotesResults = useAppStore((s) => s.callNotesResults);
   const [status, setStatus]   = useState<'idle' | 'loading' | 'complete' | 'error'>('idle');
   const [result, setResult]   = useState<ReferralAssessment | null>(null);
   const [error, setError]     = useState<string | null>(null);
   const [lastRun, setLastRun] = useState<Date | null>(null);
 
   const refs = client.referralHistory ?? [];
+
+  // Sync with Call Notes panel results
+  useEffect(() => {
+    if (!callNotesResults || callNotesResults.clientId !== client.id) return;
+    if (!callNotesResults.referral) return;
+    setResult(callNotesResults.referral);
+    setStatus('complete');
+    setLastRun(new Date());
+  }, [callNotesResults, client.id]); // eslint-disable-line react-hooks/exhaustive-deps
   const isCandidate = refs.length > 0;
   const { confidence: deterministicConfidence, recencyTier } = calculateReferralConfidence(refs);
 
