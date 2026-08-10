@@ -1,0 +1,78 @@
+# ── AdvisorIQ — full stack ─────────────────────────────────────────────────────
+#
+# Services:
+#   db      — PostgreSQL 16
+#   seed    — one-shot seed container (runs load_data.py then exits)
+#   api     — FastAPI / uvicorn on :8000
+#
+# Usage:
+#   docker compose up --build          # start everything
+#   docker compose up --build seed     # re-seed without restarting API
+#   docker compose logs -f api         # tail API logs
+#
+# The Vite dev server (npm run dev) runs on the host, not in Docker.
+# Set VITE_API_URL=http://localhost:8000 in frontend/.env.local to connect.
+
+services:
+
+  # ── PostgreSQL ───────────────────────────────────────────────────────────────
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER:     advisoriq
+      POSTGRES_PASSWORD: advisoriq
+      POSTGRES_DB:       advisoriq
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U advisoriq -d advisoriq"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ── Seed (runs once, then exits) ─────────────────────────────────────────────
+  seed:
+    build:
+      context: ./backend
+    command: >
+      sh -c "
+        echo 'Waiting for database…' &&
+        until pg_isready -h db -U advisoriq -d advisoriq; do sleep 1; done &&
+        echo 'Database ready. Running seed…' &&
+        python -m app.seed.load_data
+      "
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL_SYNC: postgresql://advisoriq:advisoriq@db:5432/advisoriq
+      DATA_DIR:          /app/data
+    volumes:
+      # Mount public/data/ from the repo root so the seed script can read JSON files
+      - ./public/data:/app/data:ro
+    restart: "no"
+
+  # ── FastAPI ──────────────────────────────────────────────────────────────────
+  api:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL:      postgresql+asyncpg://advisoriq:advisoriq@db:5432/advisoriq
+      DATABASE_URL_SYNC: postgresql://advisoriq:advisoriq@db:5432/advisoriq
+      CORS_ORIGINS:      '["http://localhost:5173","http://localhost:4173"]'
+    volumes:
+      # Hot-reload: mount backend source into the container
+      - ./backend:/app
+      - ./public/data:/app/data:ro
+
+volumes:
+  postgres_data:
