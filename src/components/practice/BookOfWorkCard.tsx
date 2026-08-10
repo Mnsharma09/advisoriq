@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ClipboardList, Play, RefreshCw, AlertCircle, ChevronRight,
-  TrendingUp, Wallet, AlertTriangle, CheckCircle, Info, Users,
+  TrendingUp, Wallet, AlertTriangle, CheckCircle, Info,
 } from 'lucide-react';
 import { useAppStore } from '@/store/appStore';
 import {
