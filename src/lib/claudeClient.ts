@@ -275,6 +275,12 @@ Weigh THREE layers in order:
 
 IMPORTANT: "busy but stable" requires positive evidence of stability (long tenure, recent positive interactions when contacted, strong portfolio) — do not default to it just because there are no complaints.
 
+CRITICAL — TEMPORAL REASONING: When citing interaction history or total interaction counts, you MUST distinguish between activity that occurred BEFORE the current contact gap versus during it. A high past interaction count followed by a long silence is NOT a balanced signal — it means engagement has stopped. The history tells you about the relationship before the gap; the gap is the current signal.
+- NEVER write "strong engagement history offsets the contact gap" — that is a temporal error.
+- DO write "Despite N historical interactions, the X-day gap with no contact since [last contact date] indicates disengagement from a formerly active relationship."
+- A client who used to engage heavily but has been silent for 90+ days is MORE at risk than a low-engagement client with the same gap — the drop-off from a high baseline is itself a disengagement signal.
+- "Busy but stable" requires RECENT positive contact when the advisor reached out — not merely a strong historical count.
+
 CRITICAL — CONFLICTING SIGNALS: If positive and negative signals coexist (e.g., strong portfolio but long contact gap and overdue action items; recent contact but low sentiment; goals on track but client-initiated complaints), you MUST explicitly resolve the conflict in the reasoning field. Do NOT simply list both sides and assert a conclusion. Instead, identify which signal is dominant for THIS specific client and explain why: "Despite [positive evidence], [negative evidence] outweighs it because [client-specific reason]." OR "The [negative signal] is outweighed by [positive evidence] because [reason tied to this client's tenure/stage/history]." The reasoning must make the trade-off explicit, not implicit.
 
 Return valid JSON ONLY — no markdown, no prose before or after:
@@ -295,14 +301,20 @@ export function calculateAttritionConfidence(
   explicitOverdueCount?: number,
 ): 'high' | 'medium' | 'low' {
   const interactions18m = client.contactStats?.totalInteractions18m ?? client.history.length;
+  const today = new Date();
+  const dsc = differenceInDays(today, parseISO(client.lastContact));
 
   if (interactions18m <= 1) return 'low';
   if (interactions18m <= 4) return 'medium';
-  if (interactions18m >= 15) return 'high';
+  if (interactions18m >= 15) {
+    // Rich history gives us strong data to draw from, but a very long current gap
+    // means we don't know present state — cap at medium so the recency penalty in
+    // the scoring block can't be silently overridden by historical volume alone.
+    return dsc > 90 ? 'medium' : 'high';
+  }
 
   // 5–14 interactions: check whether signals are coherent
-  const today = new Date();
-  const dsc = differenceInDays(today, parseISO(client.lastContact));
+  // (today and dsc already computed above)
   const maxDrift = client.allocation.length > 0
     ? Math.max(...client.allocation.map(a => Math.abs(a.current - a.target)))
     : 0;
