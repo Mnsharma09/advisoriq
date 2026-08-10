@@ -1,13 +1,15 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ClipboardList, Play, RefreshCw, AlertCircle, ChevronRight,
-  TrendingUp, Wallet, AlertTriangle, CheckCircle, Info,
+  TrendingUp, Wallet, AlertTriangle, CheckCircle, Info, Users,
 } from 'lucide-react';
 import { useAppStore } from '@/store/appStore';
 import {
   runBookOfWorkBatch,
   BOOK_OF_WORK_CLIENT_IDS,
+  detectCrossSellGaps,
+  calculateReferralConfidence,
   type BookOfWorkClientResult,
   type BookOfWorkProgress,
   type AttritionRiskCategory,
@@ -50,6 +52,24 @@ const fmtCompact = (v: number): string => {
   return `$${v}`;
 };
 
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+function getWhyNow(result: BookOfWorkClientResult): string {
+  if (
+    result.attrition &&
+    (result.attrition.riskCategory === 'dissatisfaction' ||
+      result.attrition.riskCategory === 'quiet disengagement')
+  ) {
+    const r = result.attrition.reasoning;
+    const cut = r.indexOf('. ');
+    return cut > 0 ? r.slice(0, cut + 1) : r;
+  }
+  if (result.walletCapture && result.walletCapture.opportunitySignal !== 'none') {
+    return result.walletCapture.evidence;
+  }
+  return result.justification;
+}
+
 // ── Sub-components ────────────────────────────────────────────────────────────
 
 function AttritionBadge({ cat }: { cat: AttritionRiskCategory }) {
@@ -68,14 +88,34 @@ function WalletBadge({ sig }: { sig: WalletCaptureOpportunitySignal }) {
   );
 }
 
+interface SummaryTileProps {
+  label: string;
+  value: string;
+  sub?: string;
+  valueClass?: string;
+}
+
+function SummaryTile({ label, value, sub, valueClass }: SummaryTileProps) {
+  return (
+    <div className="bg-white border border-gray-200 rounded-lg px-3 py-2.5 flex flex-col gap-0.5">
+      <span className={`text-xl font-bold tabular-nums leading-tight ${valueClass ?? 'text-gray-900'}`}>
+        {value}
+      </span>
+      <span className="text-[10px] text-gray-500 leading-snug">{label}</span>
+      {sub && <span className="text-[9px] text-gray-400 leading-snug">{sub}</span>}
+    </div>
+  );
+}
+
 function RankRow({ result, onClick }: { result: BookOfWorkClientResult; onClick: () => void }) {
   const attrCat = result.attrition?.riskCategory;
   const walletSig = result.walletCapture?.opportunitySignal;
   const hasError = Boolean(result.error);
+  const whyNow = getWhyNow(result);
 
   return (
     <div
-      className="group flex items-start gap-3 px-4 py-3 hover:bg-gray-50 cursor-pointer transition-colors border-b border-gray-100 last:border-0"
+      className="group flex items-start gap-3 px-4 py-3.5 hover:bg-gray-50 cursor-pointer transition-colors border-b border-gray-100 last:border-0"
       onClick={onClick}
     >
       {/* Rank number */}
@@ -102,7 +142,7 @@ function RankRow({ result, onClick }: { result: BookOfWorkClientResult; onClick:
         </div>
 
         {/* Assessment badges */}
-        <div className="flex items-center gap-1.5 flex-wrap mb-1.5">
+        <div className="flex items-center gap-1.5 flex-wrap mb-2">
           {attrCat && (
             <div className={`flex items-center gap-1 ${ATTRITION_ICON[attrCat]}`}>
               <TrendingUp size={10} className="flex-shrink-0" />
@@ -117,12 +157,17 @@ function RankRow({ result, onClick }: { result: BookOfWorkClientResult; onClick:
           )}
         </div>
 
-        {/* Justification */}
-        <p className="text-[11px] text-gray-500 leading-relaxed">{result.justification}</p>
+        {/* Why now */}
+        <div className="flex items-start gap-1.5 mb-1.5">
+          <span className="text-[9px] font-bold text-gray-400 uppercase tracking-wider mt-0.5 flex-shrink-0">
+            Why now
+          </span>
+          <p className="text-[11px] text-gray-700 leading-relaxed line-clamp-1">{whyNow}</p>
+        </div>
 
-        {/* Suggested actions (collapsed — show attrition first if exists) */}
+        {/* Suggested actions */}
         {(result.attrition?.suggestedAction || result.walletCapture?.suggestedAction) && (
-          <div className="mt-1.5 space-y-1">
+          <div className="space-y-1">
             {result.attrition?.suggestedAction && result.attrition.riskCategory !== 'no concern' && (
               <div className="flex items-start gap-1.5">
                 <ChevronRight size={11} className="text-gray-300 flex-shrink-0 mt-0.5" />
@@ -196,6 +241,32 @@ export function BookOfWorkCard({ clients }: Props) {
   const highPriorityCount = results.filter(r => r.priorityScore >= 30).length;
   const pct = progress.total > 0 ? Math.round((progress.completed / progress.total) * 100) : 0;
 
+  // ── Summary stats ──────────────────────────────────────────────────────────
+  // Deterministic: computed from all clients without LLM
+  const crossSellReferralCount = useMemo(
+    () => clients.filter(
+      c => detectCrossSellGaps(c).length > 0 || calculateReferralConfidence(c.referralHistory ?? []).recencyTier !== 'none',
+    ).length,
+    [clients],
+  );
+
+  // From batch results
+  const batchStats = useMemo(() => {
+    if (results.length === 0) return null;
+    const activeSignalCount = results.filter(
+      r =>
+        (r.attrition && r.attrition.riskCategory !== 'no concern' && r.attrition.riskCategory !== 'busy but stable') ||
+        (r.walletCapture && r.walletCapture.opportunitySignal !== 'none'),
+    ).length;
+    const attritionAUM = results
+      .filter(r => r.attrition && (r.attrition.riskCategory === 'dissatisfaction' || r.attrition.riskCategory === 'quiet disengagement'))
+      .reduce((s, r) => s + r.aum, 0);
+    const walletAUM = results
+      .filter(r => r.walletCapture && r.walletCapture.opportunitySignal !== 'none')
+      .reduce((s, r) => s + r.aum, 0);
+    return { activeSignalCount, attritionAUM, walletAUM };
+  }, [results]);
+
   return (
     <div className="rounded-lg border border-gray-200 bg-white overflow-hidden">
       {/* Header */}
@@ -204,7 +275,7 @@ export function BookOfWorkCard({ clients }: Props) {
           <ClipboardList size={15} className="text-indigo-600" />
           <span className="text-sm font-semibold text-gray-800">Book of Work</span>
           <span className="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded-full font-medium">
-            {BOOK_OF_WORK_CLIENT_IDS.length} clients
+            {BOOK_OF_WORK_CLIENT_IDS.length} clients analyzed
           </span>
         </div>
         <div className="flex items-center gap-3">
@@ -224,6 +295,41 @@ export function BookOfWorkCard({ clients }: Props) {
               {status === 'complete' ? 'Re-run Analysis' : status === 'error' ? 'Retry' : 'Run Analysis'}
             </button>
           )}
+        </div>
+      </div>
+
+      {/* Business-impact summary strip — always visible */}
+      <div className="px-4 py-3 border-b border-gray-100 bg-gray-50/50">
+        <div className="grid grid-cols-5 gap-2.5">
+          <SummaryTile
+            label="Total clients in book"
+            value={clients.length.toString()}
+            sub="full book"
+          />
+          <SummaryTile
+            label="Clients with active signals"
+            value={batchStats ? batchStats.activeSignalCount.toString() : '—'}
+            sub={batchStats ? `of ${results.length} analyzed` : 'run analysis'}
+            valueClass={batchStats && batchStats.activeSignalCount > 0 ? 'text-amber-600' : undefined}
+          />
+          <SummaryTile
+            label="AUM across clients with attrition signals"
+            value={batchStats ? fmtCompact(batchStats.attritionAUM) : '—'}
+            sub={batchStats ? 'dissatisfaction · disengagement' : 'run analysis'}
+            valueClass={batchStats && batchStats.attritionAUM > 0 ? 'text-red-600' : undefined}
+          />
+          <SummaryTile
+            label="AUM across clients with wallet opportunity signals"
+            value={batchStats ? fmtCompact(batchStats.walletAUM) : '—'}
+            sub={batchStats ? 'strong · moderate signals' : 'run analysis'}
+            valueClass={batchStats && batchStats.walletAUM > 0 ? 'text-indigo-600' : undefined}
+          />
+          <SummaryTile
+            label="Clients with cross-sell or referral signals"
+            value={crossSellReferralCount.toString()}
+            sub="across full book · deterministic"
+            valueClass={crossSellReferralCount > 0 ? 'text-emerald-700' : undefined}
+          />
         </div>
       </div>
 

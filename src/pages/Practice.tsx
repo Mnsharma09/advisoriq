@@ -197,7 +197,7 @@ export function PracticeDashboard() {
         </p>
       </div>
 
-      <Tabs defaultValue="overview">
+      <Tabs defaultValue="bookofwork">
         <TabsList className="mb-2">
           <TabsTrigger value="overview">Book Overview</TabsTrigger>
           <TabsTrigger value="intelligence">Cross-Book Intelligence</TabsTrigger>
@@ -821,7 +821,7 @@ export function PracticeDashboard() {
         {/* ── Tab 3: Book of Work ─────────────────────────────────── */}
         <TabsContent value="bookofwork" className="mt-0">
           <p className="text-sm text-gray-500 mb-5">
-            Prioritised action list — attrition risk and wallet capture signals ranked across a curated subset of clients.
+            AdvisorIQ analyzes the advisor's entire book and turns fragmented client information into a prioritized Book of Work — identifying which relationships need attention, why, and what opportunity or risk may be behind them.
           </p>
           <BookOfWorkCard clients={clients} />
         </TabsContent>
