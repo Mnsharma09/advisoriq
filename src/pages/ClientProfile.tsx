@@ -21,6 +21,7 @@ import { AttritionRiskCard } from '@/components/client/AttritionRiskCard';
 import { WalletCaptureCard } from '@/components/client/WalletCaptureCard';
 import { CrossSellCard } from '@/components/client/CrossSellCard';
 import { ReferralCard } from '@/components/client/ReferralCard';
+import { CallNotesPanel } from '@/components/client/CallNotesPanel';
 import { HealthBadge } from '@/components/ui/HealthBadge';
 import { AiBadge } from '@/components/ui/AiBadge';
 import { Button } from '@/components/ui/button';
@@ -2053,6 +2054,9 @@ function AIInsightsTab({ client, briefTriggerCount }: { client: Client; briefTri
 
   return (
     <div className="space-y-6">
+      {/* ── Call Notes — re-runs all 4 agents ── */}
+      <CallNotesPanel client={client} />
+
       {/* ── Attrition Risk Assessment ── */}
       <AttritionRiskCard client={client} />
 

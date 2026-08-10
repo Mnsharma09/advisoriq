@@ -2,14 +2,12 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Wallet, Play, RefreshCw, AlertCircle, ChevronRight, Info,
-  Settings, Beaker, Copy, Check, Send,
+  Settings, Copy, Check, Send,
 } from 'lucide-react';
 import type { Client } from '@/types';
 import {
   generateWalletCaptureAssessment,
   getMatchedPatterns,
-  rankBookOfWork,
-  BOOK_OF_WORK_CLIENT_IDS,
   type WalletCaptureAssessment,
   type WalletCaptureOpportunitySignal,
 } from '@/lib/claudeClient';
@@ -55,32 +53,6 @@ const CONFIDENCE_DOT: Record<WalletCaptureAssessment['confidence'], string> = {
   low:    'bg-gray-400',
 };
 
-// ── Demo scenarios ─────────────────────────────────────────────────────────────
-
-const DEMO_SCENARIOS = [
-  {
-    id: 1 as const,
-    label: 'Inject: Inheritance signal',
-    description: 'Strong wallet-capture signal expected',
-    buttonClass: 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200',
-    notes: "Client mentioned inheriting his father's investment portfolio, currently held at Schwab, hasn't decided what to do with it yet.",
-  },
-  {
-    id: 2 as const,
-    label: 'Inject: Unrelated event',
-    description: 'No signal change expected',
-    buttonClass: 'bg-gray-50 hover:bg-gray-100 text-gray-600 border-gray-200',
-    notes: "Client mentioned he's planning a nice vacation next month.",
-  },
-  {
-    id: 3 as const,
-    label: 'Inject: Suppression',
-    description: 'Signal should downgrade or clear',
-    buttonClass: 'bg-amber-50 hover:bg-amber-100 text-amber-700 border-amber-200',
-    notes: "Discussed consolidation of external assets with client. Client confirmed those are his wife's assets and she does not want them consolidated. No action wanted.",
-  },
-] as const;
-
 // ── Component ─────────────────────────────────────────────────────────────────
 
 interface Props {
@@ -88,89 +60,39 @@ interface Props {
 }
 
 export function WalletCaptureCard({ client }: Props) {
-  const confirmedPatterns   = useAppStore((s) => s.confirmedPatterns);
-  const apiKey              = useAppStore((s) => s.claudeApiKey);
-  const addInteraction      = useAppStore((s) => s.addInteraction);
-  const bookOfWorkResults   = useAppStore((s) => s.bookOfWorkResults);
-  const setBookOfWorkResults = useAppStore((s) => s.setBookOfWorkResults);
+  const confirmedPatterns = useAppStore((s) => s.confirmedPatterns);
+  const apiKey            = useAppStore((s) => s.claudeApiKey);
 
   const [status, setStatus]               = useState<'idle' | 'loading' | 'complete' | 'error'>('idle');
   const [result, setResult]               = useState<WalletCaptureAssessment | null>(null);
   const [matchedPatterns, setMatchedPatterns] = useState<ReturnType<typeof getMatchedPatterns>>([]);
   const [error, setError]                 = useState<string | null>(null);
   const [lastRun, setLastRun]             = useState<Date | null>(null);
-  const [activeScenario, setActiveScenario] = useState<1 | 2 | 3 | null>(null);
 
   // Draft follow-up state
-  const [draftText, setDraftText]         = useState('');
-  const [draftCopied, setDraftCopied]     = useState(false);
-  const [draftSent, setDraftSent]         = useState(false);
+  const [draftText, setDraftText]   = useState('');
+  const [draftCopied, setDraftCopied] = useState(false);
+  const [draftSent, setDraftSent]   = useState(false);
 
   // ── Core assessment logic ─────────────────────────────────────────────────
 
-  async function runAssessmentOn(targetClient: Client) {
+  async function runAssessment() {
     setStatus('loading');
     setError(null);
     setResult(null);
     setDraftSent(false);
     try {
-      const assessment = await generateWalletCaptureAssessment(targetClient, confirmedPatterns);
-      const matched    = getMatchedPatterns(targetClient, confirmedPatterns);
+      const assessment = await generateWalletCaptureAssessment(client, confirmedPatterns);
+      const matched    = getMatchedPatterns(client, confirmedPatterns);
       setResult(assessment);
       setMatchedPatterns(matched);
       setLastRun(new Date());
       setStatus('complete');
-      // Pre-populate draft with suggested action
       setDraftText(assessment.suggestedAction);
-
-      // Patch Book of Work cache if this client is tracked there
-      if (
-        BOOK_OF_WORK_CLIENT_IDS.includes(targetClient.id) &&
-        bookOfWorkResults &&
-        bookOfWorkResults.length > 0
-      ) {
-        const patched = bookOfWorkResults.map(r =>
-          r.clientId === targetClient.id ? { ...r, walletCapture: assessment } : r,
-        );
-        setBookOfWorkResults(rankBookOfWork(patched));
-      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unexpected error occurred.');
       setStatus('error');
     }
-  }
-
-  function runAssessment() {
-    return runAssessmentOn(client);
-  }
-
-  // ── Demo scenario injection ───────────────────────────────────────────────
-
-  function runScenario(scenarioId: 1 | 2 | 3) {
-    const scenario = DEMO_SCENARIOS.find(s => s.id === scenarioId)!;
-    setActiveScenario(scenarioId);
-
-    // 1. Persist the interaction to the store
-    const newInteraction = {
-      id: `demo-${scenarioId}-${Date.now()}`,
-      date: new Date().toISOString().split('T')[0],
-      type: 'call' as const,
-      summary: scenario.notes,
-      actionItems: [] as never[],
-    };
-    addInteraction(client.id, newInteraction);
-
-    // 2. Build an in-place updated client so we don't wait for React re-render.
-    //    (addInteraction updates the store but the `client` prop only refreshes
-    //     on the next render — by constructing updatedClient here we guarantee
-    //     the LLM prompt includes the new interaction text immediately.)
-    const updatedClient: Client = {
-      ...client,
-      history: [newInteraction, ...client.history],
-    };
-
-    // 3. Run the assessment on the updated client
-    runAssessmentOn(updatedClient);
   }
 
   // ── Draft follow-up handlers ──────────────────────────────────────────────
@@ -180,18 +102,11 @@ export function WalletCaptureCard({ client }: Props) {
       await navigator.clipboard.writeText(draftText);
       setDraftCopied(true);
       setTimeout(() => setDraftCopied(false), 2000);
-    } catch {
-      // Clipboard unavailable — silently ignore
-    }
-  }
-
-  function handleMarkSent() {
-    setDraftSent(true);
+    } catch { /* Clipboard unavailable */ }
   }
 
   const signalStyle = result ? (SIGNAL_STYLES[result.opportunitySignal] ?? SIGNAL_STYLES.none) : null;
   const hasPatterns = confirmedPatterns.length > 0;
-  const isBookOfWorkClient = BOOK_OF_WORK_CLIENT_IDS.includes(client.id);
 
   return (
     <div className="rounded-lg border border-gray-200 bg-white overflow-hidden">
@@ -220,41 +135,6 @@ export function WalletCaptureCard({ client }: Props) {
           )}
         </div>
       </div>
-
-      {/* Demo Scenarios — only shown when API key is set */}
-      {apiKey && (
-        <div className="px-4 py-2.5 bg-indigo-50/40 border-b border-indigo-100/60">
-          <div className="flex items-center gap-2 mb-2">
-            <Beaker size={12} className="text-indigo-400" />
-            <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-500">
-              Demo Mode — inject scenario &amp; re-run
-            </span>
-          </div>
-          <div className="flex items-start gap-2 flex-wrap">
-            {DEMO_SCENARIOS.map(s => (
-              <button
-                key={s.id}
-                disabled={status === 'loading'}
-                onClick={() => runScenario(s.id)}
-                className={`
-                  flex flex-col items-start text-left px-2.5 py-1.5 rounded-lg border text-[11px] font-medium
-                  transition-colors disabled:opacity-50 disabled:cursor-not-allowed
-                  ${activeScenario === s.id ? 'ring-2 ring-indigo-400 ring-offset-1' : ''}
-                  ${s.buttonClass}
-                `}
-              >
-                <span>{s.label}</span>
-                <span className="text-[10px] font-normal opacity-70">{s.description}</span>
-              </button>
-            ))}
-          </div>
-          {isBookOfWorkClient && (
-            <p className="text-[10px] text-indigo-500 mt-1.5">
-              ✓ This client is in the Book of Work — rankings will update automatically after each run.
-            </p>
-          )}
-        </div>
-      )}
 
       <div className="px-4 py-3">
         {/* Idle */}
@@ -328,11 +208,7 @@ export function WalletCaptureCard({ client }: Props) {
                 <span className={`w-1.5 h-1.5 rounded-full ${CONFIDENCE_DOT[result.confidence]}`} />
                 {result.confidence} confidence
               </span>
-              {activeScenario !== null && (
-                <span className="text-[10px] bg-indigo-50 text-indigo-600 border border-indigo-200 px-1.5 py-0.5 rounded font-medium">
-                  Scenario {activeScenario} result
-                </span>
-              )}
+
             </div>
 
             {/* Evidence */}
@@ -392,7 +268,7 @@ export function WalletCaptureCard({ client }: Props) {
                         : <><Copy size={12} /> Copy</>}
                     </button>
                     <button
-                      onClick={handleMarkSent}
+                      onClick={() => setDraftSent(true)}
                       className="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-md border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 transition-colors"
                     >
                       <Send size={12} />
