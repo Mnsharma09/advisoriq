@@ -295,6 +295,7 @@ interface RawClient {
   life_stage: string; aum: number; tenure_years: number; risk_tolerance: string;
   estate_docs_complete: boolean; insurance_adequate: boolean; last_review_date: string;
   nba_scenario_flag?: boolean; nba_expected_rank?: number; household_id?: string;
+  days_since_last_contact?: number;
 }
 interface RawContactLog {
   client_id: string; last_contact_date: string; days_since_last_contact: number;
