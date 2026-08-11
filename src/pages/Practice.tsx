@@ -12,10 +12,8 @@ import {
 } from 'lucide-react';
 import { differenceInDays, parseISO, format, subMonths } from 'date-fns';
 import { useAppStore } from '@/store/appStore';
-import { calculateHealthScore } from '@/lib/healthScore';
 import { analyseBook } from '@/lib/crossBookIntelligence';
 import type { InsightSeverity } from '@/lib/crossBookIntelligence';
-import { HealthBadge } from '@/components/ui/HealthBadge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import {
@@ -46,7 +44,7 @@ const fmtPct = (v: number) => `${v.toFixed(1)}%`;
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type SortKey = 'aum' | 'health' | 'lastContact' | 'openItems' | 'revenue';
+type SortKey = 'aum' | 'lastContact' | 'openItems' | 'revenue';
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -59,7 +57,6 @@ export function PracticeDashboard() {
   const scoredClients = useMemo(() => {
     const now = new Date();
     return clients.map((c, idx) => {
-      const healthScore = calculateHealthScore(c);
       const openItems = c.history.flatMap((h) =>
         h.actionItems.filter((ai) => !ai.completed)
       ).length;
@@ -70,8 +67,8 @@ export function PracticeDashboard() {
       ).length;
       const daysSinceContact = differenceInDays(now, parseISO(c.lastContact));
       const revenue = c.aum * 0.01;
-      const trendUp = idx % 10 < 7; // deterministic 70 % up, 30 % down
-      return { ...c, healthScore, openItems, overdueItems, daysSinceContact, revenue, trendUp };
+      const trendUp = idx % 10 < 7; // deterministic 70% up, 30% down
+      return { ...c, openItems, overdueItems, daysSinceContact, revenue, trendUp };
     });
   }, [clients]);
 
@@ -82,12 +79,14 @@ export function PracticeDashboard() {
   );
   const avgAUM = clients.length > 0 ? totalAUM / clients.length : 0;
   const estimatedRevenue = totalAUM * 0.01;
-  const clientsAtRisk = scoredClients.filter((c) => c.healthScore.total < 50);
   const totalOpenItems = scoredClients.reduce((s, c) => s + c.openItems, 0);
   const totalOverdueItems = scoredClients.reduce((s, c) => s + c.overdueItems, 0);
-  const avgHealth = scoredClients.length > 0
-    ? Math.round(scoredClients.reduce((s, c) => s + c.healthScore.total, 0) / scoredClients.length)
-    : 0;
+  const bookOfWorkResults = useAppStore((s) => s.bookOfWorkResults);
+  const priorityCount = bookOfWorkResults
+    ? bookOfWorkResults.filter((r) => r.priorityScore >= 30).length
+    : null;
+  const clientsWithOverdue = scoredClients.filter((c) => c.overdueItems > 0);
+  const aumWithOverdue = clientsWithOverdue.reduce((s, c) => s + c.aum, 0);
 
   // ── Mock AUM trend (12 months) ───────────────────────────────────────
   const aumTrendData = useMemo(() => {
@@ -104,26 +103,13 @@ export function PracticeDashboard() {
     return pts;
   }, [totalAUM]);
 
-  // ── Health distribution ──────────────────────────────────────────────
-  const healthDistData = useMemo(() =>
+  // ── Contact frequency distribution ───────────────────────────────────
+  const contactDistData = useMemo(() =>
     [
-      {
-        name: 'On Track (75–100)',
-        value: scoredClients.filter((c) => c.healthScore.total >= 75).length,
-        fill: '#22c55e',
-      },
-      {
-        name: 'Needs Attention (50–74)',
-        value: scoredClients.filter(
-          (c) => c.healthScore.total >= 50 && c.healthScore.total < 75
-        ).length,
-        fill: '#f59e0b',
-      },
-      {
-        name: 'Critical (<50)',
-        value: scoredClients.filter((c) => c.healthScore.total < 50).length,
-        fill: '#ef4444',
-      },
+      { name: 'This week',  value: scoredClients.filter((c) => c.daysSinceContact <= 7).length,                                          fill: '#22c55e' },
+      { name: '8–30 days',  value: scoredClients.filter((c) => c.daysSinceContact > 7  && c.daysSinceContact <= 30).length,              fill: '#3b82f6' },
+      { name: '31–60 days', value: scoredClients.filter((c) => c.daysSinceContact > 30 && c.daysSinceContact <= 60).length,              fill: '#f59e0b' },
+      { name: '60+ days',   value: scoredClients.filter((c) => c.daysSinceContact > 60).length,                                          fill: '#ef4444' },
     ].filter((d) => d.value > 0),
     [scoredClients]
   );
@@ -146,7 +132,6 @@ export function PracticeDashboard() {
     [scoredClients]
   );
   const topClientPct = topClient && totalAUM > 0 ? (topClient.aum / totalAUM) * 100 : 0;
-  const revenueAtRisk = clientsAtRisk.reduce((s, c) => s + c.revenue, 0);
   const avgDaysSinceContact = scoredClients.length > 0
     ? Math.round(scoredClients.reduce((s, c) => s + c.daysSinceContact, 0) / scoredClients.length)
     : 0;
@@ -169,7 +154,6 @@ export function PracticeDashboard() {
       let diff = 0;
       switch (sortKey) {
         case 'aum':         diff = a.aum - b.aum; break;
-        case 'health':      diff = a.healthScore.total - b.healthScore.total; break;
         case 'lastContact': diff = a.daysSinceContact - b.daysSinceContact; break;
         case 'openItems':   diff = a.openItems - b.openItems; break;
         case 'revenue':     diff = a.revenue - b.revenue; break;
@@ -246,12 +230,14 @@ export function PracticeDashboard() {
         />
 
         <PracticeMetricCard
-          label="Clients at Risk"
-          value={clientsAtRisk.length.toString()}
-          valueClass="text-red-600"
-          icon={<AlertTriangle size={18} className="text-red-500" />}
+          label="Priority Clients"
+          value={priorityCount !== null ? priorityCount.toString() : '–'}
+          valueClass={priorityCount !== null && priorityCount > 0 ? 'text-amber-600' : 'text-gray-900'}
+          icon={<AlertTriangle size={18} className="text-amber-500" />}
           sub={
-            <span className="text-xs text-red-400">Health score below 50</span>
+            <span className="text-xs text-gray-400">
+              {priorityCount !== null ? 'Book of Work score ≥ 30' : 'Run Book of Work first'}
+            </span>
           }
         />
 
@@ -338,16 +324,16 @@ export function PracticeDashboard() {
           </CardContent>
         </Card>
 
-        {/* Chart 2: Health Distribution Donut */}
+        {/* Chart 2: Contact Frequency Distribution */}
         <Card className="border-gray-200">
           <CardContent className="p-4 pb-2">
             <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">
-              Client health distribution
+              Contact frequency
             </div>
             <ResponsiveContainer width="100%" height={190}>
               <PieChart>
                 <Pie
-                  data={healthDistData}
+                  data={contactDistData}
                   cx="50%"
                   cy="45%"
                   innerRadius={50}
@@ -355,7 +341,7 @@ export function PracticeDashboard() {
                   paddingAngle={3}
                   dataKey="value"
                 >
-                  {healthDistData.map((entry, i) => (
+                  {contactDistData.map((entry, i) => (
                     <Cell key={i} fill={entry.fill} />
                   ))}
                 </Pie>
@@ -469,7 +455,6 @@ export function PracticeDashboard() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="aum">Sort: AUM</SelectItem>
-                <SelectItem value="health">Sort: Health Score</SelectItem>
                 <SelectItem value="lastContact">Sort: Last Contact</SelectItem>
                 <SelectItem value="openItems">Sort: Open Items</SelectItem>
                 <SelectItem value="revenue">Sort: Revenue</SelectItem>
@@ -495,13 +480,6 @@ export function PracticeDashboard() {
                 <th className="text-left px-4 py-2.5 text-xs font-medium text-gray-500 uppercase tracking-wide whitespace-nowrap">
                   % of Book
                 </th>
-                <SortableHeader
-                  label="Health"
-                  col="health"
-                  sortKey={sortKey}
-                  dir={sortDir}
-                  onSort={handleSort}
-                />
                 <SortableHeader
                   label="Last Contact"
                   col="lastContact"
@@ -560,15 +538,6 @@ export function PracticeDashboard() {
                     {totalAUM > 0 ? fmtPct((c.aum / totalAUM) * 100) : '—'}
                   </td>
 
-                  {/* Health */}
-                  <td className="px-4 py-3">
-                    <HealthBadge
-                      score={c.healthScore.total}
-                      color={c.healthScore.color}
-                      size="sm"
-                    />
-                  </td>
-
                   {/* Last Contact */}
                   <td className="px-4 py-3 text-xs text-gray-500">
                     {c.daysSinceContact}d ago
@@ -614,9 +583,6 @@ export function PracticeDashboard() {
                   {fmtCompact(totalAUM)}
                 </td>
                 <td className="px-4 py-3 text-sm font-semibold text-gray-500">100%</td>
-                <td className="px-4 py-3 text-sm font-semibold text-gray-700">
-                  Avg {avgHealth}
-                </td>
                 <td className="px-4 py-3 text-xs text-gray-400">—</td>
                 <td className="px-4 py-3 text-sm font-bold text-gray-900">
                   {totalOpenItems}
@@ -646,11 +612,11 @@ export function PracticeDashboard() {
           />
           <InsightCard
             icon={<AlertTriangle size={15} className="text-amber-500" />}
-            title="Revenue at Risk"
+            title="Overdue Action Items"
             text={
-              clientsAtRisk.length > 0
-                ? `Clients with critical health scores represent ${fmtCompact(revenueAtRisk)} in estimated annual revenue. Addressing these relationships is your highest-value activity.`
-                : 'No clients currently in the critical health band.'
+              clientsWithOverdue.length > 0
+                ? `${clientsWithOverdue.length} client${clientsWithOverdue.length > 1 ? 's have' : ' has'} overdue follow-ups, representing ${fmtCompact(aumWithOverdue)} in AUM. Clearing these commitments is your highest-value engagement activity.`
+                : 'No clients currently have overdue action items.'
             }
           />
           <InsightCard

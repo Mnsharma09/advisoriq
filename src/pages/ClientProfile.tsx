@@ -21,6 +21,7 @@ import { AttritionRiskCard } from '@/components/client/AttritionRiskCard';
 import { WalletCaptureCard } from '@/components/client/WalletCaptureCard';
 import { CrossSellCard } from '@/components/client/CrossSellCard';
 import { ReferralCard } from '@/components/client/ReferralCard';
+import { CrossSignalCard } from '@/components/client/CrossSignalCard';
 import { CallNotesPanel } from '@/components/client/CallNotesPanel';
 import { HealthBadge } from '@/components/ui/HealthBadge';
 import { AiBadge } from '@/components/ui/AiBadge';
@@ -2068,6 +2069,9 @@ function AIInsightsTab({ client, briefTriggerCount }: { client: Client; briefTri
 
       {/* ── Referral & Acquisition ── */}
       <ReferralCard client={client} />
+
+      {/* ── Cross-Signal View (V1 · Experimental) ── */}
+      <CrossSignalCard clientId={client.id} />
 
       {/* ── Pre-Meeting Brief ── */}
       <Card>

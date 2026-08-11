@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { Brain, Play, RefreshCw, AlertCircle, ChevronRight } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import { Brain, Play, RefreshCw, AlertCircle, ChevronRight, ShieldCheck } from 'lucide-react';
+import { differenceInDays, parseISO } from 'date-fns';
 import type { Client } from '@/types';
 import {
   generatePatternHypotheses,
@@ -10,6 +11,12 @@ import {
   type ConfirmedPatternWithSpec,
 } from '@/lib/claudeClient';
 import { useAppStore } from '@/store/appStore';
+import {
+  CORE_CHECK_CONTACT_GAP_DAYS,
+  CORE_CHECK_OPEN_ITEMS_OVERLOAD,
+  CORE_CHECK_CASH_DRAG_PCT,
+  DEMO_ANCHOR_DATE,
+} from '@/lib/signalThresholds';
 
 type Step = 'generating' | 'validating' | 'synthesizing';
 type Status = 'idle' | 'loading' | 'complete' | 'error';
@@ -38,6 +45,86 @@ interface Props {
   clients: Client[];
 }
 
+interface CoreCheck {
+  label: string;
+  count: number;
+  detail: string;
+  severity: 'high' | 'medium' | 'ok';
+}
+
+function useCoreChecks(clients: Client[]): CoreCheck[] {
+  return useMemo(() => {
+    const now = DEMO_ANCHOR_DATE;
+
+    const engagementGap = clients.filter((c) =>
+      differenceInDays(now, parseISO(c.lastContact)) >= CORE_CHECK_CONTACT_GAP_DAYS
+    ).length;
+
+    const actionBacklog = clients.filter((c) => {
+      const open = c.history.flatMap((h) => h.actionItems.filter((ai) => !ai.completed)).length;
+      return open >= CORE_CHECK_OPEN_ITEMS_OVERLOAD;
+    }).length;
+
+    const goalsOffTrack = clients.filter((c) =>
+      c.goals.length > 0 && c.goals.some((g) => !g.onTrack)
+    ).length;
+
+    const cashDrag = clients.filter((c) => {
+      const cash = c.allocation.find((a) => a.assetClass === 'Cash');
+      return cash && cash.current > CORE_CHECK_CASH_DRAG_PCT;
+    }).length;
+
+    const estateGap = clients.filter((c) =>
+      c.productHoldings?.some((h) => h.productType === 'estate_plan' && h.flaggedAsGap)
+    ).length;
+
+    return [
+      {
+        label: 'Engagement Gap',
+        count: engagementGap,
+        detail: `${CORE_CHECK_CONTACT_GAP_DAYS}+ days since last contact`,
+        severity: engagementGap > 20 ? 'high' : engagementGap > 5 ? 'medium' : 'ok',
+      },
+      {
+        label: 'Action Item Backlog',
+        count: actionBacklog,
+        detail: `${CORE_CHECK_OPEN_ITEMS_OVERLOAD}+ open items`,
+        severity: actionBacklog > 15 ? 'high' : actionBacklog > 5 ? 'medium' : 'ok',
+      },
+      {
+        label: 'Goals Off-Track',
+        count: goalsOffTrack,
+        detail: 'at least one goal behind target',
+        severity: goalsOffTrack > 30 ? 'high' : goalsOffTrack > 10 ? 'medium' : 'ok',
+      },
+      {
+        label: 'Cash Drag',
+        count: cashDrag,
+        detail: `>${CORE_CHECK_CASH_DRAG_PCT}% cash allocation`,
+        severity: cashDrag > 15 ? 'high' : cashDrag > 5 ? 'medium' : 'ok',
+      },
+      {
+        label: 'Estate Plan Gap',
+        count: estateGap,
+        detail: 'flagged as gap in holdings',
+        severity: estateGap > 10 ? 'high' : estateGap > 3 ? 'medium' : 'ok',
+      },
+    ];
+  }, [clients]);
+}
+
+const CORE_SEVERITY_DOT: Record<CoreCheck['severity'], string> = {
+  high:   'bg-red-500',
+  medium: 'bg-amber-400',
+  ok:     'bg-emerald-400',
+};
+
+const CORE_SEVERITY_TEXT: Record<CoreCheck['severity'], string> = {
+  high:   'text-red-700',
+  medium: 'text-amber-700',
+  ok:     'text-emerald-700',
+};
+
 export function PatternDiscoveryCard({ clients }: Props) {
   const setConfirmedPatterns = useAppStore((s) => s.setConfirmedPatterns);
   const [status, setStatus] = useState<Status>('idle');
@@ -45,6 +132,7 @@ export function PatternDiscoveryCard({ clients }: Props) {
   const [result, setResult] = useState<SynthesisResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [lastRun, setLastRun] = useState<Date | null>(null);
+  const coreChecks = useCoreChecks(clients);
 
   async function runAnalysis() {
     setStatus('loading');
@@ -117,7 +205,46 @@ export function PatternDiscoveryCard({ clients }: Props) {
         </div>
       </div>
 
-      <div className="px-4 py-3">
+      <div className="px-4 py-3 space-y-4">
+
+        {/* ── Core Checks (always-on deterministic) ──────────────────────── */}
+        <div>
+          <div className="flex items-center gap-1.5 mb-2">
+            <ShieldCheck size={13} className="text-gray-500" />
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-gray-500">
+              Core Checks
+            </span>
+            <span className="text-[10px] text-gray-400 ml-1">always-on · deterministic</span>
+          </div>
+          <div className="grid grid-cols-5 gap-2">
+            {coreChecks.map((check) => (
+              <div
+                key={check.label}
+                className="rounded-md border border-gray-100 bg-gray-50 px-2.5 py-2 text-center"
+              >
+                <div className="flex items-center justify-center gap-1 mb-0.5">
+                  <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${CORE_SEVERITY_DOT[check.severity]}`} />
+                  <span className={`text-lg font-bold tabular-nums ${CORE_SEVERITY_TEXT[check.severity]}`}>
+                    {check.count}
+                  </span>
+                </div>
+                <div className="text-[10px] font-medium text-gray-700 leading-tight">{check.label}</div>
+                <div className="text-[9px] text-gray-400 leading-tight mt-0.5">{check.detail}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── AI-Suggested Exploratory Patterns ─────────────────────────── */}
+        <div>
+          <div className="flex items-center gap-1.5 mb-2">
+            <Brain size={13} className="text-purple-500" />
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-gray-500">
+              AI-Suggested Exploratory Patterns
+            </span>
+            <span className="text-[10px] text-gray-400 ml-1">requires analysis run</span>
+          </div>
+
         {/* Description (idle only) */}
         {status === 'idle' && (
           <p className="text-sm text-gray-500">
@@ -232,6 +359,8 @@ export function PatternDiscoveryCard({ clients }: Props) {
             <p className="text-xs text-gray-500 border-t border-gray-100 pt-3">{result.summary}</p>
           </div>
         )}
+        </div>{/* end AI section */}
+
       </div>
     </div>
   );

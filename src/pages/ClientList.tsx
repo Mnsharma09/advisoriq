@@ -4,8 +4,7 @@ import { Search, Eye, FileText, Users } from 'lucide-react';
 import { differenceInDays, parseISO, isToday, isThisWeek, startOfWeek, endOfWeek } from 'date-fns';
 import { formatDistanceToNow } from 'date-fns';
 import { useAppStore } from '@/store/appStore';
-import { calculateHealthScore, formatAUM } from '@/lib/healthScore';
-import { HealthBadge } from '@/components/ui/HealthBadge';
+import { formatAUM } from '@/lib/healthScore';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import {
@@ -17,10 +16,9 @@ import {
 } from '@/components/ui/select';
 import type { RiskProfile } from '@/types';
 
-type HealthFilter = 'all' | 'attention' | 'critical';
 type ContactFilter = 'all' | 'week' | 'month' | 'over60';
 type MeetingFilter = 'all' | 'thisWeek';
-type SortKey = 'name' | 'health' | 'aum' | 'lastContact' | 'openItems';
+type SortKey = 'name' | 'aum' | 'lastContact' | 'openItems';
 
 export function ClientList() {
   const navigate = useNavigate();
@@ -34,22 +32,17 @@ export function ClientList() {
 
   // Initialise filters from URL params (set by Dashboard metric card clicks)
   const [search, setSearch] = useState('');
-  const [healthFilter, setHealthFilter] = useState<HealthFilter>(
-    (searchParams.get('health') as HealthFilter) ?? 'all'
-  );
   const [riskFilter, setRiskFilter] = useState<RiskProfile | 'all'>('all');
   const [contactFilter, setContactFilter] = useState<ContactFilter>('all');
   const [meetingFilter, setMeetingFilter] = useState<MeetingFilter>(
     searchParams.get('meetings') === 'thisWeek' ? 'thisWeek' : 'all'
   );
   const [sortKey, setSortKey] = useState<SortKey>(
-    searchParams.get('sort') === 'openItems' ? 'openItems' : 'health'
+    searchParams.get('sort') === 'openItems' ? 'openItems' : 'aum'
   );
 
   // Sync if URL params change (e.g. navigating from Dashboard again)
   useEffect(() => {
-    const h = searchParams.get('health') as HealthFilter | null;
-    if (h) setHealthFilter(h);
     const m = searchParams.get('meetings');
     if (m === 'thisWeek') setMeetingFilter('thisWeek');
     const s = searchParams.get('sort');
@@ -63,7 +56,7 @@ export function ClientList() {
   const scoredClients = useMemo(
     () => clients.map((c) => {
       const openItems = c.history.flatMap((h) => h.actionItems.filter((ai) => !ai.completed)).length;
-      return { ...c, healthScore: calculateHealthScore(c), openItems };
+      return { ...c, openItems };
     }),
     [clients]
   );
@@ -80,9 +73,6 @@ export function ClientList() {
       const q = search.toLowerCase();
       result = result.filter((c) => c.name.toLowerCase().includes(q));
     }
-
-    if (healthFilter === 'attention') result = result.filter((c) => c.healthScore.total < 75);
-    if (healthFilter === 'critical') result = result.filter((c) => c.healthScore.total < 50);
 
     if (riskFilter !== 'all') result = result.filter((c) => c.riskProfile === riskFilter);
 
@@ -105,22 +95,20 @@ export function ClientList() {
 
     return [...result].sort((a, b) => {
       if (sortKey === 'name') return a.name.localeCompare(b.name);
-      if (sortKey === 'health') return a.healthScore.total - b.healthScore.total;
       if (sortKey === 'aum') return b.aum - a.aum;
       if (sortKey === 'lastContact')
         return parseISO(b.lastContact).getTime() - parseISO(a.lastContact).getTime();
       if (sortKey === 'openItems') return b.openItems - a.openItems;
       return 0;
     });
-  }, [scoredClients, search, healthFilter, riskFilter, contactFilter, meetingFilter, sortKey, weekStart, weekEnd, clientIdsParam]);
+  }, [scoredClients, search, riskFilter, contactFilter, meetingFilter, sortKey, weekStart, weekEnd, clientIdsParam]);
 
   function clearFilters() {
     setSearch('');
-    setHealthFilter('all');
     setRiskFilter('all');
     setContactFilter('all');
     setMeetingFilter('all');
-    setSortKey('health');
+    setSortKey('aum');
   }
 
   function getInitials(name: string) {
@@ -148,7 +136,6 @@ export function ClientList() {
 
   const hasFilters =
     search.trim() !== '' ||
-    healthFilter !== 'all' ||
     riskFilter !== 'all' ||
     contactFilter !== 'all' ||
     meetingFilter !== 'all';
@@ -189,17 +176,6 @@ export function ClientList() {
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">
-          <Select value={healthFilter} onValueChange={(v) => setHealthFilter(v as HealthFilter)}>
-            <SelectTrigger className="w-44 h-8 text-xs">
-              <SelectValue placeholder="Health Score" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Health Scores</SelectItem>
-              <SelectItem value="attention">Needs Attention (&lt;75)</SelectItem>
-              <SelectItem value="critical">Critical (&lt;50)</SelectItem>
-            </SelectContent>
-          </Select>
-
           <Select value={riskFilter} onValueChange={(v) => setRiskFilter(v as RiskProfile | 'all')}>
             <SelectTrigger className="w-40 h-8 text-xs">
               <SelectValue placeholder="Risk Profile" />
@@ -240,7 +216,6 @@ export function ClientList() {
                 <SelectValue placeholder="Sort by" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="health">Sort: Health Score</SelectItem>
                 <SelectItem value="name">Sort: Name</SelectItem>
                 <SelectItem value="aum">Sort: AUM</SelectItem>
                 <SelectItem value="lastContact">Sort: Last Contact</SelectItem>
@@ -285,9 +260,6 @@ export function ClientList() {
                   Client
                 </th>
                 <th className="text-left px-4 py-2.5 text-xs font-medium text-gray-500 uppercase tracking-wide">
-                  Health
-                </th>
-                <th className="text-left px-4 py-2.5 text-xs font-medium text-gray-500 uppercase tracking-wide">
                   AUM
                 </th>
                 <th className="text-left px-4 py-2.5 text-xs font-medium text-gray-500 uppercase tracking-wide">
@@ -324,11 +296,6 @@ export function ClientList() {
                           <div className="text-xs text-gray-400">{client.employment}</div>
                         </div>
                       </div>
-                    </td>
-
-                    {/* Health */}
-                    <td className="px-4 py-3">
-                      <HealthBadge score={client.healthScore.total} color={client.healthScore.color} size="sm" />
                     </td>
 
                     {/* AUM */}

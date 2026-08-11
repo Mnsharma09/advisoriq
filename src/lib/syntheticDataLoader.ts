@@ -11,6 +11,7 @@
  */
 
 import { format, parseISO, subDays, subYears } from 'date-fns';
+import { DEMO_ANCHOR_DATE } from './signalThresholds';
 import type {
   Client,
   RiskProfile,
@@ -30,6 +31,39 @@ import type {
 // ─── Env ──────────────────────────────────────────────────────────────────────
 
 const API_URL = (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/$/, '');
+
+// ─── Upcoming Meeting Seed ────────────────────────────────────────────────────
+// Static realistic meeting schedule spread across the next 4 weeks.
+// Relative to the demo baseline date of 2026-08-12.
+
+import type { UpcomingMeeting } from '@/types';
+
+const MEETING_SEED: Record<string, UpcomingMeeting[]> = {
+  C0001: [{ id: 'um-C0001-1', date: '2026-08-14', time: '10:00 AM', purpose: 'Annual Review' }],
+  C0002: [{ id: 'um-C0002-1', date: '2026-08-19', time: '2:00 PM',  purpose: 'Portfolio Review' }],
+  C0004: [{ id: 'um-C0004-1', date: '2026-08-13', time: '9:30 AM',  purpose: 'Tax Planning' }],
+  C0005: [{ id: 'um-C0005-1', date: '2026-08-21', time: '11:00 AM', purpose: 'Goal Check-In' }],
+  C0007: [{ id: 'um-C0007-1', date: '2026-08-15', time: '3:00 PM',  purpose: 'Estate Planning Review' }],
+  C0008: [
+    { id: 'um-C0008-1', date: '2026-08-13', time: '2:30 PM',  purpose: 'Quarterly Check-In' },
+    { id: 'um-C0008-2', date: '2026-09-03', time: '10:00 AM', purpose: 'Annual Review' },
+  ],
+  C0010: [{ id: 'um-C0010-1', date: '2026-08-18', time: '9:00 AM',  purpose: 'Portfolio Review' }],
+  C0012: [{ id: 'um-C0012-1', date: '2026-08-26', time: '1:30 PM',  purpose: 'Insurance Review' }],
+  C0014: [{ id: 'um-C0014-1', date: '2026-08-20', time: '10:30 AM', purpose: 'Retirement Planning' }],
+  C0016: [{ id: 'um-C0016-1', date: '2026-09-09', time: '2:00 PM',  purpose: 'Annual Review' }],
+  C0018: [{ id: 'um-C0018-1', date: '2026-08-25', time: '11:30 AM', purpose: 'Goal Check-In' }],
+  C0019: [{ id: 'um-C0019-1', date: '2026-08-14', time: '4:00 PM',  purpose: 'Education Funding Review' }],
+  C0021: [{ id: 'um-C0021-1', date: '2026-08-27', time: '9:30 AM',  purpose: 'Portfolio Review' }],
+  C0023: [{ id: 'um-C0023-1', date: '2026-09-02', time: '3:30 PM',  purpose: 'Tax Planning' }],
+  C0025: [{ id: 'um-C0025-1', date: '2026-08-19', time: '9:00 AM',  purpose: 'Annual Review' }],
+  C0027: [
+    { id: 'um-C0027-1', date: '2026-08-13', time: '1:00 PM',  purpose: 'Estate Planning Review' },
+    { id: 'um-C0027-2', date: '2026-08-20', time: '11:00 AM', purpose: 'Portfolio Review' },
+  ],
+  C0028: [{ id: 'um-C0028-1', date: '2026-08-18', time: '3:00 PM',  purpose: 'Quarterly Check-In' }],
+  C0030: [{ id: 'um-C0030-1', date: '2026-09-08', time: '10:00 AM', purpose: 'Retirement Planning' }],
+};
 
 // ─── Shared mapping helpers ───────────────────────────────────────────────────
 
@@ -178,7 +212,7 @@ interface ApiClientRow {
 
 function transformApiRow(r: ApiClientRow): Client {
   const lastContact = r.last_contact_date
-    ?? format(subDays(new Date(), r.days_since_last_contact ?? 30), 'yyyy-MM-dd');
+    ?? format(subDays(DEMO_ANCHOR_DATE, r.days_since_last_contact ?? 30), 'yyyy-MM-dd');
 
   const hasAllocation = r.target_allocation_equity != null;
   const allocation = hasAllocation
@@ -427,8 +461,13 @@ async function loadFromJSON(): Promise<Client[]> {
     const goal     = primaryGoalMap.get(raw.client_id);
     const score    = scoreMap.get(raw.client_id);
 
-    const lastContact = contact?.last_contact_date
-      ?? format(subDays(new Date(), 30), 'yyyy-MM-dd');
+    // Always compute lastContact relative to DEMO_ANCHOR_DATE using the recorded
+    // days_since_last_contact. The raw last_contact_date in daily_contact_log.json
+    // is absolute (generated June 2026) and becomes stale relative to demo "today".
+    const lastContact = format(
+      subDays(DEMO_ANCHOR_DATE, raw.days_since_last_contact ?? contact?.days_since_last_contact ?? 30),
+      'yyyy-MM-dd',
+    );
 
     const apiRow: ApiClientRow = {
       ...raw,
@@ -510,9 +549,13 @@ async function loadFromJSON(): Promise<Client[]> {
 export async function loadSyntheticClients(): Promise<Client[]> {
   if (API_URL) {
     console.info(`[AdvisorIQ] Loading clients from API: ${API_URL}`);
-    return loadFromAPI();
+    try {
+      return await loadFromAPI();
+    } catch {
+      console.warn('[AdvisorIQ] API unreachable — falling back to static JSON files.');
+    }
   }
-  console.info('[AdvisorIQ] VITE_API_URL not set — loading from static JSON files.');
+  console.info('[AdvisorIQ] Loading clients from static JSON files.');
   return loadFromJSON();
 }
 
@@ -536,7 +579,12 @@ export async function enrichClientsWithHistory(clients: Client[]): Promise<Clien
   // referralHistory is undefined on clients cached before this field was added to the schema.
   // An empty array [] means the client was loaded with the field but simply has no referrals.
   const needsReferrals  = clients.some(c => c.referralHistory === undefined);
-  if (!needsEnrichment && !needsHoldings && !needsReferrals) return clients;
+  // Meeting seed: check if any seeded client is missing their meetings.
+  const needsMeetings   = Object.keys(MEETING_SEED).some(id => {
+    const c = clients.find(cl => cl.id === id);
+    return c && c.upcomingMeetings.length === 0;
+  });
+  if (!needsEnrichment && !needsHoldings && !needsReferrals && !needsMeetings) return clients;
 
   console.info('[AdvisorIQ] Supplementing history, lifeEvents, productHoldings, and referralHistory from JSON files.');
 
@@ -597,5 +645,8 @@ export async function enrichClientsWithHistory(clients: Client[]): Promise<Clien
     referralHistory: c.referralHistory !== undefined
       ? c.referralHistory
       : (referralEnrichMap.get(c.id) ?? []),
+    upcomingMeetings: c.upcomingMeetings.length > 0
+      ? c.upcomingMeetings
+      : (MEETING_SEED[c.id] ?? []),
   }));
 }

@@ -49,7 +49,8 @@ function App() {
         <Route path="/clients/:id/summary" element={<ClientSummary />} />
 
         <Route element={<Layout />}>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/" element={<PracticeDashboard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/practice" element={<PracticeDashboard />} />
           <Route path="/calendar" element={<CalendarPage />} />
           <Route path="/clients" element={<ClientList />} />

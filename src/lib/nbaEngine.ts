@@ -1,6 +1,12 @@
 import { differenceInDays, parseISO } from 'date-fns';
 import type { Client } from '@/types';
 import { calculateHouseholdEngagementScore } from './householdIntelligence';
+import {
+  NBA_MAX_CONTACT, NBA_MAX_PORTFOLIO, NBA_MAX_GOALS, NBA_MAX_HOUSEHOLD, NBA_MAX_LIFE_EVENT,
+  NBA_CONTACT_LERP, NBA_PORTFOLIO_LERP, NBA_CONTACT_RECENT_DAYS,
+  NBA_LIFE_EVENT_RECENT_DAYS, NBA_LIFE_EVENT_MEDIUM_DAYS, NBA_LIFE_EVENT_MEDIUM_SCORE,
+  NBA_URGENCY_CRITICAL, NBA_URGENCY_HIGH, NBA_URGENCY_MEDIUM,
+} from './signalThresholds';
 
 // ─── Public Types ─────────────────────────────────────────────────────────────
 
@@ -64,13 +70,12 @@ function firstName(name: string): string {
   return name.split(' ')[0];
 }
 
-// ─── Signal Max Weights (must sum to 100) ────────────────────────────────────
-
-const MAX_CONTACT = 25;
-const MAX_PORTFOLIO = 20;
-const MAX_GOALS = 20;
-const MAX_HOUSEHOLD = 20;
-const MAX_LIFE_EVENT = 15;
+// ─── Signal Max Weights (imported from signalThresholds.ts) ──────────────────
+const MAX_CONTACT    = NBA_MAX_CONTACT;
+const MAX_PORTFOLIO  = NBA_MAX_PORTFOLIO;
+const MAX_GOALS      = NBA_MAX_GOALS;
+const MAX_HOUSEHOLD  = NBA_MAX_HOUSEHOLD;
+const MAX_LIFE_EVENT = NBA_MAX_LIFE_EVENT;
 // Total: 100 ✓
 
 // ─── Main Engine ─────────────────────────────────────────────────────────────
@@ -82,19 +87,12 @@ export function calculateNBAScore(client: Client): NBAScore {
   // ── Signal 1: Contact (25 pts max) ────────────────────────────────────────
   // 0d → 25pts, 30d → 20pts, 60d → 12pts, 90d+ → 0pts (linear interpolation)
   const daysSinceContact = differenceInDays(now, parseISO(client.lastContact));
-  const contactScore = Math.round(
-    lerp(daysSinceContact, [
-      [0, 25],
-      [30, 20],
-      [60, 12],
-      [90, 0],
-    ])
-  );
+  const contactScore = Math.round(lerp(daysSinceContact, NBA_CONTACT_LERP));
 
   const contactDescription =
     daysSinceContact === 0
       ? 'Contacted today'
-      : daysSinceContact <= 7
+      : daysSinceContact <= NBA_CONTACT_RECENT_DAYS
       ? `Last contact ${daysSinceContact}d ago`
       : `${daysSinceContact} days since last contact`;
 
@@ -104,14 +102,7 @@ export function calculateNBAScore(client: Client): NBAScore {
     client.allocation.length > 0
       ? Math.max(...client.allocation.map((a) => Math.abs(a.current - a.target)))
       : 0;
-  const portfolioScore = Math.round(
-    lerp(maxDrift, [
-      [0, 20],
-      [5, 15],
-      [10, 8],
-      [15, 0],
-    ])
-  );
+  const portfolioScore = Math.round(lerp(maxDrift, NBA_PORTFOLIO_LERP));
 
   const portfolioDescription =
     maxDrift === 0
@@ -155,18 +146,18 @@ export function calculateNBAScore(client: Client): NBAScore {
   let lifeEventScore: number;
   let lifeEventDescription: string;
 
-  if (!mostRecentEvent || mostRecentEvent.daysAgo > 180) {
+  if (!mostRecentEvent || mostRecentEvent.daysAgo > NBA_LIFE_EVENT_MEDIUM_DAYS) {
     lifeEventScore = MAX_LIFE_EVENT;
     lifeEventDescription = 'No recent life events';
-  } else if (mostRecentEvent.daysAgo <= 90) {
+  } else if (mostRecentEvent.daysAgo <= NBA_LIFE_EVENT_RECENT_DAYS) {
     lifeEventScore = 0;
     const shortDesc = mostRecentEvent.description.length > 35
       ? mostRecentEvent.description.slice(0, 35) + '…'
       : mostRecentEvent.description;
     lifeEventDescription = `${mostRecentEvent.daysAgo}d ago: ${shortDesc}`;
   } else {
-    // 90–180 days
-    lifeEventScore = 8;
+    // between RECENT and MEDIUM days
+    lifeEventScore = NBA_LIFE_EVENT_MEDIUM_SCORE;
     lifeEventDescription = `Life event ${mostRecentEvent.daysAgo}d ago`;
   }
 
@@ -176,9 +167,9 @@ export function calculateNBAScore(client: Client): NBAScore {
 
   // ── Urgency Level ─────────────────────────────────────────────────────────
   let urgencyLevel: NBAUrgencyLevel;
-  if (totalScore < 30) urgencyLevel = 'Critical';
-  else if (totalScore < 55) urgencyLevel = 'High';
-  else if (totalScore < 75) urgencyLevel = 'Medium';
+  if (totalScore < NBA_URGENCY_CRITICAL) urgencyLevel = 'Critical';
+  else if (totalScore < NBA_URGENCY_HIGH)  urgencyLevel = 'High';
+  else if (totalScore < NBA_URGENCY_MEDIUM) urgencyLevel = 'Medium';
   else urgencyLevel = 'Low';
 
   // ── Weakest Signal → Primary Action ──────────────────────────────────────

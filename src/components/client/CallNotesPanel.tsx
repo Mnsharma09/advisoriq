@@ -9,6 +9,7 @@ import {
   generateWalletCaptureAssessment,
   generateCrossSellAssessment,
   generateReferralAssessment,
+  generateCrossSignalSynthesis,
   detectCrossSellGaps,
   rankBookOfWork,
   BOOK_OF_WORK_CLIENT_IDS,
@@ -16,10 +17,58 @@ import {
   type WalletCaptureAssessment,
   type CrossSellAssessment,
   type ReferralAssessment,
+  type CrossSignalSynthesisResult,
   type BookOfWorkClientResult,
 } from '@/lib/claudeClient';
 import { useAppStore } from '@/store/appStore';
 import type { CallNotesSnapshot } from '@/store/appStore';
+
+// ── Dollar-amount sanity check helpers ───────────────────────────────────────
+
+/**
+ * Extracts the largest dollar-like amount from free text.
+ * Handles: $80M, $2.5M, $500K, $80,000,000, "$80 million", "80 million dollars".
+ * Returns the raw number (not formatted), or null if none found.
+ */
+function extractLargestDollarAmount(text: string): number | null {
+  const found: number[] = [];
+
+  // Matches $80M, $2.5M, $500K, $1.2B, $80,000,000
+  const dollarPattern = /\$\s*([\d,]+(?:\.\d+)?)\s*(trillion|billion|million|k|m|b|t)?/gi;
+  let m: RegExpExecArray | null;
+  while ((m = dollarPattern.exec(text)) !== null) {
+    const raw = parseFloat(m[1].replace(/,/g, ''));
+    if (isNaN(raw)) continue;
+    const sfx = (m[2] ?? '').toLowerCase();
+    const mult = sfx === 't' || sfx === 'trillion' ? 1e12
+               : sfx === 'b' || sfx === 'billion'  ? 1e9
+               : sfx === 'm' || sfx === 'million'  ? 1e6
+               : sfx === 'k'                        ? 1e3
+               : 1;
+    found.push(raw * mult);
+  }
+
+  // Matches "80 million dollars", "1.5 billion dollars" without leading $
+  const wordPattern = /\b([\d,]+(?:\.\d+)?)\s*(million|billion|trillion)\s*(?:dollars?)?/gi;
+  while ((m = wordPattern.exec(text)) !== null) {
+    const raw = parseFloat(m[1].replace(/,/g, ''));
+    if (isNaN(raw)) continue;
+    const sfx = m[2].toLowerCase();
+    const mult = sfx === 'trillion' ? 1e12 : sfx === 'billion' ? 1e9 : 1e6;
+    found.push(raw * mult);
+  }
+
+  return found.length > 0 ? Math.max(...found) : null;
+}
+
+function formatAmount(n: number): string {
+  if (n >= 1e9) return `$${+(n / 1e9).toFixed(2)}B`;
+  if (n >= 1e6) return `$${+(n / 1e6).toFixed(2)}M`;
+  if (n >= 1e3) return `$${Math.round(n / 1e3)}K`;
+  return `$${Math.round(n).toLocaleString()}`;
+}
+
+const AUM_CHECK_MIN = 50_000; // ignore amounts below $50K (e.g. "$500 lunch" mentions)
 
 // ── Quick-fill texts ──────────────────────────────────────────────────────────
 
@@ -134,12 +183,26 @@ export function CallNotesPanel({ client }: Props) {
   const [draftText, setDraftText]   = useState('');
   const [draftCopied, setDraftCopied] = useState(false);
   const [draftSent, setDraftSent]   = useState(false);
+  const [confirmModal, setConfirmModal] = useState<{ noteAmount: number } | null>(null);
 
   const isBookOfWorkClient = BOOK_OF_WORK_CLIENT_IDS.includes(client.id);
   const canProcess = !!apiKey && notes.trim().length > 0 && phase !== 'processing';
 
   function patchSlot(key: AgentKey, patch: Partial<AgentSlot>) {
     setSlots(prev => ({ ...prev, [key]: { ...prev[key], ...patch } }));
+  }
+
+  function handleProcessClick() {
+    if (!canProcess) return;
+    const noteAmount = extractLargestDollarAmount(notes);
+    if (noteAmount !== null && noteAmount >= AUM_CHECK_MIN) {
+      const ratio = noteAmount / client.aum;
+      if (ratio > 3 || ratio < 1 / 3) {
+        setConfirmModal({ noteAmount });
+        return;
+      }
+    }
+    void processCallNotes();
   }
 
   async function processCallNotes() {
@@ -233,13 +296,27 @@ export function CallNotesPanel({ client }: Props) {
       }
     }
 
+    // ── Cross-signal synthesis (additive — runs after all 4 agents) ──────────
+    const attrResult    = (gathered.attrition    as AttritionAssessment    | undefined) ?? null;
+    const walletResult2 = (gathered.walletCapture as WalletCaptureAssessment | undefined) ?? null;
+    const csResult      = (gathered.crossSell    as CrossSellAssessment    | undefined) ?? null;
+    const refResult     = (gathered.referral     as ReferralAssessment     | undefined) ?? null;
+
+    let crossSignalResult: CrossSignalSynthesisResult | null = null;
+    try {
+      crossSignalResult = await generateCrossSignalSynthesis(attrResult, walletResult2, csResult, refResult);
+    } catch {
+      // Synthesis failure is non-fatal — main agent results are already stored
+    }
+
     // ── Sync individual agent cards via store ────────────────────────────────
     const snapshot: CallNotesSnapshot = {
       clientId:     updatedClient.id,
-      attrition:    (gathered.attrition    as AttritionAssessment    | undefined) ?? null,
-      walletCapture: (gathered.walletCapture as WalletCaptureAssessment | undefined) ?? null,
-      crossSell:    (gathered.crossSell    as CrossSellAssessment    | undefined) ?? null,
-      referral:     (gathered.referral     as ReferralAssessment     | undefined) ?? null,
+      attrition:    attrResult,
+      walletCapture: walletResult2,
+      crossSell:    csResult,
+      referral:     refResult,
+      crossSignal:  crossSignalResult,
     };
     setCallNotesResults(snapshot);
 
@@ -280,6 +357,7 @@ export function CallNotesPanel({ client }: Props) {
     setDraftText('');
     setDraftSent(false);
     setDraftCopied(false);
+    setConfirmModal(null);
   }
 
   if (!apiKey) return null;
@@ -340,7 +418,7 @@ export function CallNotesPanel({ client }: Props) {
         <div className="flex items-center gap-3">
           <button
             disabled={!canProcess}
-            onClick={processCallNotes}
+            onClick={handleProcessClick}
             className="flex items-center gap-1.5 text-xs font-medium text-white bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 px-3 py-1.5 rounded-md transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {phase === 'processing'
@@ -425,6 +503,44 @@ export function CallNotesPanel({ client }: Props) {
               ))}
             </div>
           )}
+        </div>
+      )}
+
+      {/* ── AUM sanity-check confirmation modal ───────────────────────────── */}
+      {confirmModal && (
+        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
+          <div className="bg-white rounded-xl shadow-xl p-5 max-w-sm w-full mx-4 border border-amber-200">
+            <div className="flex items-start gap-3 mb-4">
+              <AlertCircle size={18} className="text-amber-500 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="text-sm font-semibold text-gray-800 mb-1.5">Dollar amount discrepancy</p>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  This note mentions{' '}
+                  <span className="font-semibold text-gray-800">{formatAmount(confirmModal.noteAmount)}</span>
+                  {' '}— this client's on-file AUM is{' '}
+                  <span className="font-semibold text-gray-800">{formatAmount(client.aum)}</span>.
+                  These differ by more than 3×.
+                </p>
+                <p className="text-xs text-gray-400 mt-2">
+                  The agents will flag any discrepancy in their evidence text. Continue anyway?
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-2 justify-end">
+              <button
+                onClick={() => setConfirmModal(null)}
+                className="px-3 py-1.5 text-sm font-medium text-gray-600 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => { setConfirmModal(null); void processCallNotes(); }}
+                className="px-3 py-1.5 text-sm font-medium text-white bg-amber-600 hover:bg-amber-700 rounded-md transition-colors"
+              >
+                Continue anyway
+              </button>
+            </div>
+          </div>
         </div>
       )}
 

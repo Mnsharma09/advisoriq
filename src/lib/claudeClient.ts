@@ -1,5 +1,6 @@
 import type { Client, GoalType, ReferralRecord } from '../types';
 import { differenceInDays, differenceInYears, parseISO } from 'date-fns';
+import { CROSSSELL_SHORTFALL_GAP_RATIO } from './signalThresholds';
 
 const MODEL = 'claude-haiku-4-5';
 const MAX_TOKENS = 1500;
@@ -95,6 +96,15 @@ COMPLIANCE REQUIREMENTS — follow these rules in every response:
 7. Never frame output as directives to the advisor — always as inputs for advisor review and professional judgment.
 8. Never provide specific legal advice — flag any estate planning considerations for review by the client's attorney.
 `;
+
+// Injected into all 4 client-level agent prompts — governs how contradictions in call notes are surfaced.
+const NOTES_CONFLICT_INSTRUCTION = `
+GOVERNANCE — NOTES CONFLICT DETECTION: If the interaction notes you are given contain information that appears to conflict with this client's existing structured data (their recorded goals, current holdings, on-file life events, or prior interaction records), you MUST explicitly state the apparent conflict in your evidence or reasoning field. Use the form: "Note: the call notes state [X], which conflicts with the on-file [Y] — this discrepancy requires advisor verification before acting." Do not silently resolve the conflict by treating the note as definitive fact, by ignoring the inconsistency, or by picking one version without flagging it.`;
+
+export interface ConfidenceDriver {
+  label: string;
+  value: string;
+}
 
 const BRIEF_SYSTEM = `Format your response as clean plain text only. Do not use markdown. Do not use hyphens or dashes as section dividers. Do not use asterisks or underscores for emphasis. Do not use hash symbols for headings. Each section heading should be on its own line in ALL CAPS followed by a colon. Use numbered lists where appropriate. Separate sections with a single blank line.
 
@@ -249,6 +259,7 @@ export interface AttritionAssessment {
   reasoning: string;
   suggestedAction: string;
   confidence: 'high' | 'medium' | 'low';
+  drivers: ConfidenceDriver[];
 }
 
 /** Confirmed pattern with its filterSpec attached — zip hypotheses + confirmed results before passing in */
@@ -282,6 +293,7 @@ CRITICAL — TEMPORAL REASONING: When citing interaction history or total intera
 - "Busy but stable" requires RECENT positive contact when the advisor reached out — not merely a strong historical count.
 
 CRITICAL — CONFLICTING SIGNALS: If positive and negative signals coexist (e.g., strong portfolio but long contact gap and overdue action items; recent contact but low sentiment; goals on track but client-initiated complaints), you MUST explicitly resolve the conflict in the reasoning field. Do NOT simply list both sides and assert a conclusion. Instead, identify which signal is dominant for THIS specific client and explain why: "Despite [positive evidence], [negative evidence] outweighs it because [client-specific reason]." OR "The [negative signal] is outweighed by [positive evidence] because [reason tied to this client's tenure/stage/history]." The reasoning must make the trade-off explicit, not implicit.
+${NOTES_CONFLICT_INSTRUCTION}
 
 Return valid JSON ONLY — no markdown, no prose before or after:
 {"riskCategory":"<one of the four exact strings>","reasoning":"<2-4 sentences, cite specific numbers and interaction evidence — resolve any conflicting signals explicitly>","suggestedAction":"<concrete, specific next step — not generic>"}`;
@@ -497,14 +509,28 @@ export async function generateAttritionAssessment(
   confirmedPatterns: ConfirmedPatternWithSpec[],
 ): Promise<AttritionAssessment> {
   const today = new Date();
-  // Compute overdue count the same way buildAttritionPrompt does — explicit pass
-  // ensures calculateAttritionConfidence uses the exact same number the LLM sees.
   const overdueCount = client.history.length > 0
     ? client.history.flatMap(h =>
         h.actionItems.filter(ai => !ai.completed && differenceInDays(today, parseISO(ai.dueDate)) > 0)
       ).length
     : (client.contactStats?.openOverdueCommitments ?? 0);
   const confidence = calculateAttritionConfidence(client, confirmedPatterns, overdueCount);
+
+  // Build drivers from the exact same inputs used in calculateAttritionConfidence
+  const interactions18m = client.contactStats?.totalInteractions18m ?? client.history.length;
+  const dsc = differenceInDays(today, parseISO(client.lastContact));
+  const signal = normalizeClient(client, today);
+  const hasPatternMatch = confirmedPatterns.some(p =>
+    p.filterSpec?.segmentConditions?.every(c => applyCondition(signal, c))
+  );
+  const drivers: ConfidenceDriver[] = [
+    { label: 'interactions (18m)', value: String(interactions18m) },
+  ];
+  // dsc only matters once past the early-exit interaction gates (≤4 → medium)
+  if (interactions18m >= 5) drivers.push({ label: 'days since contact', value: `${dsc}d` });
+  if (overdueCount > 0) drivers.push({ label: 'overdue items', value: String(overdueCount) });
+  if (hasPatternMatch) drivers.push({ label: 'pattern match', value: '✓' });
+
   const userContent = buildAttritionPrompt(client, confirmedPatterns, today);
   const raw = await callClaude(ATTRITION_SYSTEM, userContent, 500);
 
@@ -512,7 +538,7 @@ export async function generateAttritionAssessment(
   if (!match) throw new Error(`No JSON in attrition response:\n${raw}`);
 
   const { riskCategory, reasoning, suggestedAction } = JSON.parse(match[0]);
-  return { riskCategory, reasoning, suggestedAction, confidence };
+  return { riskCategory, reasoning, suggestedAction, confidence, drivers };
 }
 
 // ── Wallet Capture Assessment ─────────────────────────────────────────────────
@@ -524,6 +550,7 @@ export interface WalletCaptureAssessment {
   evidence: string;
   suggestedAction: string;
   confidence: 'high' | 'medium' | 'low';
+  drivers: ConfidenceDriver[];
 }
 
 const WALLET_CAPTURE_SYSTEM = `You are a senior wealth management analyst identifying wallet capture opportunities — assets a client likely holds outside this firm.
@@ -561,6 +588,7 @@ Do NOT infer that routine life events imply hidden assets. If you find yourself 
 1. Cite specific text from the notes or life events as evidence. Quote or closely paraphrase the exact label or wording.
 2. If no explicit signal exists, return "none". Do NOT upgrade to "moderate" or "strong" based on supposition.
 3. suggestedAction: when signal is "none", write "No wallet capture action indicated at this time." When signal is "moderate" or "strong", reference the specific life event or text — never write generic "review portfolio" language.
+${NOTES_CONFLICT_INSTRUCTION}
 
 Return valid JSON ONLY — no markdown, no prose before or after:
 {"opportunitySignal":"<strong|moderate|none>","evidence":"<exact text cited, or 'No explicit external-asset signal found in interaction text or life events'>","suggestedAction":"<specific action or 'No wallet capture action indicated at this time'>"}
@@ -633,6 +661,20 @@ export async function generateWalletCaptureAssessment(
 ): Promise<WalletCaptureAssessment> {
   const today = new Date();
   const confidence = calculateWalletCaptureConfidence(client, confirmedPatterns);
+
+  // Build drivers from the exact same inputs used in calculateWalletCaptureConfidence
+  const interactions18m = client.contactStats?.totalInteractions18m ?? client.history.length;
+  const lifeEventCount = client.lifeEvents.length;
+  const signal = normalizeClient(client, today);
+  const hasPatternMatch = confirmedPatterns.some(p =>
+    p.filterSpec?.segmentConditions?.every(c => applyCondition(signal, c))
+  );
+  const drivers: ConfidenceDriver[] = [
+    { label: 'interactions (18m)', value: String(interactions18m) },
+  ];
+  if (lifeEventCount > 0) drivers.push({ label: 'life events', value: String(lifeEventCount) });
+  if (hasPatternMatch) drivers.push({ label: 'pattern match', value: '✓' });
+
   const userContent = buildWalletCapturePrompt(client, confirmedPatterns, today);
 
   // Clients with extensive interaction histories (50+ entries) can produce evidence
@@ -650,11 +692,11 @@ export async function generateWalletCaptureAssessment(
     const retryMatch = retryRaw.match(/\{[\s\S]*\}/);
     if (!retryMatch) throw new Error(`Wallet capture response truncated twice for ${client.id}:\n${retryRaw}`);
     const { opportunitySignal, evidence, suggestedAction } = JSON.parse(retryMatch[0]);
-    return { opportunitySignal, evidence, suggestedAction, confidence };
+    return { opportunitySignal, evidence, suggestedAction, confidence, drivers };
   }
 
   const { opportunitySignal, evidence, suggestedAction } = JSON.parse(match[0]);
-  return { opportunitySignal, evidence, suggestedAction, confidence };
+  return { opportunitySignal, evidence, suggestedAction, confidence, drivers };
 }
 
 // ── Cross-Sell / Upsell Assessment ───────────────────────────────────────────
@@ -663,7 +705,7 @@ export type CrossSellOpportunitySignal = 'high' | 'moderate' | 'low' | 'none';
 
 export interface CrossSellGap {
   productType: string;
-  reason: 'goal_gap' | 'flagged_gap';
+  reason: 'goal_gap' | 'flagged_gap' | 'shortfall_gap';
   goalType?: string;
 }
 
@@ -673,6 +715,7 @@ export interface CrossSellAssessment {
   evidence: string;
   suggestedAction: string;
   confidence: 'high' | 'medium' | 'low';
+  drivers: ConfidenceDriver[];
 }
 
 // Hardcoded goal → product mapping — never resolved by an LLM call.
@@ -714,6 +757,22 @@ export function detectCrossSellGaps(client: Client): CrossSellGap[] {
     if (!seen.has(h.productType) && h.flaggedAsGap) {
       gaps.push({ productType: h.productType, reason: 'flagged_gap' });
       seen.add(h.productType);
+    }
+  }
+
+  // Tertiary: magnitude-aware gaps — goal off-track by >20% of target regardless of curated flag.
+  // Catches real shortfalls that pre-date the curated flaggedAsGap system or were missed in data entry.
+  for (const goal of client.goals) {
+    if (goal.onTrack) continue;
+    const shortfall = goal.targetAmount - goal.currentAmount;
+    if (shortfall <= CROSSSELL_SHORTFALL_GAP_RATIO * goal.targetAmount) continue;
+    for (const pt of GOAL_PRODUCT_MAP[goal.type] ?? []) {
+      if (seen.has(pt)) continue;
+      const h = holdingMap.get(pt);
+      if (!h || !h.held) {
+        gaps.push({ productType: pt, reason: 'shortfall_gap', goalType: goal.type });
+        seen.add(pt);
+      }
     }
   }
 
@@ -764,6 +823,7 @@ SIGNAL CALIBRATION:
 - "moderate": One goal-aligned gap with supporting interaction or life event evidence, or 2+ data-flagged gaps
 - "low": Flagged gap(s) exist but no obvious urgency or entry point in the interaction history
 - "none": No gaps or insufficient evidence to recommend any product
+${NOTES_CONFLICT_INSTRUCTION}
 
 Return valid JSON ONLY — no markdown, no prose before or after:
 {"opportunitySignal":"<high|moderate|low|none>","gapProducts":["<product_type>",...],"evidence":"<2-3 sentences citing specific goals, life events, or interaction signals>","suggestedAction":"<concrete, specific next step — not generic>"}
@@ -781,6 +841,8 @@ function buildCrossSellPrompt(client: Client, gaps: CrossSellGap[], today: Date)
     ? gaps.map(g => {
         const label = g.reason === 'goal_gap'
           ? `${g.productType} (goal-aligned: ${g.goalType})`
+          : g.reason === 'shortfall_gap'
+          ? `${g.productType} (magnitude gap: ${g.goalType} shortfall >20% of target)`
           : `${g.productType} (practice-flagged gap)`;
         return `  - ${label}`;
       }).join('\n')
@@ -812,6 +874,23 @@ export async function generateCrossSellAssessment(client: Client): Promise<Cross
   const gaps = detectCrossSellGaps(client);
   const confidence = calculateCrossSellConfidence(client, gaps);
 
+  // Build drivers from the exact same inputs used in calculateCrossSellConfidence
+  const interactions18m = client.contactStats?.totalInteractions18m ?? client.history.length;
+  const dsc = differenceInDays(today, parseISO(client.lastContact));
+  const goalGaps = gaps.filter(g => g.reason === 'goal_gap');
+  const goalGapOffTrack = goalGaps.some(
+    g => client.goals.find(goal => goal.type === g.goalType)?.onTrack === false,
+  );
+  const drivers: ConfidenceDriver[] = [];
+  if (gaps.length > 0) drivers.push({ label: 'flagged gaps', value: String(gaps.length) });
+  if (goalGaps.length > 0) drivers.push({ label: 'goal-aligned', value: String(goalGaps.length) });
+  if (goalGapOffTrack) drivers.push({ label: 'goal off-track', value: '✓' });
+  drivers.push({ label: 'interactions (18m)', value: String(interactions18m) });
+  // dsc only relevant when goalGaps exist and interactions allow high-confidence path
+  if (goalGaps.length >= 1 && interactions18m >= 5) {
+    drivers.push({ label: 'days since contact', value: `${dsc}d` });
+  }
+
   if (gaps.length === 0) {
     return {
       opportunitySignal: 'none',
@@ -819,6 +898,7 @@ export async function generateCrossSellAssessment(client: Client): Promise<Cross
       evidence: 'No product gaps detected for this client.',
       suggestedAction: 'No cross-sell action required at this time.',
       confidence,
+      drivers,
     };
   }
 
@@ -828,7 +908,7 @@ export async function generateCrossSellAssessment(client: Client): Promise<Cross
   if (!match) throw new Error(`No JSON in cross-sell response for ${client.id}:\n${raw}`);
 
   const { opportunitySignal, gapProducts, evidence, suggestedAction } = JSON.parse(match[0]);
-  return { opportunitySignal, gapProducts: gapProducts ?? [], evidence, suggestedAction, confidence };
+  return { opportunitySignal, gapProducts: gapProducts ?? [], evidence, suggestedAction, confidence, drivers };
 }
 
 // ── Referral / Acquisition Assessment ────────────────────────────────────────
@@ -842,6 +922,7 @@ export interface ReferralAssessment {
   suggestedAction: string;
   confidence: 'high' | 'medium' | 'low';
   recencyTier: 'active' | 'historical' | 'none';
+  drivers: ConfidenceDriver[];
 }
 
 export function calculateReferralConfidence(
@@ -892,6 +973,7 @@ SIGNAL CALIBRATION:
 - "moderate": One active referral pending conversion, or prior referrals that converted but more than 2 years ago
 - "low": Historical referrals that did not convert, or very sparse referral history
 - "none": No verified referral history (this agent should not be called in this case)
+${NOTES_CONFLICT_INSTRUCTION}
 
 Return valid JSON ONLY — no markdown, no prose before or after:
 {"referralSignal":"<high|moderate|low>","conversionLikelihood":"<high|moderate|low>","evidence":"<2-3 sentences citing specific referral records and interaction signals>","suggestedAction":"<concrete, specific next step — not generic>"}
@@ -947,11 +1029,24 @@ export async function generateReferralAssessment(client: Client): Promise<Referr
       suggestedAction: 'No referral action warranted — client has no prior referral history.',
       confidence: 'low',
       recencyTier: 'none',
+      drivers: [{ label: 'referrals', value: '0' }],
     };
   }
 
   const today = new Date();
   const { confidence, recencyTier } = calculateReferralConfidence(refs);
+
+  // Build drivers from the exact same inputs used in calculateReferralConfidence
+  const ACTIVE_THRESHOLD_DAYS = 730;
+  const activeRefs = refs.filter(r =>
+    differenceInDays(today, parseISO(r.referralDate)) <= ACTIVE_THRESHOLD_DAYS
+  );
+  const convertedCount = activeRefs.filter(r => r.converted).length;
+  const drivers: ConfidenceDriver[] = [
+    { label: 'referrals', value: String(refs.length) },
+    { label: 'active (<2yr)', value: String(activeRefs.length) },
+  ];
+  if (convertedCount > 0) drivers.push({ label: 'converted', value: String(convertedCount) });
 
   const userContent = buildReferralPrompt(client, today);
   const raw = await callClaude(REFERRAL_SYSTEM, userContent, 800, 0);
@@ -959,7 +1054,112 @@ export async function generateReferralAssessment(client: Client): Promise<Referr
   if (!match) throw new Error(`No JSON in referral response for ${client.id}:\n${raw}`);
 
   const { referralSignal, conversionLikelihood, evidence, suggestedAction } = JSON.parse(match[0]);
-  return { referralSignal, conversionLikelihood, evidence, suggestedAction, confidence, recencyTier };
+  return { referralSignal, conversionLikelihood, evidence, suggestedAction, confidence, recencyTier, drivers };
+}
+
+// ── Cross-Signal Synthesis ────────────────────────────────────────────────────
+
+export interface CrossSignalSynthesisResult {
+  headline: string;
+  synthesis: string;
+  prioritizedRecommendation: string;
+  activeSignals: string[];
+}
+
+/** Returns true if the attrition result carries a real signal (not "no concern"). */
+function attritionHasSignal(r: AttritionAssessment): boolean {
+  return r.riskCategory !== 'no concern';
+}
+
+/** Builds a compact signal summary for the synthesis prompt. */
+function summariseAttrition(r: AttritionAssessment): string {
+  return `ATTRITION RISK — ${r.riskCategory} (${r.confidence} confidence): ${r.reasoning}`;
+}
+
+function walletCaptureHasSignal(r: WalletCaptureAssessment): boolean {
+  return r.opportunitySignal !== 'none';
+}
+
+function summariseWalletCapture(r: WalletCaptureAssessment): string {
+  return `WALLET CAPTURE — ${r.opportunitySignal} signal (${r.confidence} confidence): ${r.evidence}`;
+}
+
+function crossSellHasSignal(r: CrossSellAssessment): boolean {
+  return r.opportunitySignal !== 'none';
+}
+
+function summariseCrossSell(r: CrossSellAssessment): string {
+  const products = r.gapProducts.length > 0 ? ` [gaps: ${r.gapProducts.join(', ')}]` : '';
+  return `CROSS-SELL — ${r.opportunitySignal} signal (${r.confidence} confidence)${products}: ${r.evidence}`;
+}
+
+function referralHasSignal(r: ReferralAssessment): boolean {
+  return r.referralSignal !== 'none';
+}
+
+function summariseReferral(r: ReferralAssessment): string {
+  return `REFERRAL — ${r.referralSignal} signal (${r.confidence} confidence): ${r.evidence}`;
+}
+
+const CROSS_SIGNAL_SYSTEM = `You are a senior wealth management advisor synthesising 2 or more independently-validated findings for a single client.
+
+RULES — read carefully before responding:
+1. You are given pre-validated agent findings. Do NOT invent any new signal, fact, or claim not already present in the inputs.
+2. Explain how the provided signals RELATE TO or COMPOUND each other for this specific client. Look for reinforcing patterns, shared root causes, or timing overlaps.
+3. Give exactly ONE overall prioritized recommendation — the single most important action the advisor should consider first, drawn directly from the signals given.
+4. If the signals do not genuinely interact (they are independent), say so plainly: "These signals appear independent — the recommended priority is [X] based on [highest-signal reason]."
+5. Never frame output as a directive — always as "Consider…" or "Review…" for advisor judgment.
+6. Keep synthesis under 4 sentences. Keep recommendation under 2 sentences.
+7. Return valid JSON ONLY — no markdown, no prose before or after:
+{"headline":"<one sentence capturing the most important combined insight>","synthesis":"<3-4 sentences: how the signals relate/compound for this client>","prioritizedRecommendation":"<1-2 sentences: the single most important next action, framed as Consider... or Review...>"}
+${COMPLIANCE_RULES}`;
+
+/**
+ * Synthesises 2+ already-validated agent findings for a single client.
+ * Returns null if fewer than 2 active signals — callers should skip the UI entirely.
+ */
+export async function generateCrossSignalSynthesis(
+  attrition:    AttritionAssessment    | null,
+  walletCapture: WalletCaptureAssessment | null,
+  crossSell:    CrossSellAssessment    | null,
+  referral:     ReferralAssessment     | null,
+): Promise<CrossSignalSynthesisResult | null> {
+  const activeSignals: string[] = [];
+  const summaries: string[] = [];
+
+  if (attrition && attritionHasSignal(attrition)) {
+    activeSignals.push(`Attrition: ${attrition.riskCategory}`);
+    summaries.push(summariseAttrition(attrition));
+  }
+  if (walletCapture && walletCaptureHasSignal(walletCapture)) {
+    activeSignals.push(`Wallet Capture: ${walletCapture.opportunitySignal}`);
+    summaries.push(summariseWalletCapture(walletCapture));
+  }
+  if (crossSell && crossSellHasSignal(crossSell)) {
+    activeSignals.push(`Cross-Sell: ${crossSell.opportunitySignal}`);
+    summaries.push(summariseCrossSell(crossSell));
+  }
+  if (referral && referralHasSignal(referral)) {
+    activeSignals.push(`Referral: ${referral.referralSignal}`);
+    summaries.push(summariseReferral(referral));
+  }
+
+  if (activeSignals.length < 2) return null;
+
+  const userContent = [
+    `The following ${activeSignals.length} validated signals exist for this client. Synthesise them.`,
+    ``,
+    summaries.join('\n\n'),
+    ``,
+    `Explain how these signals relate or compound, and give the single highest-priority recommendation.`,
+  ].join('\n');
+
+  const raw = await callClaude(CROSS_SIGNAL_SYSTEM, userContent, 600, 0.2);
+  const match = raw.match(/\{[\s\S]*\}/);
+  if (!match) throw new Error(`No JSON in cross-signal synthesis response:\n${raw}`);
+
+  const { headline, synthesis, prioritizedRecommendation } = JSON.parse(match[0]);
+  return { headline, synthesis, prioritizedRecommendation, activeSignals };
 }
 
 // ── Synthesizer types ─────────────────────────────────────────────────────────

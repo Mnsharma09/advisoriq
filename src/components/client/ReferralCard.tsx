@@ -227,6 +227,17 @@ export function ReferralCard({ client }: Props) {
               </span>
             </div>
 
+            {/* Key Drivers */}
+            {result.drivers && result.drivers.length > 0 && (
+              <div className="flex flex-wrap gap-1.5">
+                {result.drivers.map((d, i) => (
+                  <span key={i} className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 border border-gray-200">
+                    {d.label}: {d.value}
+                  </span>
+                ))}
+              </div>
+            )}
+
             {/* Evidence */}
             <p className="text-sm text-gray-700 leading-relaxed">{result.evidence}</p>
 

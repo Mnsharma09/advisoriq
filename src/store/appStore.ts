@@ -8,6 +8,7 @@ import type {
   WalletCaptureAssessment,
   CrossSellAssessment,
   ReferralAssessment,
+  CrossSignalSynthesisResult,
 } from '../lib/claudeClient';
 
 export interface CallNotesSnapshot {
@@ -16,6 +17,7 @@ export interface CallNotesSnapshot {
   walletCapture: WalletCaptureAssessment | null;
   crossSell:    CrossSellAssessment    | null;
   referral:     ReferralAssessment     | null;
+  crossSignal:  CrossSignalSynthesisResult | null;
 }
 import newsData from '../data/news.json';
 import { loadSyntheticClients, enrichClientsWithHistory } from '../lib/syntheticDataLoader';
@@ -87,8 +89,14 @@ export const useAppStore = create<AppState>()(
             const hasHoldings  = sample.some(c => (c.productHoldings ?? []).length > 0);
             // referralHistory=undefined means pre-schema; []=valid empty (client has no referrals)
             const hasReferrals = sample.every(c => c.referralHistory !== undefined);
-            if (!hasHoldings || !hasReferrals) {
-              console.info('[AdvisorIQ] Cached clients missing productHoldings or referralHistory — supplementing from JSON.');
+            // Check if meeting seed has been applied (any seeded client has meetings)
+            const SEEDED_IDS = ['C0001','C0008','C0027'];
+            const hasMeetings = SEEDED_IDS.some(id => {
+              const c = cached.find(cl => cl.id === id);
+              return c && c.upcomingMeetings.length > 0;
+            });
+            if (!hasHoldings || !hasReferrals || !hasMeetings) {
+              console.info('[AdvisorIQ] Cached clients missing productHoldings, referralHistory, or meeting seed — supplementing from JSON.');
               const enriched = await enrichClientsWithHistory(cached);
               set({ clients: enriched });
             }
@@ -207,9 +215,9 @@ export const useAppStore = create<AppState>()(
     }),
     {
       name: 'advisoriq-store',
-      // Version 6: clear API-mode-shaped client caches (history:[] / lifeEvents:[]) so
-      // loadSyntheticData re-fetches from JSON files and AI assessments get real data.
-      version: 6,
+      // Version 9: recompute lastContact from days_since_last_contact × DEMO_ANCHOR_DATE
+      // instead of using raw last_contact_date (stale June 2026 generation dates).
+      version: 9,
       migrate: (persistedState, fromVersion) => {
         const old = persistedState as {
           faName?: string;
@@ -231,8 +239,18 @@ export const useAppStore = create<AppState>()(
           clients = hasRealData
             ? raw.map((c) => ({ ...c, aum: Number(c.aum ?? 0), performanceData: [] } as unknown as Client))
             : []; // force re-fetch
-        } else if (fromVersion >= 6) {
-          // Already on v6+ — keep as-is (coerce aum for safety).
+        } else if (fromVersion === 6) {
+          // v6→v7: clear clients so loadSyntheticData does a fresh JSON load that
+          // correctly populates familyMembers (households.json) and performanceData
+          // (18 monthly snapshots). The v6 migration had zeroed performanceData and
+          // household loading was not yet part of the enrichment path.
+          clients = [];
+        } else if (fromVersion === 7 || fromVersion === 8) {
+          // v7→v8: clear so lastContact is computed via DEMO_ANCHOR_DATE.
+          // v8→v9: clear again — v8 still used raw last_contact_date (stale June 2026 dates).
+          clients = [];
+        } else if (fromVersion >= 9) {
+          // Already on v9+ — keep as-is (coerce aum for safety).
           clients = (old.clients ?? []).map(
             (c) => ({ ...c, aum: Number(c.aum ?? 0) } as unknown as Client),
           );

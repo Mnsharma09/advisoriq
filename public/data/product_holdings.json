@@ -2382,7 +2382,7 @@
     "held": false,
     "start_date": null,
     "review_due_date": null,
-    "flagged_as_gap": false
+    "flagged_as_gap": true
   },
   {
     "holding_id": "PH0266",

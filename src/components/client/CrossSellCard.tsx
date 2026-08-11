@@ -174,8 +174,11 @@ export function CrossSellCard({ client }: Props) {
                   >
                     <Tag size={9} />
                     {PRODUCT_LABELS[g.productType] ?? g.productType}
-                    {g.reason === 'goal_gap' && (
+                    {(g.reason === 'goal_gap' || g.reason === 'shortfall_gap') && g.goalType && (
                       <span className="text-indigo-400">· {g.goalType}</span>
+                    )}
+                    {g.reason === 'shortfall_gap' && (
+                      <span className="text-indigo-300 ml-0.5">⚠</span>
                     )}
                   </span>
                 ))}
@@ -229,6 +232,17 @@ export function CrossSellCard({ client }: Props) {
                 {result.confidence} confidence
               </span>
             </div>
+
+            {/* Key Drivers */}
+            {result.drivers && result.drivers.length > 0 && (
+              <div className="flex flex-wrap gap-1.5">
+                {result.drivers.map((d, i) => (
+                  <span key={i} className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 border border-gray-200">
+                    {d.label}: {d.value}
+                  </span>
+                ))}
+              </div>
+            )}
 
             {/* Gap product tags */}
             {result.gapProducts.length > 0 && (

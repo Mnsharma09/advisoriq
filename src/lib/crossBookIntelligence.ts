@@ -2,6 +2,14 @@ import { differenceInDays, parseISO } from 'date-fns';
 import type { Client } from '@/types';
 import { calculateHouseholdEngagementScore } from './householdIntelligence';
 import { calculateNBAScore } from './nbaEngine';
+import {
+  CROSSBOOK_EXCESS_CASH_PCT,
+  CROSSBOOK_CONTACT_GAP_DAYS,
+  CROSSBOOK_HH_SCORE_MIN,
+  CROSSBOOK_ACTION_OVERDUE_DAYS,
+  CROSSBOOK_ACTION_HIGH_COUNT,
+  CROSSBOOK_ACTION_MEDIUM_COUNT,
+} from './signalThresholds';
 
 // ─── Public Types ─────────────────────────────────────────────────────────────
 
@@ -153,7 +161,7 @@ export function analyseBook(clients: Client[]): CrossBookAnalysis {
   const now = new Date();
 
   // ── 1. Cash Concentration ─────────────────────────────────────────────────
-  const EXCESS_CASH_THRESHOLD = 15; // percent
+  const EXCESS_CASH_THRESHOLD = CROSSBOOK_EXCESS_CASH_PCT;
 
   const cashScoredClients: CashConcentrationClient[] = clients.map((c) => {
     const cashAlloc = c.allocation.find((a) => a.assetClass === 'Cash');
@@ -194,7 +202,7 @@ export function analyseBook(clients: Client[]): CrossBookAnalysis {
   };
 
   // ── 2. Systematic Contact Gaps by Segment ─────────────────────────────────
-  const CONTACT_THRESHOLD_DAYS = 45;
+  const CONTACT_THRESHOLD_DAYS = CROSSBOOK_CONTACT_GAP_DAYS;
 
   const aumTiers: Array<{ label: string; min: number; max: number }> = [
     { label: 'Under $500K', min: 0, max: 500_000 },
@@ -255,7 +263,7 @@ export function analyseBook(clients: Client[]): CrossBookAnalysis {
   };
 
   // ── 3. Household Engagement Gap ───────────────────────────────────────────
-  const HH_THRESHOLD = 50;
+  const HH_THRESHOLD = CROSSBOOK_HH_SCORE_MIN;
 
   const hhScoredClients: HouseholdGapClient[] = clients.map((c) => ({
     id: c.id,
@@ -346,7 +354,7 @@ export function analyseBook(clients: Client[]): CrossBookAnalysis {
         const daysOverdue = differenceInDays(now, parseISO(ai.dueDate));
         if (daysOverdue < 0) upcoming++;
         else if (daysOverdue <= 7) within7++;
-        else if (daysOverdue <= 30) days7to30++;
+        else if (daysOverdue <= CROSSBOOK_ACTION_OVERDUE_DAYS) days7to30++;
         else { over30++; clientOver30++; }
       }
     }
@@ -378,7 +386,7 @@ export function analyseBook(clients: Client[]): CrossBookAnalysis {
         : `${over30} action item${over30 > 1 ? 's are' : ' is'} more than 30 days past their due date. These represent commitments made to clients that have not been fulfilled — each one is a relationship risk. ${overdueClients.length} clients are affected.`,
     topClients: overdueClients.slice(0, 3),
     affectedClientIds: overdueClients.map((c) => c.id),
-    severity: over30 > 10 ? 'high' : over30 > 3 ? 'medium' : 'info',
+    severity: over30 > CROSSBOOK_ACTION_HIGH_COUNT ? 'high' : over30 > CROSSBOOK_ACTION_MEDIUM_COUNT ? 'medium' : 'info',
   };
 
   // ── 6. NBA Score Distribution ─────────────────────────────────────────────
