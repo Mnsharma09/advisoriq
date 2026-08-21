@@ -56,7 +56,17 @@ export interface ValidationResult {
 }
 
 async function callClaude(systemPrompt: string, userContent: string, maxTokens: number = MAX_TOKENS, temperature: number = TEMPERATURE): Promise<string> {
-  const apiKey = localStorage.getItem('claudeApiKey');
+  // Read API key from three sources in priority order:
+  // 1. Zustand-persisted store JSON — survives cache clears, restored on hydration without re-entry
+  // 2. Top-level localStorage key — set directly by setClaudeApiKey (legacy / direct-write path)
+  // 3. VITE_CLAUDE_API_KEY env var — dev/test sessions without manual key entry per browser session
+  let apiKey = '';
+  try {
+    const persisted = JSON.parse(localStorage.getItem('advisoriq-store') || '{}') as { state?: { claudeApiKey?: string } };
+    apiKey = persisted?.state?.claudeApiKey || '';
+  } catch { /* ignore malformed JSON */ }
+  if (!apiKey) apiKey = localStorage.getItem('claudeApiKey') || '';
+  if (!apiKey) apiKey = (import.meta.env.VITE_CLAUDE_API_KEY as string | undefined) || '';
   if (!apiKey) throw new Error('No API key configured. Please add your Claude API key in Settings.');
 
   const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -1561,4 +1571,125 @@ export async function runBookOfWorkBatch(
   }
 
   return rankBookOfWork(allResults);
+}
+
+// ── Client Q&A ────────────────────────────────────────────────────────────────
+
+export interface ClientQAAgentResults {
+  attrition?: AttritionAssessment | null;
+  walletCapture?: WalletCaptureAssessment | null;
+  crossSell?: CrossSellAssessment | null;
+  referral?: ReferralAssessment | null;
+}
+
+const CLIENT_QA_SYSTEM = `You are an AI assistant for a financial advisor. You have access to a single client's complete record as provided below.
+
+STRICT RULES — non-negotiable:
+1. Answer ONLY using the data provided in this context. Do not invent, speculate, or infer information that is not explicitly present.
+2. If the question asks about something not in the data, say clearly: "That information isn't in this client's record." Do not fill the gap with plausible-sounding detail.
+3. Be concise and factual. One to three short paragraphs maximum.
+4. When referencing dates, interactions, or assessments, cite them specifically from the data provided.
+5. You may quote or paraphrase data directly — that is encouraged over generalization.`;
+
+function buildClientQAContext(client: Client, agentResults?: ClientQAAgentResults): string {
+  const fmtMoney = (n: number) =>
+    n >= 1_000_000 ? `$${(n / 1_000_000).toFixed(2)}M` : `$${(n / 1_000).toFixed(0)}K`;
+
+  const allocationBlock = client.allocation.length > 0
+    ? client.allocation.map(a => `  ${a.assetClass}: current ${a.current}%, target ${a.target}%`).join('\n')
+    : '  None on file.';
+
+  const goalsBlock = client.goals.length > 0
+    ? client.goals.map(g =>
+        `  [${g.onTrack ? 'On track' : 'OFF TRACK'}] ${g.name} (${g.type}) — target ${fmtMoney(g.targetAmount)} by ${g.targetDate}, current ${fmtMoney(g.currentAmount)}, monthly contribution ${fmtMoney(g.monthlyContribution)}`
+      ).join('\n')
+    : '  None on file.';
+
+  const sortedHistory = [...client.history].sort((a, b) => b.date.localeCompare(a.date));
+  const historyBlock = sortedHistory.length > 0
+    ? sortedHistory.map(h => {
+        const openItems = h.actionItems.filter(ai => !ai.completed);
+        const doneItems = h.actionItems.filter(ai => ai.completed);
+        const lines = [`  ${h.date} [${h.type}] ${h.summary}`];
+        if (openItems.length > 0)
+          lines.push(`    OPEN action items: ${openItems.map(ai => `"${ai.description}" (due ${ai.dueDate})`).join('; ')}`);
+        if (doneItems.length > 0)
+          lines.push(`    Completed: ${doneItems.map(ai => `"${ai.description}"`).join('; ')}`);
+        return lines.join('\n');
+      }).join('\n\n')
+    : '  No interaction history on file.';
+
+  const lifeEventsBlock = client.lifeEvents.length > 0
+    ? client.lifeEvents.map(e => `  [${e.date}] ${e.description}`).join('\n')
+    : '  None on file.';
+
+  const holdingsBlock = client.productHoldings && client.productHoldings.length > 0
+    ? client.productHoldings.map(h =>
+        `  ${h.productType}: ${h.held ? 'held' : 'NOT held'}${h.flaggedAsGap ? ' ← FLAGGED AS GAP' : ''}`
+      ).join('\n')
+    : '  None on file.';
+
+  const referralBlock = client.referralHistory && client.referralHistory.length > 0
+    ? client.referralHistory.map(r =>
+        `  Referred client ${r.referredClientId} on ${r.referralDate} — ${r.converted ? `converted (${r.conversionDate})` : 'not yet converted'}`
+      ).join('\n')
+    : '  No referral history.';
+
+  const agentBlock = agentResults ? [
+    agentResults.attrition
+      ? `ATTRITION ASSESSMENT\n  Risk: ${agentResults.attrition.riskCategory} | Confidence: ${agentResults.attrition.confidence}\n  Reasoning: ${agentResults.attrition.reasoning}\n  Suggested action: ${agentResults.attrition.suggestedAction}`
+      : 'ATTRITION ASSESSMENT\n  Not yet run.',
+    agentResults.walletCapture
+      ? `WALLET CAPTURE ASSESSMENT\n  Signal: ${agentResults.walletCapture.opportunitySignal} | Confidence: ${agentResults.walletCapture.confidence}\n  Evidence: ${agentResults.walletCapture.evidence}\n  Suggested action: ${agentResults.walletCapture.suggestedAction}`
+      : 'WALLET CAPTURE ASSESSMENT\n  Not yet run.',
+    agentResults.crossSell
+      ? `CROSS-SELL ASSESSMENT\n  Signal: ${agentResults.crossSell.opportunitySignal} | Confidence: ${agentResults.crossSell.confidence}\n  Gap products: ${agentResults.crossSell.gapProducts.join(', ') || 'none'}\n  Evidence: ${agentResults.crossSell.evidence}\n  Suggested action: ${agentResults.crossSell.suggestedAction}`
+      : 'CROSS-SELL ASSESSMENT\n  Not yet run.',
+    agentResults.referral
+      ? `REFERRAL ASSESSMENT\n  Signal: ${agentResults.referral.referralSignal} | Recency: ${agentResults.referral.recencyTier} | Confidence: ${agentResults.referral.confidence}\n  Evidence: ${agentResults.referral.evidence}\n  Suggested action: ${agentResults.referral.suggestedAction}`
+      : 'REFERRAL ASSESSMENT\n  Not yet run.',
+  ].join('\n\n') : 'No AI agent assessments have been run yet for this client.';
+
+  return `CLIENT RECORD
+Name: ${client.name}
+Age: ${client.age}
+Employment: ${client.employment}
+Client since: ${client.clientSince}
+Risk profile: ${client.riskProfile}
+AUM: ${fmtMoney(client.aum)}
+Last contact: ${client.lastContact}
+Key concerns: ${client.keyConcerns}
+Personality: ${client.personalitySummary}
+Communication preferences: ${client.communicationPreferences}
+
+GOALS
+${goalsBlock}
+
+PORTFOLIO ALLOCATION
+${allocationBlock}
+
+PRODUCT HOLDINGS
+${holdingsBlock}
+
+LIFE EVENTS
+${lifeEventsBlock}
+
+INTERACTION HISTORY (most recent first)
+${historyBlock}
+
+REFERRAL HISTORY
+${referralBlock}
+
+AI AGENT ASSESSMENTS
+${agentBlock}`;
+}
+
+export async function answerClientQuestion(
+  client: Client,
+  question: string,
+  agentResults?: ClientQAAgentResults,
+): Promise<string> {
+  const context = buildClientQAContext(client, agentResults);
+  const userContent = `${context}\n\n---\nQUESTION: ${question}`;
+  return callClaude(CLIENT_QA_SYSTEM, userContent, 600, 0);
 }

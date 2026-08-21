@@ -59,7 +59,9 @@ export const useAppStore = create<AppState>()(
       faName: 'Alex Morgan',
       clients: [],
       news: seedNews,
-      claudeApiKey: '',
+      // DEV ONLY: seed from VITE_CLAUDE_API_KEY so local sessions don't need manual re-entry.
+      // Guarded by import.meta.env.DEV — evaluates to '' in production builds regardless of env vars.
+      claudeApiKey: (import.meta.env.DEV ? (import.meta.env.VITE_CLAUDE_API_KEY as string | undefined) : undefined) || '',
       isLoadingClients: false,
       confirmedPatterns: [],
       bookOfWorkResults: null,
@@ -218,6 +220,22 @@ export const useAppStore = create<AppState>()(
       // Version 9: recompute lastContact from days_since_last_contact × DEMO_ANCHOR_DATE
       // instead of using raw last_contact_date (stale June 2026 generation dates).
       version: 9,
+      // DEV ONLY — After hydration: if claudeApiKey is still empty, seed from VITE_CLAUDE_API_KEY.
+      // This covers fresh browsers and sessions where localStorage was cleared in local dev,
+      // removing the need to re-enter the key manually each time.
+      // The import.meta.env.DEV guard ensures this NEVER activates in production builds,
+      // even if VITE_CLAUDE_API_KEY is accidentally added to Vercel's environment variables.
+      // In production every user must enter their own key in Settings — unchanged.
+      onRehydrateStorage: () => (_state, error) => {
+        if (error || !_state) return;
+        if (!import.meta.env.DEV) return;
+        const envKey = (import.meta.env.VITE_CLAUDE_API_KEY as string | undefined) || '';
+        if (!_state.claudeApiKey && envKey) {
+          // Use the store action so the reactive state updates and the top-level
+          // localStorage key is written — a plain _state mutation is not reactive.
+          _state.setClaudeApiKey(envKey);
+        }
+      },
       migrate: (persistedState, fromVersion) => {
         const old = persistedState as {
           faName?: string;
@@ -263,7 +281,7 @@ export const useAppStore = create<AppState>()(
           faName: old.faName ?? 'Alex Morgan',
           clients,
           news: seedNews,
-          claudeApiKey: old.claudeApiKey ?? '',
+          claudeApiKey: old.claudeApiKey || (import.meta.env.DEV ? (import.meta.env.VITE_CLAUDE_API_KEY as string | undefined) : undefined) || '',
           isLoadingClients: false,
         };
       },

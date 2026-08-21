@@ -23,6 +23,7 @@ import { CrossSellCard } from '@/components/client/CrossSellCard';
 import { ReferralCard } from '@/components/client/ReferralCard';
 import { CrossSignalCard } from '@/components/client/CrossSignalCard';
 import { CallNotesPanel } from '@/components/client/CallNotesPanel';
+import { ClientChatBox } from '@/components/client/ClientChatBox';
 import { HealthBadge } from '@/components/ui/HealthBadge';
 import { AiBadge } from '@/components/ui/AiBadge';
 import { Button } from '@/components/ui/button';
@@ -1964,6 +1965,13 @@ function LogInteractionModal({ client, onClose }: { client: Client; onClose: () 
 function AIInsightsTab({ client, briefTriggerCount }: { client: Client; briefTriggerCount: number }) {
   const updateClientSuggestions = useAppStore((s) => s.updateClientSuggestions);
   const apiKey = useAppStore((s) => s.claudeApiKey);
+  const callNotesResults = useAppStore((s) => s.callNotesResults);
+  const chatAgentResults = callNotesResults?.clientId === client.id ? {
+    attrition:    callNotesResults.attrition,
+    walletCapture: callNotesResults.walletCapture,
+    crossSell:    callNotesResults.crossSell,
+    referral:     callNotesResults.referral,
+  } : undefined;
   const navigate = useNavigate();
 
   // ── Brief state ──
@@ -2072,6 +2080,9 @@ function AIInsightsTab({ client, briefTriggerCount }: { client: Client; briefTri
 
       {/* ── Cross-Signal View (V1 · Experimental) ── */}
       <CrossSignalCard clientId={client.id} />
+
+      {/* ── Client Q&A ── */}
+      <ClientChatBox client={client} agentResults={chatAgentResults} />
 
       {/* ── Pre-Meeting Brief ── */}
       <Card>
